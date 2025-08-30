@@ -1,0 +1,168 @@
+[gd_scene load_steps=6 format=3 uid="uid://c5dfn5brp3bxf"]
+
+[ext_resource type="Script" uid="uid://bgpbe83ffuno5" path="res://Scripts/DeckEditor.gd" id="1_370mm"]
+[ext_resource type="FontFile" uid="uid://cq55vl12vholm" path="res://fonts/3x5 pixel font.ttf" id="2_od0ge"]
+
+[sub_resource type="Theme" id="Theme_oq4k8"]
+default_base_scale = 2.0
+default_font = ExtResource("2_od0ge")
+default_font_size = 12
+AcceptDialog/font_sizes/title_font_size = 18
+AcceptDialog/fonts/title_font = ExtResource("2_od0ge")
+
+[sub_resource type="Theme" id="Theme_ltrq1"]
+default_base_scale = 2.0
+default_font = ExtResource("2_od0ge")
+default_font_size = 12
+AcceptDialog/font_sizes/title_font_size = 16
+AcceptDialog/fonts/title_font = ExtResource("2_od0ge")
+
+[sub_resource type="Theme" id="Theme_od0ge"]
+default_font = ExtResource("2_od0ge")
+default_font_size = 6
+FileDialog/font_sizes/title_font_size = 18
+FileDialog/fonts/title_font = ExtResource("2_od0ge")
+
+[node name="DeckEditor" type="Node2D"]
+script = ExtResource("1_370mm")
+
+[node name="Camera2D" type="Camera2D" parent="."]
+zoom = Vector2(4, 4)
+
+[node name="CardNodeHolder" type="Node2D" parent="."]
+
+[node name="DeckHolder" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = 150.0
+offset_top = -100.0
+offset_right = 230.0
+offset_bottom = 100.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="DeckHolder"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/separation = 0
+
+[node name="Label" type="Label" parent="DeckHolder/VBoxContainer"]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("2_od0ge")
+theme_override_font_sizes/font_size = 12
+text = "Deck:"
+
+[node name="DeckCardButton" type="Button" parent="DeckHolder/VBoxContainer"]
+visible = false
+layout_mode = 2
+theme_override_fonts/font = ExtResource("2_od0ge")
+theme_override_font_sizes/font_size = 6
+text = "1x Slugma"
+
+[node name="OptionsHolder" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -230.0
+offset_top = -100.0
+offset_right = -150.0
+offset_bottom = 100.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="OptionsHolder"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Label" type="Label" parent="OptionsHolder/VBoxContainer"]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("2_od0ge")
+theme_override_font_sizes/font_size = 12
+text = "Options:"
+
+[node name="SaveButton" type="Button" parent="OptionsHolder/VBoxContainer"]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("2_od0ge")
+theme_override_font_sizes/font_size = 6
+text = "Save"
+
+[node name="LoadButton" type="Button" parent="OptionsHolder/VBoxContainer"]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("2_od0ge")
+theme_override_font_sizes/font_size = 6
+text = "Load"
+
+[node name="ClearButton" type="Button" parent="OptionsHolder/VBoxContainer"]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("2_od0ge")
+theme_override_font_sizes/font_size = 6
+text = "Clear"
+
+[node name="MainMenuButton" type="Button" parent="OptionsHolder/VBoxContainer"]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("2_od0ge")
+theme_override_font_sizes/font_size = 6
+text = "Main Menu"
+
+[node name="Control" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="SubViewportContainer" type="SubViewportContainer" parent="Control"]
+visible = false
+layout_mode = 0
+offset_left = 599.0
+offset_top = 428.0
+offset_right = 1314.0
+offset_bottom = 847.0
+
+[node name="SubViewport" type="SubViewport" parent="Control/SubViewportContainer"]
+handle_input_locally = false
+size = Vector2i(200, 200)
+render_target_update_mode = 0
+
+[node name="NoticeDialog" type="AcceptDialog" parent="Control"]
+title = "Notice!"
+initial_position = 1
+size = Vector2i(640, 320)
+visible = true
+theme = SubResource("Theme_oq4k8")
+
+[node name="ConfirmDialog" type="ConfirmationDialog" parent="Control"]
+initial_position = 1
+visible = true
+theme = SubResource("Theme_ltrq1")
+
+[node name="FileDialog" type="FileDialog" parent="Control"]
+initial_position = 1
+size = Vector2i(430, 250)
+theme = SubResource("Theme_od0ge")
+filters = PackedStringArray("*.json")
+
+[connection signal="pressed" from="OptionsHolder/VBoxContainer/SaveButton" to="." method="onSaveButtonPressed"]
+[connection signal="pressed" from="OptionsHolder/VBoxContainer/LoadButton" to="." method="onLoadButtonPressed"]
+[connection signal="pressed" from="OptionsHolder/VBoxContainer/ClearButton" to="." method="onClearButtonPressed"]
+[connection signal="pressed" from="OptionsHolder/VBoxContainer/MainMenuButton" to="." method="onMainMenuButtonPressed"]
+[connection signal="confirmed" from="Control/ConfirmDialog" to="." method="onDialogConfirmed"]
+[connection signal="file_selected" from="Control/FileDialog" to="." method="onFileSelected"]

@@ -1,0 +1,17 @@
+[gd_scene load_steps=3 format=3 uid="uid://cltse055148yq"]
+
+[ext_resource type="Script" uid="uid://bsagbbnddmkn5" path="res://Scripts/BoardNode.gd" id="1_wpn1b"]
+[ext_resource type="PackedScene" uid="uid://bneacbc7vulq7" path="res://Scenes/CardDisplay.tscn" id="2_o8mtx"]
+
+[node name="Board" type="Node2D"]
+script = ExtResource("1_wpn1b")
+
+[node name="CardNodeHolder" type="Node2D" parent="."]
+
+[node name="PlayerHandDisplay" parent="." instance=ExtResource("2_o8mtx")]
+position = Vector2(0, 100)
+
+[node name="FusionDisplay" parent="." instance=ExtResource("2_o8mtx")]
+
+[node name="OpponentHandDisplay" parent="." instance=ExtResource("2_o8mtx")]
+position = Vector2(0, -100)

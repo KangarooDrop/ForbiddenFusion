@@ -1,0 +1,165 @@
+[gd_scene load_steps=3 format=3 uid="uid://bkk400kb67v3l"]
+
+[ext_resource type="Script" uid="uid://fppphk7ro8iy" path="res://Scripts/MainMenu.gd" id="1_tt5f1"]
+[ext_resource type="PackedScene" uid="uid://by000qucbvst5" path="res://Scenes/NinePatchButton.tscn" id="2_853f1"]
+
+[node name="MainMenu" type="Node2D"]
+script = ExtResource("1_tt5f1")
+
+[node name="Camera2D" type="Camera2D" parent="."]
+zoom = Vector2(4, 4)
+
+[node name="Control" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 0
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Control"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -20.0
+offset_top = -20.0
+offset_right = 20.0
+offset_bottom = 20.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/separation = 12
+
+[node name="PlayHolder" type="Control" parent="Control/VBoxContainer"]
+layout_mode = 2
+
+[node name="PlayButton" parent="Control/VBoxContainer/PlayHolder" instance=ExtResource("2_853f1")]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -12.0
+offset_top = -5.0
+offset_right = 12.0
+offset_bottom = 5.0
+grow_horizontal = 2
+grow_vertical = 2
+text = "Play"
+
+[node name="Label" parent="Control/VBoxContainer/PlayHolder/PlayButton" index="0"]
+offset_right = 20.0
+text = "Play"
+
+[node name="Label2" parent="Control/VBoxContainer/PlayHolder/PlayButton/Label" index="0"]
+text = "Play"
+
+[node name="MultiplayerHolder" type="Control" parent="Control/VBoxContainer"]
+layout_mode = 2
+
+[node name="MultiplayerButton" parent="Control/VBoxContainer/MultiplayerHolder" instance=ExtResource("2_853f1")]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -26.0
+offset_top = -5.0
+offset_right = 26.0
+offset_bottom = 5.0
+grow_horizontal = 2
+grow_vertical = 2
+text = "Multiplayer"
+
+[node name="Label" parent="Control/VBoxContainer/MultiplayerHolder/MultiplayerButton" index="0"]
+offset_right = 48.0
+text = "Multiplayer"
+
+[node name="Label2" parent="Control/VBoxContainer/MultiplayerHolder/MultiplayerButton/Label" index="0"]
+text = "Multiplayer"
+
+[node name="CollectionHolder" type="Control" parent="Control/VBoxContainer"]
+layout_mode = 2
+
+[node name="CollectionButton" parent="Control/VBoxContainer/CollectionHolder" instance=ExtResource("2_853f1")]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -26.0
+offset_top = -5.0
+offset_right = 26.0
+offset_bottom = 5.0
+grow_horizontal = 2
+grow_vertical = 2
+text = "Deck Editor"
+
+[node name="Label" parent="Control/VBoxContainer/CollectionHolder/CollectionButton" index="0"]
+offset_right = 48.0
+text = "Deck Editor"
+
+[node name="Label2" parent="Control/VBoxContainer/CollectionHolder/CollectionButton/Label" index="0"]
+text = "Deck Editor"
+
+[node name="SettingsHolder" type="Control" parent="Control/VBoxContainer"]
+layout_mode = 2
+
+[node name="SettingsButton" parent="Control/VBoxContainer/SettingsHolder" instance=ExtResource("2_853f1")]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -20.0
+offset_top = -5.0
+offset_right = 20.0
+offset_bottom = 5.0
+grow_horizontal = 2
+grow_vertical = 2
+text = "Settings"
+
+[node name="Label" parent="Control/VBoxContainer/SettingsHolder/SettingsButton" index="0"]
+text = "Settings"
+
+[node name="Label2" parent="Control/VBoxContainer/SettingsHolder/SettingsButton/Label" index="0"]
+text = "Settings"
+
+[node name="ExitHolder" type="Control" parent="Control/VBoxContainer"]
+layout_mode = 2
+
+[node name="ExitButton" parent="Control/VBoxContainer/ExitHolder" instance=ExtResource("2_853f1")]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -12.0
+offset_top = -5.0
+offset_right = 12.0
+offset_bottom = 5.0
+grow_horizontal = 2
+grow_vertical = 2
+text = "Exit"
+
+[node name="Label" parent="Control/VBoxContainer/ExitHolder/ExitButton" index="0"]
+offset_right = 20.0
+text = "Exit"
+
+[node name="Label2" parent="Control/VBoxContainer/ExitHolder/ExitButton/Label" index="0"]
+text = "Exit"
+
+[connection signal="pressed" from="Control/VBoxContainer/PlayHolder/PlayButton" to="." method="onPlayPressed"]
+[connection signal="pressed" from="Control/VBoxContainer/MultiplayerHolder/MultiplayerButton" to="." method="onMultiplayerPressed"]
+[connection signal="pressed" from="Control/VBoxContainer/CollectionHolder/CollectionButton" to="." method="onCollectionPressed"]
+[connection signal="pressed" from="Control/VBoxContainer/SettingsHolder/SettingsButton" to="." method="onSettingsPressed"]
+[connection signal="pressed" from="Control/VBoxContainer/ExitHolder/ExitButton" to="." method="onExitPressed"]
+
+[editable path="Control/VBoxContainer/PlayHolder/PlayButton"]
+[editable path="Control/VBoxContainer/MultiplayerHolder/MultiplayerButton"]
+[editable path="Control/VBoxContainer/CollectionHolder/CollectionButton"]
+[editable path="Control/VBoxContainer/SettingsHolder/SettingsButton"]
+[editable path="Control/VBoxContainer/ExitHolder/ExitButton"]

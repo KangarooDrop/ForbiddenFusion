@@ -1,0 +1,50 @@
+[gd_scene load_steps=7 format=3 uid="uid://bhmqc41sgnmv5"]
+
+[ext_resource type="Script" uid="uid://bsagbbnddmkn5" path="res://Scripts/BoardNode.gd" id="1_wpn1b"]
+[ext_resource type="PackedScene" uid="uid://bneacbc7vulq7" path="res://Scenes/CardDisplay.tscn" id="2_o8mtx"]
+[ext_resource type="Script" uid="uid://bn2daq01g8odi" path="res://Scripts/DataNodes/Zones/DeckNode.gd" id="3_4motn"]
+[ext_resource type="Script" uid="uid://bnh7ibm60440y" path="res://Scripts/DataNodes/Zones/HandNode.gd" id="3_sdx7d"]
+[ext_resource type="Script" uid="uid://du2kj26j8hn8" path="res://Scripts/DataNodes/Zones/ZoneNode.gd" id="3_wfl75"]
+[ext_resource type="Script" uid="uid://cubf22qh8veyi" path="res://Scripts/DataNodes/Zones/InPlayZoneNode.gd" id="6_wfl75"]
+
+[node name="Board" type="Node2D"]
+script = ExtResource("1_wpn1b")
+
+[node name="CardNodeHolder" type="Node2D" parent="."]
+
+[node name="PlayerFusionZone" parent="." instance=ExtResource("2_o8mtx")]
+script = ExtResource("3_wfl75")
+
+[node name="OpponentFusionZone" parent="." instance=ExtResource("2_o8mtx")]
+script = ExtResource("3_wfl75")
+
+[node name="PlayerHandZone" parent="." instance=ExtResource("2_o8mtx")]
+position = Vector2(0, 150)
+script = ExtResource("3_sdx7d")
+
+[node name="OpponentHandZone" parent="." instance=ExtResource("2_o8mtx")]
+position = Vector2(0, -150)
+script = ExtResource("3_sdx7d")
+
+[node name="PlayerDeckZone" parent="." instance=ExtResource("2_o8mtx")]
+position = Vector2(200, 20)
+script = ExtResource("3_4motn")
+
+[node name="OpponentDeckZone" parent="." instance=ExtResource("2_o8mtx")]
+position = Vector2(-200, -20)
+script = ExtResource("3_4motn")
+
+[node name="PlayerInPlayZone" parent="." instance=ExtResource("2_o8mtx")]
+position = Vector2(0, 60)
+script = ExtResource("6_wfl75")
+
+[node name="OpponentInPlayZone" parent="." instance=ExtResource("2_o8mtx")]
+position = Vector2(0, -60)
+script = ExtResource("6_wfl75")
+
+[node name="TurnIndicator" type="Polygon2D" parent="."]
+color = Color(0, 0, 0, 1)
+polygon = PackedVector2Array(0, -18, 19, 1, 7, 1, 7, 12, -7, 12, -7, 1, -19, 1)
+
+[node name="Polygon2D2" type="Polygon2D" parent="TurnIndicator"]
+polygon = PackedVector2Array(0, -16, 16, 0, 6, 0, 6, 11, -6, 11, -6, 0, -16, 0)

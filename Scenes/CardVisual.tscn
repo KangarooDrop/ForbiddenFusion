@@ -1,0 +1,80 @@
+[gd_scene load_steps=8 format=3 uid="uid://dda8aufvip874"]
+
+[ext_resource type="Script" uid="uid://ervewxspjohp" path="res://Scripts/DataNodes/Cards/CardVisual.gd" id="1_25b8w"]
+[ext_resource type="Texture2D" uid="uid://bwduqkx7crmyr" path="res://Art/backgrounds/card_active.png" id="2_25b8w"]
+[ext_resource type="Texture2D" uid="uid://dsxv8r1caairs" path="res://Art/portraits/card_NONE.png" id="3_25b8w"]
+[ext_resource type="Texture2D" uid="uid://bow0d2qimqvaf" path="res://Art/types/type_icons.png" id="4_25b8w"]
+[ext_resource type="Texture2D" uid="uid://cfw68lhailage" path="res://Art/Rarity/rarity.png" id="5_s0sc8"]
+[ext_resource type="Texture2D" uid="uid://cbrfftu8hwokc" path="res://Art/UI/eye.png" id="6_axv6l"]
+[ext_resource type="FontFile" uid="uid://cq55vl12vholm" path="res://fonts/3x5 pixel font.ttf" id="7_eff0o"]
+
+[node name="CardVisual" type="Node2D"]
+z_index = 1
+script = ExtResource("1_25b8w")
+
+[node name="CardBackground" type="Sprite2D" parent="."]
+texture = ExtResource("2_25b8w")
+
+[node name="CardPortrait" type="Sprite2D" parent="."]
+position = Vector2(0, -9)
+texture = ExtResource("3_25b8w")
+
+[node name="CardType" type="Sprite2D" parent="."]
+visible = false
+position = Vector2(21, -30)
+texture = ExtResource("4_25b8w")
+region_enabled = true
+region_rect = Rect2(0, 0, 8, 8)
+
+[node name="CardType2" type="Sprite2D" parent="."]
+visible = false
+position = Vector2(-21, -30)
+texture = ExtResource("4_25b8w")
+region_enabled = true
+region_rect = Rect2(0, 0, 8, 8)
+
+[node name="CardRarity" type="Sprite2D" parent="."]
+visible = false
+position = Vector2(0, -31)
+texture = ExtResource("5_s0sc8")
+region_enabled = true
+region_rect = Rect2(0, 0, 14, 14)
+
+[node name="EyeSprite" type="Sprite2D" parent="."]
+visible = false
+position = Vector2(0, -40)
+texture = ExtResource("6_axv6l")
+
+[node name="Label" type="Label" parent="."]
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -23.0
+offset_top = 14.0
+offset_right = 23.0
+offset_bottom = 32.0
+grow_horizontal = 2
+grow_vertical = 0
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_fonts/font = ExtResource("7_eff0o")
+theme_override_font_sizes/font_size = 12
+text = "4/5"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="IconZIndex" type="Node2D" parent="."]
+z_index = 1
+
+[node name="VBoxContainer" type="VBoxContainer" parent="IconZIndex"]
+anchors_preset = 10
+anchor_right = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+alignment = 1
+
+[node name="Overlays" type="Node2D" parent="."]
+
+[node name="Cardback" type="Sprite2D" parent="."]

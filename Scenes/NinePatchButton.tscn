@@ -1,0 +1,106 @@
+[gd_scene load_steps=18 format=3 uid="uid://by000qucbvst5"]
+
+[ext_resource type="Script" uid="uid://cvjki2hse488y" path="res://Scripts/NinePatchButton.gd" id="1_l617x"]
+[ext_resource type="Texture2D" uid="uid://dii2j70bfnqmg" path="res://Art/button_normal.png" id="1_py0f2"]
+[ext_resource type="Texture2D" uid="uid://kvtb1kbu3dmy" path="res://Art/button_disabled.png" id="2_4bjng"]
+[ext_resource type="Texture2D" uid="uid://bt72ptnxnvrn8" path="res://Art/button_hover.png" id="3_5ow03"]
+[ext_resource type="Texture2D" uid="uid://btk2cwuke8hgv" path="res://Art/button_pressed.png" id="4_x2fjn"]
+[ext_resource type="FontFile" uid="uid://cq55vl12vholm" path="res://fonts/3x5 pixel font.ttf" id="6_5ow03"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_mfr5a"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_amj61"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_udm8l"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_y4ss6"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_41isy"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_2wove"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_e1al6"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_e180a"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_ko8x2"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_3mym0"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_vvl7c"]
+
+[node name="NinePatchButton" type="NinePatchRect"]
+custom_minimum_size = Vector2(0, 10)
+offset_right = 40.0
+offset_bottom = 10.0
+texture = ExtResource("1_py0f2")
+region_rect = Rect2(0, 0, 7, 7)
+patch_margin_left = 3
+patch_margin_top = 3
+patch_margin_right = 3
+patch_margin_bottom = 3
+script = ExtResource("1_l617x")
+text = "Press Me_"
+textureNormal = ExtResource("1_py0f2")
+textureHover = ExtResource("3_5ow03")
+texturePressed = ExtResource("4_x2fjn")
+textureDisabled = ExtResource("2_4bjng")
+
+[node name="Label" type="Label" parent="."]
+layout_mode = 1
+anchors_preset = 4
+anchor_top = 0.5
+anchor_bottom = 0.5
+offset_left = 4.0
+offset_top = -3.0
+offset_right = 36.0
+offset_bottom = 3.0
+grow_vertical = 2
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_fonts/font = ExtResource("6_5ow03")
+theme_override_font_sizes/font_size = 6
+text = "Press Me"
+
+[node name="Label2" type="Label" parent="Label"]
+show_behind_parent = true
+layout_mode = 1
+anchors_preset = 4
+anchor_top = 0.5
+anchor_bottom = 0.5
+offset_left = 0.5
+offset_top = -2.5
+offset_right = 20.5
+offset_bottom = 3.5
+grow_vertical = 2
+theme_override_colors/font_color = Color(0, 0, 0, 0.235294)
+theme_override_fonts/font = ExtResource("6_5ow03")
+theme_override_font_sizes/font_size = 6
+text = "Press Me"
+
+[node name="Button" type="Button" parent="."]
+modulate = Color(0, 1, 1, 1)
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_fonts/font = ExtResource("6_5ow03")
+theme_override_font_sizes/font_size = 6
+theme_override_styles/focus = SubResource("StyleBoxEmpty_mfr5a")
+theme_override_styles/disabled_mirrored = SubResource("StyleBoxEmpty_amj61")
+theme_override_styles/disabled = SubResource("StyleBoxEmpty_udm8l")
+theme_override_styles/hover_pressed_mirrored = SubResource("StyleBoxEmpty_y4ss6")
+theme_override_styles/hover_pressed = SubResource("StyleBoxEmpty_41isy")
+theme_override_styles/hover_mirrored = SubResource("StyleBoxEmpty_2wove")
+theme_override_styles/hover = SubResource("StyleBoxEmpty_e1al6")
+theme_override_styles/pressed_mirrored = SubResource("StyleBoxEmpty_e180a")
+theme_override_styles/pressed = SubResource("StyleBoxEmpty_ko8x2")
+theme_override_styles/normal_mirrored = SubResource("StyleBoxEmpty_3mym0")
+theme_override_styles/normal = SubResource("StyleBoxEmpty_vvl7c")
+
+[connection signal="button_down" from="Button" to="." method="onButtonDown"]
+[connection signal="button_up" from="Button" to="." method="onButtonUp"]
+[connection signal="mouse_entered" from="Button" to="." method="onFocusEntered"]
+[connection signal="mouse_exited" from="Button" to="." method="onFocusExited"]
+[connection signal="pressed" from="Button" to="." method="onPressed"]

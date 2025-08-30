@@ -1,0 +1,108 @@
+[gd_scene load_steps=10 format=3 uid="uid://bhmqc41sgnmv5"]
+
+[ext_resource type="Script" uid="uid://bsagbbnddmkn5" path="res://Scripts/BoardNode.gd" id="1_wpn1b"]
+[ext_resource type="PackedScene" uid="uid://bneacbc7vulq7" path="res://Scenes/CardDisplay.tscn" id="2_o8mtx"]
+[ext_resource type="Script" uid="uid://bn2daq01g8odi" path="res://Scripts/DataNodes/Zones/DeckNode.gd" id="3_4motn"]
+[ext_resource type="Script" uid="uid://bnh7ibm60440y" path="res://Scripts/DataNodes/Zones/HandNode.gd" id="3_sdx7d"]
+[ext_resource type="Script" uid="uid://c5vte8ju0770c" path="res://Scripts/DataNodes/Zones/FusionZoneNode.gd" id="3_wfl75"]
+[ext_resource type="Script" uid="uid://cubf22qh8veyi" path="res://Scripts/DataNodes/Zones/InPlayZoneNode.gd" id="6_wfl75"]
+[ext_resource type="Texture2D" uid="uid://bfmfjd6t3qcfd" path="res://Art/UI/health_icon.png" id="7_4ida1"]
+[ext_resource type="FontFile" uid="uid://cq55vl12vholm" path="res://fonts/3x5 pixel font.ttf" id="8_xw60p"]
+[ext_resource type="Texture2D" uid="uid://i1p21fmambm3" path="res://Art/UI/win.png" id="9_xw60p"]
+
+[node name="Board" type="Node2D"]
+script = ExtResource("1_wpn1b")
+
+[node name="CardNodeHolder" type="Node2D" parent="."]
+
+[node name="PlayerFusionZone" parent="." instance=ExtResource("2_o8mtx")]
+script = ExtResource("3_wfl75")
+
+[node name="OpponentFusionZone" parent="." instance=ExtResource("2_o8mtx")]
+script = ExtResource("3_wfl75")
+
+[node name="PlayerHandZone" parent="." instance=ExtResource("2_o8mtx")]
+position = Vector2(0, 150)
+script = ExtResource("3_sdx7d")
+
+[node name="OpponentHandZone" parent="." instance=ExtResource("2_o8mtx")]
+position = Vector2(0, -150)
+script = ExtResource("3_sdx7d")
+
+[node name="PlayerDeckZone" parent="." instance=ExtResource("2_o8mtx")]
+position = Vector2(200, 20)
+script = ExtResource("3_4motn")
+
+[node name="OpponentDeckZone" parent="." instance=ExtResource("2_o8mtx")]
+position = Vector2(-200, -20)
+script = ExtResource("3_4motn")
+
+[node name="PlayerInPlayZone" parent="." instance=ExtResource("2_o8mtx")]
+position = Vector2(0, 60)
+script = ExtResource("6_wfl75")
+
+[node name="OpponentInPlayZone" parent="." instance=ExtResource("2_o8mtx")]
+position = Vector2(0, -60)
+script = ExtResource("6_wfl75")
+
+[node name="TurnIndicator" type="Polygon2D" parent="."]
+color = Color(0, 0, 0, 1)
+polygon = PackedVector2Array(0, -18, 19, 1, 7, 1, 7, 12, -7, 12, -7, 1, -19, 1)
+
+[node name="Polygon2D2" type="Polygon2D" parent="TurnIndicator"]
+polygon = PackedVector2Array(0, -16, 16, 0, 6, 0, 6, 11, -6, 11, -6, 0, -16, 0)
+
+[node name="PlayerHealthNode" type="Sprite2D" parent="."]
+position = Vector2(80, 0)
+texture = ExtResource("7_4ida1")
+
+[node name="Label" type="Label" parent="PlayerHealthNode"]
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -24.0
+offset_top = -24.0
+offset_right = -8.0
+offset_bottom = -12.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 4
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 4
+theme_override_fonts/font = ExtResource("8_xw60p")
+theme_override_font_sizes/font_size = 12
+text = "40"
+
+[node name="OpponentHealthNode" type="Sprite2D" parent="."]
+position = Vector2(-80, 0)
+texture = ExtResource("7_4ida1")
+flip_v = true
+
+[node name="Label" type="Label" parent="OpponentHealthNode"]
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -24.0
+offset_top = -20.0
+offset_right = -8.0
+offset_bottom = -8.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 4
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 4
+theme_override_fonts/font = ExtResource("8_xw60p")
+theme_override_font_sizes/font_size = 12
+text = "40"
+
+[node name="WinLoseSprite" type="Sprite2D" parent="."]
+visible = false
+texture = ExtResource("9_xw60p")
+region_enabled = true
+region_rect = Rect2(0, 0, 64, 32)
