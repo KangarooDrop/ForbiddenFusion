@@ -1,0 +1,54 @@
+[gd_scene load_steps=9 format=3 uid="uid://t3y0s0bi65fr"]
+
+[ext_resource type="Script" uid="uid://ccpkb85d6myua" path="res://Scripts/NinePatchLineEdit.gd" id="1_rinfa"]
+[ext_resource type="FontFile" uid="uid://cq55vl12vholm" path="res://fonts/3x5 pixel font.ttf" id="2_uc8l0"]
+[ext_resource type="Texture2D" uid="uid://dii2j70bfnqmg" path="res://Art/button_normal.png" id="2_x7sgq"]
+[ext_resource type="Texture2D" uid="uid://bt72ptnxnvrn8" path="res://Art/button_hover.png" id="3_r8yuf"]
+[ext_resource type="Texture2D" uid="uid://kvtb1kbu3dmy" path="res://Art/button_disabled.png" id="5_bja88"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_x7sgq"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_r8yuf"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_spnij"]
+
+[node name="NinePatchLineEdit" type="NinePatchRect"]
+offset_right = 80.0
+offset_bottom = 14.0
+texture = ExtResource("2_x7sgq")
+patch_margin_left = 2
+patch_margin_top = 2
+patch_margin_right = 2
+patch_margin_bottom = 2
+script = ExtResource("1_rinfa")
+placeHolder = "Text"
+textureNormal = ExtResource("2_x7sgq")
+textureHover = ExtResource("3_r8yuf")
+textureWriting = ExtResource("3_r8yuf")
+textureDisabled = ExtResource("5_bja88")
+
+[node name="LineEdit" type="LineEdit" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_colors/caret_color = Color(0, 0, 0, 1)
+theme_override_colors/font_placeholder_color = Color(0, 0, 0, 0.498039)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_colors/font_uneditable_color = Color(0, 0, 0, 1)
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_fonts/font = ExtResource("2_uc8l0")
+theme_override_font_sizes/font_size = 6
+theme_override_styles/focus = SubResource("StyleBoxEmpty_x7sgq")
+theme_override_styles/read_only = SubResource("StyleBoxEmpty_r8yuf")
+theme_override_styles/normal = SubResource("StyleBoxEmpty_spnij")
+placeholder_text = "Text"
+alignment = 1
+
+[connection signal="focus_entered" from="LineEdit" to="." method="onFocusEntered"]
+[connection signal="focus_exited" from="LineEdit" to="." method="onFocusExited"]
+[connection signal="mouse_entered" from="LineEdit" to="." method="onMouseEntered"]
+[connection signal="mouse_exited" from="LineEdit" to="." method="onMouseExited"]
+[connection signal="text_changed" from="LineEdit" to="." method="onTextChanged"]

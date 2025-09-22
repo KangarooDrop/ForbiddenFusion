@@ -7,6 +7,8 @@ var deck : Deck
 var hand : Hand
 var board : Board
 
+var playerRank : int = -1
+
 signal before_game_loss()
 signal after_game_loss()
 signal before_health_change(amountPointer : Array)
@@ -37,7 +39,7 @@ func addHealth(amount : int):
 func loseGame(isConcede : bool = false):
 	if not isConcede:
 		emit_signal("before_game_loss")
-		if health > 0:
+		if health > 0 and (hand.cards.size() > 0 or deck.cards.size() > 0):
 			return
 	emit_signal("after_game_loss")
 
@@ -99,8 +101,19 @@ func getFusionTree(cards : Array = hand.cards.duplicate(), fusingTo : Card = nul
 		rtn["out"] = fusingTo
 	return rtn
 
-func getBestFusion(tree : Dictionary):
-	pass
+static func getBestFusion(tree : Dictionary, bestLineOut : Array, currentLine : Array = []):
+	for key in tree.keys():
+		if typeof(key) == TYPE_STRING:
+			var isBetter : bool = bestLineOut.size() == 0
+			if not isBetter:
+				if tree[key].attack + tree[key].health >= bestLineOut[bestLineOut.size()-1].attack + bestLineOut[bestLineOut.size()-1].health:
+					if currentLine.size() <= bestLineOut.size():
+						isBetter = true
+			if isBetter:
+				bestLineOut.clear()
+				bestLineOut.append_array(currentLine + [tree[key]])
+		else:
+			getBestFusion(tree[key], bestLineOut, currentLine + [key])
 
 static func printFusionTree(tree : Dictionary, buffer : String = "", currentBestPointer = [Vector2i.ZERO], currentDepth : int = 0):
 	var string : String = ""

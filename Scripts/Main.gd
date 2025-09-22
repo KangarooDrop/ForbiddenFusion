@@ -12,6 +12,9 @@ var camDir : int = 0
 func _ready() -> void:
 	boardNode.card_node_pressed.connect(self.onCardNodePressed)
 	boardNode.turn_passed.connect(self.onTurnPassed)
+	boardNode.move_camera.connect(self.onBoardMoveCamera)
+	boardNode.game_end.connect(self.onGameEnd)
+	onBoardMoveCamera(1 if boardNode.board.activePlayer == boardNode.board.players[0] else -1)
 	
 	if Server.online:
 		Server.board_sync_board.connect(receiveSyncBoard)
@@ -23,6 +26,29 @@ func _ready() -> void:
 	if Server.online and Server.host:
 		syncBoard()
 
+func onGameEnd():
+	await get_tree().create_timer(3.0).timeout
+	var winnerRank : int = boardNode.winner.playerRank
+	var loserRank : int = boardNode.board.getOpponent(boardNode.winner).playerRank
+	
+	var rankingsNode = Util.changeSceneToFileButDoesntSUCK_ASS(Preloader.rankingsPath)
+	rankingsNode.movingFromGame = true
+	
+	var winnerRankNode : PlayerRankNode = rankingsNode.playerRankNodes[winnerRank-1]
+	var loserRankNode : PlayerRankNode = rankingsNode.playerRankNodes[loserRank-1]
+	print("Winner: ", winnerRankNode.playerRank, " Loser:", loserRankNode.playerRank)
+	if winnerRankNode.playerRank < loserRankNode.playerRank:
+		print("Winner is higher than loser")
+		if loserRankNode.playerRank < rankingsNode.playerRankNodes.size():
+			print("PUNISHING LOSER!")
+			rankingsNode.setPlayerRank(loserRankNode, loserRankNode.playerRank+1-1)
+		else:
+			print("You are too weak!")
+	else:
+		print("Moving up in the world.")
+		rankingsNode.setPlayerRank(winnerRankNode, loserRankNode.playerRank-1)
+	rankingsNode.saveToFile()
+
 func _exit_tree() -> void:
 	if Server.online:
 		Server.board_sync_board.disconnect(receiveSyncBoard)
@@ -30,6 +56,12 @@ func _exit_tree() -> void:
 		Server.board_turn_passed.disconnect(receiveTurnPassed)
 		Server.board_opponent_conceded.disconnect(receiveOpponentConcede)
 		Server.closeGame()
+
+var lastCamOffset : int = 0
+func onBoardMoveCamera(offset : int):
+	if camDir == lastCamOffset:
+		camDir = offset
+	lastCamOffset = offset
 
 func syncBoard():
 	var data : Dictionary = boardNode.board.serialize()
@@ -62,7 +94,7 @@ func onTurnPassed():
 	if Server.online:
 		Server.sendBoardTurnPassed()
 
-func  receiveTurnPassed():
+func receiveTurnPassed():
 	boardNode.board.turnEnd()
 
 func receiveOpponentConcede():
@@ -72,17 +104,43 @@ func receiveOpponentDisconnected(userData : Server.UserData):
 	receiveOpponentConcede()
 	Server.closeGame()
 
+func onCamUp():
+	if camDir > -1:
+		camDir -= 1
+func onCamDown():
+	if camDir < 1:
+		camDir += 1
+
+func onEscapePressed() -> void:
+	if Settings.isVisible():
+		Settings.hideSettings()
+	else:
+		pauseMenu.visible = not pauseMenu.visible
+
 func _input(event: InputEvent) -> void:
+	if boardNode.gameIsOver:
+		return
+	
 	if event is InputEventKey and event.is_pressed() and not event.is_echo():
-		if event.keycode == KEY_UP or event.keycode == KEY_W:
-			if camDir > -1:
-				camDir -= 1
-		elif event.keycode == KEY_DOWN or event.keycode == KEY_S:
-			if camDir < 1:
-				camDir += 1
+		if event.keycode == KEY_ESCAPE:
+			onEscapePressed()
+		elif event.keycode == KEY_SPACE:
+			boardNode.playerPassTurn()
 		
-		elif event.keycode == KEY_ESCAPE:
-			pauseMenu.visible = not pauseMenu.visible
+		elif event.keycode == KEY_Q:
+			boardNode.playBestFusion()
+		elif event.keycode == KEY_1:
+			boardNode.onPlayerGameLoss(boardNode.board.players[1])
+		elif event.keycode == KEY_2:
+			boardNode.onPlayerGameLoss(boardNode.board.players[0])
+	elif not pauseMenu.visible:
+		if event is InputEventMouseButton and event.is_pressed():
+			if event.button_index == MOUSE_BUTTON_WHEEL_UP:
+				onCamUp()
+			elif event.button_index == MOUSE_BUTTON_WHEEL_DOWN:
+				onCamDown()
+			elif event.button_index == MOUSE_BUTTON_RIGHT:
+				boardNode.returningFusionCards = true
 
 func _process(delta: float) -> void:
 	cam.position.y = lerp(cam.position.y, camDir * CAM_MOVE_DIST, 8.0 * delta)
@@ -92,11 +150,11 @@ func onResumePressed() -> void:
 	pauseMenu.hide()
 
 func onSettingsPressed() -> void:
-	pass # Replace with function body.
+	Settings.showSettings()
 
 func onConcedePressed() -> void:
 	boardNode.board.players[0].loseGame(true)
 	onResumePressed()
 
 func onMainMenuPressed() -> void:
-	get_tree().change_scene_to_file(Preloader.mainMenuPath)
+	Util.changeSceneToFileButDoesntSUCK_ASS(Preloader.mainMenuPath)

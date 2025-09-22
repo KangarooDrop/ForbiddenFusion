@@ -1,6 +1,8 @@
 extends Node
 
 const deckEditorPath : String = "res://Scenes/DeckEditor.tscn"
+const characterCreatorPath : String = "res://Scenes/CharacterCreator.tscn"
+const rankingsPath : String = "res://Scenes/RankingsNode.tscn"
 const mainMenuPath : String = "res://Scenes/MainMenu.tscn"
 const mainPath : String = "res://Scenes/Main.tscn"
 const multiplayerPath : String = "res://Scenes/MultiplayerLobby.tscn"

@@ -1,6 +1,512 @@
-[gd_scene load_steps=2 format=3 uid="uid://47cj8vhieuh4"]
+[gd_scene load_steps=5 format=3 uid="uid://47cj8vhieuh4"]
 
 [ext_resource type="Script" uid="uid://cpul235a0c7ci" path="res://Autoloads/Settings.gd" id="1_chy3i"]
+[ext_resource type="FontFile" uid="uid://cq55vl12vholm" path="res://fonts/3x5 pixel font.ttf" id="2_klvev"]
+[ext_resource type="Shader" uid="uid://cg8qa6n1ecdrc" path="res://Shaders/brightness_shader.gdshader" id="3_4swf1"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_klvev"]
+shader = ExtResource("3_4swf1")
+shader_parameter/brightness = 0.62
+shader_parameter/dimMax = 0.5
 
 [node name="Settings" type="Node2D"]
 script = ExtResource("1_chy3i")
+
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+
+[node name="Center" type="Control" parent="CanvasLayer"]
+layout_mode = 3
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Scaler" type="Node2D" parent="CanvasLayer/Center"]
+scale = Vector2(4, 4)
+
+[node name="SettingsNode" type="Control" parent="CanvasLayer/Center/Scaler"]
+visible = false
+layout_mode = 3
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -80.0
+offset_top = -50.0
+offset_right = 80.0
+offset_bottom = 50.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+mouse_default_cursor_shape = 3
+
+[node name="TabsInactive" type="Control" parent="CanvasLayer/Center/Scaler/SettingsNode"]
+layout_mode = 1
+anchors_preset = 0
+
+[node name="VideoTab" type="Control" parent="CanvasLayer/Center/Scaler/SettingsNode/TabsInactive"]
+custom_minimum_size = Vector2(40, 11)
+layout_mode = 2
+anchors_preset = 0
+offset_top = -10.0
+offset_right = 40.0
+offset_bottom = 1.0
+
+[node name="Border" type="ColorRect" parent="CanvasLayer/Center/Scaler/SettingsNode/TabsInactive/VideoTab"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+color = Color(0, 0, 0, 1)
+
+[node name="Background" type="ColorRect" parent="CanvasLayer/Center/Scaler/SettingsNode/TabsInactive/VideoTab"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 1.0
+offset_top = 1.0
+offset_right = -1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+color = Color(0.8, 0.8, 0.8, 1)
+
+[node name="Label" type="Label" parent="CanvasLayer/Center/Scaler/SettingsNode/TabsInactive/VideoTab"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -10.0
+offset_top = -3.0
+offset_right = 10.0
+offset_bottom = 3.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_fonts/font = ExtResource("2_klvev")
+theme_override_font_sizes/font_size = 6
+text = "Video"
+
+[node name="TextureButton" type="TextureButton" parent="CanvasLayer/Center/Scaler/SettingsNode/TabsInactive/VideoTab"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_default_cursor_shape = 2
+
+[node name="AudioTab" type="Control" parent="CanvasLayer/Center/Scaler/SettingsNode/TabsInactive"]
+custom_minimum_size = Vector2(40, 11)
+layout_mode = 2
+anchors_preset = 0
+offset_left = 39.0
+offset_top = -10.0
+offset_right = 79.0
+offset_bottom = 1.0
+
+[node name="Border" type="ColorRect" parent="CanvasLayer/Center/Scaler/SettingsNode/TabsInactive/AudioTab"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+color = Color(0, 0, 0, 1)
+
+[node name="Background" type="ColorRect" parent="CanvasLayer/Center/Scaler/SettingsNode/TabsInactive/AudioTab"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 1.0
+offset_top = 1.0
+offset_right = -1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+color = Color(0.8, 0.8, 0.8, 1)
+
+[node name="Label" type="Label" parent="CanvasLayer/Center/Scaler/SettingsNode/TabsInactive/AudioTab"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -10.0
+offset_top = -3.0
+offset_right = 10.0
+offset_bottom = 3.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_fonts/font = ExtResource("2_klvev")
+theme_override_font_sizes/font_size = 6
+text = "Audio"
+
+[node name="TextureButton" type="TextureButton" parent="CanvasLayer/Center/Scaler/SettingsNode/TabsInactive/AudioTab"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_default_cursor_shape = 2
+
+[node name="Border" type="ColorRect" parent="CanvasLayer/Center/Scaler/SettingsNode"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+color = Color(0, 0, 0, 1)
+
+[node name="Background" type="ColorRect" parent="CanvasLayer/Center/Scaler/SettingsNode"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 1.0
+offset_top = 1.0
+offset_right = -1.0
+offset_bottom = -1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+
+[node name="Pages" type="Control" parent="CanvasLayer/Center/Scaler/SettingsNode/Background"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 1.0
+offset_top = 5.0
+offset_right = -1.0
+offset_bottom = -1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="VideoPage" type="Control" parent="CanvasLayer/Center/Scaler/SettingsNode/Background/Pages"]
+visible = false
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="CanvasLayer/Center/Scaler/SettingsNode/Background/Pages/VideoPage"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="BrightnessOption" type="Control" parent="CanvasLayer/Center/Scaler/SettingsNode/Background/Pages/VideoPage/VBoxContainer"]
+custom_minimum_size = Vector2(0, 12)
+layout_mode = 2
+
+[node name="Label" type="Label" parent="CanvasLayer/Center/Scaler/SettingsNode/Background/Pages/VideoPage/VBoxContainer/BrightnessOption"]
+layout_mode = 1
+anchors_preset = 4
+anchor_top = 0.5
+anchor_bottom = 0.5
+offset_left = 2.0
+offset_top = -3.0
+offset_right = 50.0
+offset_bottom = 3.0
+grow_vertical = 2
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_fonts/font = ExtResource("2_klvev")
+theme_override_font_sizes/font_size = 6
+text = "Brightness: "
+
+[node name="HSlider" type="HSlider" parent="CanvasLayer/Center/Scaler/SettingsNode/Background/Pages/VideoPage/VBoxContainer/BrightnessOption"]
+layout_mode = 1
+anchors_preset = 4
+anchor_top = 0.5
+anchor_bottom = 0.5
+offset_left = 50.0
+offset_top = -8.0
+offset_right = 150.0
+offset_bottom = 8.0
+grow_vertical = 2
+
+[node name="VSyncOption" type="Control" parent="CanvasLayer/Center/Scaler/SettingsNode/Background/Pages/VideoPage/VBoxContainer"]
+custom_minimum_size = Vector2(0, 12)
+layout_mode = 2
+
+[node name="Label" type="Label" parent="CanvasLayer/Center/Scaler/SettingsNode/Background/Pages/VideoPage/VBoxContainer/VSyncOption"]
+layout_mode = 1
+anchors_preset = 4
+anchor_top = 0.5
+anchor_bottom = 0.5
+offset_left = 2.0
+offset_top = -3.0
+offset_right = 26.0
+offset_bottom = 3.0
+grow_vertical = 2
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_fonts/font = ExtResource("2_klvev")
+theme_override_font_sizes/font_size = 6
+text = "VSync:"
+
+[node name="CheckBox" type="CheckBox" parent="CanvasLayer/Center/Scaler/SettingsNode/Background/Pages/VideoPage/VBoxContainer/VSyncOption"]
+layout_mode = 1
+anchors_preset = 4
+anchor_top = 0.5
+anchor_bottom = 0.5
+offset_left = 86.0
+offset_top = -12.0
+offset_right = 110.0
+offset_bottom = 12.0
+grow_vertical = 2
+
+[node name="AudioPage" type="Control" parent="CanvasLayer/Center/Scaler/SettingsNode/Background/Pages"]
+visible = false
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="CanvasLayer/Center/Scaler/SettingsNode/Background/Pages/AudioPage"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="MusicVolumeOption" type="Control" parent="CanvasLayer/Center/Scaler/SettingsNode/Background/Pages/AudioPage/VBoxContainer"]
+custom_minimum_size = Vector2(0, 12)
+layout_mode = 2
+
+[node name="Label" type="Label" parent="CanvasLayer/Center/Scaler/SettingsNode/Background/Pages/AudioPage/VBoxContainer/MusicVolumeOption"]
+layout_mode = 1
+anchors_preset = 4
+anchor_top = 0.5
+anchor_bottom = 0.5
+offset_left = 2.0
+offset_top = -3.0
+offset_right = 50.0
+offset_bottom = 3.0
+grow_vertical = 2
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_fonts/font = ExtResource("2_klvev")
+theme_override_font_sizes/font_size = 6
+text = "Music Volume: "
+
+[node name="HSlider" type="HSlider" parent="CanvasLayer/Center/Scaler/SettingsNode/Background/Pages/AudioPage/VBoxContainer/MusicVolumeOption"]
+layout_mode = 1
+anchors_preset = 4
+anchor_top = 0.5
+anchor_bottom = 0.5
+offset_left = 56.0
+offset_top = -8.0
+offset_right = 150.0
+offset_bottom = 8.0
+grow_vertical = 2
+
+[node name="MusicMutedOption" type="Control" parent="CanvasLayer/Center/Scaler/SettingsNode/Background/Pages/AudioPage/VBoxContainer"]
+custom_minimum_size = Vector2(0, 12)
+layout_mode = 2
+
+[node name="Label" type="Label" parent="CanvasLayer/Center/Scaler/SettingsNode/Background/Pages/AudioPage/VBoxContainer/MusicMutedOption"]
+layout_mode = 1
+anchors_preset = 4
+anchor_top = 0.5
+anchor_bottom = 0.5
+offset_left = 2.0
+offset_top = -3.0
+offset_right = 26.0
+offset_bottom = 3.0
+grow_vertical = 2
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_fonts/font = ExtResource("2_klvev")
+theme_override_font_sizes/font_size = 6
+text = "Music Muted:"
+
+[node name="CheckBox" type="CheckBox" parent="CanvasLayer/Center/Scaler/SettingsNode/Background/Pages/AudioPage/VBoxContainer/MusicMutedOption"]
+layout_mode = 1
+anchors_preset = 4
+anchor_top = 0.5
+anchor_bottom = 0.5
+offset_left = 86.0
+offset_top = -12.0
+offset_right = 110.0
+offset_bottom = 12.0
+grow_vertical = 2
+
+[node name="SoundVolumeOption" type="Control" parent="CanvasLayer/Center/Scaler/SettingsNode/Background/Pages/AudioPage/VBoxContainer"]
+custom_minimum_size = Vector2(0, 12)
+layout_mode = 2
+
+[node name="Label" type="Label" parent="CanvasLayer/Center/Scaler/SettingsNode/Background/Pages/AudioPage/VBoxContainer/SoundVolumeOption"]
+layout_mode = 1
+anchors_preset = 4
+anchor_top = 0.5
+anchor_bottom = 0.5
+offset_left = 2.0
+offset_top = -3.0
+offset_right = 50.0
+offset_bottom = 3.0
+grow_vertical = 2
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_fonts/font = ExtResource("2_klvev")
+theme_override_font_sizes/font_size = 6
+text = "Sound Volume: "
+
+[node name="HSlider" type="HSlider" parent="CanvasLayer/Center/Scaler/SettingsNode/Background/Pages/AudioPage/VBoxContainer/SoundVolumeOption"]
+layout_mode = 1
+anchors_preset = 4
+anchor_top = 0.5
+anchor_bottom = 0.5
+offset_left = 56.0
+offset_top = -8.0
+offset_right = 150.0
+offset_bottom = 8.0
+grow_vertical = 2
+
+[node name="SoundMutedOption" type="Control" parent="CanvasLayer/Center/Scaler/SettingsNode/Background/Pages/AudioPage/VBoxContainer"]
+custom_minimum_size = Vector2(0, 12)
+layout_mode = 2
+
+[node name="Label" type="Label" parent="CanvasLayer/Center/Scaler/SettingsNode/Background/Pages/AudioPage/VBoxContainer/SoundMutedOption"]
+layout_mode = 1
+anchors_preset = 4
+anchor_top = 0.5
+anchor_bottom = 0.5
+offset_left = 2.0
+offset_top = -3.0
+offset_right = 26.0
+offset_bottom = 3.0
+grow_vertical = 2
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_fonts/font = ExtResource("2_klvev")
+theme_override_font_sizes/font_size = 6
+text = "Sound Muted:"
+
+[node name="CheckBox" type="CheckBox" parent="CanvasLayer/Center/Scaler/SettingsNode/Background/Pages/AudioPage/VBoxContainer/SoundMutedOption"]
+layout_mode = 1
+anchors_preset = 4
+anchor_top = 0.5
+anchor_bottom = 0.5
+offset_left = 86.0
+offset_top = -12.0
+offset_right = 110.0
+offset_bottom = 12.0
+grow_vertical = 2
+
+[node name="TabsActive" type="Control" parent="CanvasLayer/Center/Scaler/SettingsNode"]
+layout_mode = 1
+anchors_preset = 0
+
+[node name="CloseHolder" type="Control" parent="CanvasLayer/Center/Scaler/SettingsNode"]
+layout_mode = 1
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+grow_horizontal = 0
+
+[node name="CloseOption" type="Control" parent="CanvasLayer/Center/Scaler/SettingsNode/CloseHolder"]
+anchors_preset = 0
+offset_left = -8.0
+offset_top = -1.0
+offset_right = 1.0
+offset_bottom = 8.0
+
+[node name="ColorRect" type="ColorRect" parent="CanvasLayer/Center/Scaler/SettingsNode/CloseHolder/CloseOption"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0, 0, 0, 1)
+
+[node name="ColorRect2" type="ColorRect" parent="CanvasLayer/Center/Scaler/SettingsNode/CloseHolder/CloseOption"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 1.0
+offset_top = 1.0
+offset_right = -1.0
+offset_bottom = -1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Label" type="Label" parent="CanvasLayer/Center/Scaler/SettingsNode/CloseHolder/CloseOption"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -2.0
+offset_top = -3.0
+offset_right = 2.0
+offset_bottom = 3.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_fonts/font = ExtResource("2_klvev")
+theme_override_font_sizes/font_size = 6
+text = "X"
+
+[node name="TextureButton" type="TextureButton" parent="CanvasLayer/Center/Scaler/SettingsNode/CloseHolder/CloseOption"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_default_cursor_shape = 2
+
+[node name="Dimmer" type="ColorRect" parent="CanvasLayer/Center/Scaler"]
+material = SubResource("ShaderMaterial_klvev")
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -400.0
+offset_top = -400.0
+offset_right = 400.0
+offset_bottom = 400.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+mouse_default_cursor_shape = 1
+
+[connection signal="pressed" from="CanvasLayer/Center/Scaler/SettingsNode/TabsInactive/VideoTab/TextureButton" to="." method="onVideoTabPressed"]
+[connection signal="pressed" from="CanvasLayer/Center/Scaler/SettingsNode/TabsInactive/AudioTab/TextureButton" to="." method="onAudioTabPressed"]
+[connection signal="drag_ended" from="CanvasLayer/Center/Scaler/SettingsNode/Background/Pages/VideoPage/VBoxContainer/BrightnessOption/HSlider" to="." method="onSliderExit"]
+[connection signal="value_changed" from="CanvasLayer/Center/Scaler/SettingsNode/Background/Pages/VideoPage/VBoxContainer/BrightnessOption/HSlider" to="." method="onBrightnessChange"]
+[connection signal="pressed" from="CanvasLayer/Center/Scaler/SettingsNode/Background/Pages/VideoPage/VBoxContainer/VSyncOption/CheckBox" to="." method="onVSyncChange"]
+[connection signal="drag_ended" from="CanvasLayer/Center/Scaler/SettingsNode/Background/Pages/AudioPage/VBoxContainer/MusicVolumeOption/HSlider" to="." method="onSliderExit"]
+[connection signal="value_changed" from="CanvasLayer/Center/Scaler/SettingsNode/Background/Pages/AudioPage/VBoxContainer/MusicVolumeOption/HSlider" to="." method="onMusicVolumeChange"]
+[connection signal="pressed" from="CanvasLayer/Center/Scaler/SettingsNode/Background/Pages/AudioPage/VBoxContainer/MusicMutedOption/CheckBox" to="." method="onMusicMutedChange"]
+[connection signal="drag_ended" from="CanvasLayer/Center/Scaler/SettingsNode/Background/Pages/AudioPage/VBoxContainer/SoundVolumeOption/HSlider" to="." method="onSliderExit"]
+[connection signal="value_changed" from="CanvasLayer/Center/Scaler/SettingsNode/Background/Pages/AudioPage/VBoxContainer/SoundVolumeOption/HSlider" to="." method="onSoundVolumeChange"]
+[connection signal="pressed" from="CanvasLayer/Center/Scaler/SettingsNode/Background/Pages/AudioPage/VBoxContainer/SoundMutedOption/CheckBox" to="." method="onSoundMutedChange"]
+[connection signal="pressed" from="CanvasLayer/Center/Scaler/SettingsNode/CloseHolder/CloseOption/TextureButton" to="." method="onClosePressed"]

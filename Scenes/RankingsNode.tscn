@@ -1,0 +1,206 @@
+[gd_scene load_steps=4 format=3 uid="uid://ceu2jvjgrxywm"]
+
+[ext_resource type="Script" uid="uid://cx16xj4wntcpe" path="res://Scripts/RankingsNode.gd" id="1_ghp4y"]
+[ext_resource type="PackedScene" uid="uid://cgjka4vyojcnd" path="res://Scenes/FirstPlaceNode.tscn" id="2_qisbf"]
+[ext_resource type="PackedScene" uid="uid://by000qucbvst5" path="res://Scenes/NinePatchButton.tscn" id="3_qisbf"]
+
+[node name="RankingsNode" type="Node2D"]
+script = ExtResource("1_ghp4y")
+
+[node name="FirstPlaceHolder" type="Node2D" parent="."]
+
+[node name="FirstPlaceNode" parent="FirstPlaceHolder" instance=ExtResource("2_qisbf")]
+
+[node name="PlayerRankHolder" type="Node2D" parent="."]
+
+[node name="Camera2D" type="Camera2D" parent="."]
+position = Vector2(0, 18)
+zoom = Vector2(4, 4)
+
+[node name="PauseMenu" type="Control" parent="Camera2D"]
+visible = false
+z_index = 10
+layout_mode = 3
+anchors_preset = 0
+size_flags_horizontal = 4
+
+[node name="ColorRect" type="ColorRect" parent="Camera2D/PauseMenu"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -250.0
+offset_top = -250.0
+offset_right = 250.0
+offset_bottom = 250.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0, 0, 0, 0.352941)
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Camera2D/PauseMenu"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -30.4375
+offset_top = -26.0
+offset_right = 30.4375
+offset_bottom = 26.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/separation = 2
+alignment = 1
+
+[node name="ResumeHolder" type="Control" parent="Camera2D/PauseMenu/VBoxContainer"]
+custom_minimum_size = Vector2(0, 10)
+layout_mode = 2
+
+[node name="ResumeButton" parent="Camera2D/PauseMenu/VBoxContainer/ResumeHolder" instance=ExtResource("3_qisbf")]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -16.0
+offset_top = -5.0
+offset_right = 16.0
+offset_bottom = 5.0
+grow_horizontal = 2
+grow_vertical = 2
+text = "Resume"
+
+[node name="Label" parent="Camera2D/PauseMenu/VBoxContainer/ResumeHolder/ResumeButton" index="0"]
+offset_right = 28.0
+text = "Resume"
+
+[node name="Label2" parent="Camera2D/PauseMenu/VBoxContainer/ResumeHolder/ResumeButton/Label" index="0"]
+text = "Resume"
+
+[node name="SettingsHolder" type="Control" parent="Camera2D/PauseMenu/VBoxContainer"]
+custom_minimum_size = Vector2(0, 10)
+layout_mode = 2
+
+[node name="SettingsButton" parent="Camera2D/PauseMenu/VBoxContainer/SettingsHolder" instance=ExtResource("3_qisbf")]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -20.0
+offset_top = -5.0
+offset_right = 20.0
+offset_bottom = 5.0
+grow_horizontal = 2
+grow_vertical = 2
+text = "Settings"
+
+[node name="Label" parent="Camera2D/PauseMenu/VBoxContainer/SettingsHolder/SettingsButton" index="0"]
+text = "Settings"
+
+[node name="Label2" parent="Camera2D/PauseMenu/VBoxContainer/SettingsHolder/SettingsButton/Label" index="0"]
+text = "Settings"
+
+[node name="MainMenuHolder" type="Control" parent="Camera2D/PauseMenu/VBoxContainer"]
+custom_minimum_size = Vector2(0, 10)
+layout_mode = 2
+
+[node name="MainMenuButton" parent="Camera2D/PauseMenu/VBoxContainer/MainMenuHolder" instance=ExtResource("3_qisbf")]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -22.0
+offset_top = -5.0
+offset_right = 22.0
+offset_bottom = 5.0
+grow_horizontal = 2
+grow_vertical = 2
+text = "Main Menu"
+
+[node name="Label" parent="Camera2D/PauseMenu/VBoxContainer/MainMenuHolder/MainMenuButton" index="0"]
+offset_right = 40.0
+text = "Main Menu"
+
+[node name="Label2" parent="Camera2D/PauseMenu/VBoxContainer/MainMenuHolder/MainMenuButton/Label" index="0"]
+text = "Main Menu"
+
+[node name="Button2" type="Button" parent="."]
+visible = false
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -216.0
+offset_top = -134.0
+offset_right = -172.0
+offset_bottom = -103.0
+grow_horizontal = 0
+text = "SAV"
+
+[node name="Button3" type="Button" parent="."]
+visible = false
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -216.0
+offset_top = -94.0
+offset_right = -172.0
+offset_bottom = -63.0
+grow_horizontal = 0
+text = "DEL"
+
+[node name="Button4" type="Button" parent="."]
+visible = false
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -216.0
+offset_top = -54.0
+offset_right = -172.0
+offset_bottom = -23.0
+grow_horizontal = 0
+text = "LFE"
+
+[node name="Button5" type="Button" parent="."]
+visible = false
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -216.0
+offset_top = -14.0
+offset_right = -172.0
+offset_bottom = 17.0
+grow_horizontal = 0
+text = "LFG"
+
+[node name="Button6" type="Button" parent="."]
+visible = false
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -216.0
+offset_top = 26.0
+offset_right = -172.0
+offset_bottom = 57.0
+grow_horizontal = 0
+text = "NEW"
+
+[connection signal="pressed" from="Camera2D/PauseMenu/VBoxContainer/ResumeHolder/ResumeButton" to="." method="onResumePressed"]
+[connection signal="pressed" from="Camera2D/PauseMenu/VBoxContainer/SettingsHolder/SettingsButton" to="." method="onSettingsPressed"]
+[connection signal="pressed" from="Camera2D/PauseMenu/VBoxContainer/MainMenuHolder/MainMenuButton" to="." method="onMainMenuPressed"]
+[connection signal="pressed" from="Button2" to="." method="onSavePressed"]
+[connection signal="pressed" from="Button3" to="." method="onDeletePressed"]
+[connection signal="pressed" from="Button4" to="." method="onLoadFromEmptyPressed"]
+[connection signal="pressed" from="Button5" to="." method="onLoadFromGamePressed"]
+[connection signal="pressed" from="Button6" to="." method="onNewPressed"]
+
+[editable path="Camera2D/PauseMenu/VBoxContainer/ResumeHolder/ResumeButton"]
+[editable path="Camera2D/PauseMenu/VBoxContainer/SettingsHolder/SettingsButton"]
+[editable path="Camera2D/PauseMenu/VBoxContainer/MainMenuHolder/MainMenuButton"]

@@ -1,0 +1,18 @@
+Player agency is important when losing something in their possession:
+	e.g. On loss: You opponent wants one of these three cards. Pick one to give up.
+Player onboarding issue. Lots of information up from
+	Basic tutorial to see fusions, attacking, passing
+	tutorial board -> fuse card in play, fuse card to card, fuse card to opponent, attack creature, attack opponent, pass turn
+Aaron wants fusion showcase/guide to display outcome/results of fusion
+	Guide book that shows previous fusions
+		Non-basic cards appear as unknown in guide book until they are fused into
+		Shows incoming and outgoing fusions when discovered
+			e.g. 	|F1+B1|				+ |F1|		-->> Roaring Gorilla
+				|F2+B1|		-->> Phoenix	+ |F2|		-->> Roaring Gorilla
+				|F1+B2|				+ |F3|		-->> Magmacloak Draco
+				|F2+B2|				+ |W1|		-->> Undersea Vents
+	"Break in case of fusion emergency" button - Allows each player once per game after a fusion but before attacking, to fuse a single card to the slot previously fused to. Lets player choose two activate in order to save an unfinished fusion or save them from an accidental bump.
+Liked 100-1 ranking system where you can fight anyone including the final boss any time
+Focus on single player
+
+AI Players: 3 variants of [pose, clothes, head, face, and hair] = 3^5 = 243 combinations for players

@@ -8,6 +8,10 @@ var hovering : bool = false
 var pressing : bool = false
 var disabled : bool = false
 
+var hasAttackedThisTurn : bool = false
+var backgroundTextureActive : Texture = preload("res://Art/backgrounds/card_active.png")
+var backgroundTextureInactive : Texture = preload("res://Art/backgrounds/card_blank.png")
+
 var showHovering : bool = false
 var showPressed : bool = false
 
@@ -68,6 +72,13 @@ func setIsSeen(newSeen : bool):
 func showToOpponent():
 	setIsSeen(true)
 	cardVisual.showToOpponent()
+
+func setHasAttackedThisTurn(newHasAttackedThisTurn : bool):
+	self.hasAttackedThisTurn = newHasAttackedThisTurn
+	if hasAttackedThisTurn:
+		cardVisual.cardBackground.texture = backgroundTextureInactive
+	else:
+		cardVisual.cardBackground.texture = backgroundTextureActive
 
 func onMouseEnter() -> void:
 	hovering = true

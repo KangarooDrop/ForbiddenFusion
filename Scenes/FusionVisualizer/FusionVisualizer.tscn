@@ -1,0 +1,8 @@
+[gd_scene load_steps=2 format=3 uid="uid://c1rqfhhxs1eq5"]
+
+[ext_resource type="Script" uid="uid://cfi42ikjlnv8d" path="res://Scripts/FusionVisualizer/FusionVisualizer.gd" id="1_qj5ak"]
+
+[node name="FusionVisualizer" type="Node2D"]
+script = ExtResource("1_qj5ak")
+
+[node name="Camera2D" type="Camera2D" parent="."]

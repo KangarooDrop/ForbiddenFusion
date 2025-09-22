@@ -1,15 +1,3 @@
 [remap]
 
-importer="csv_translation"
-type="Translation"
-uid="uid://b2t4m3065glos"
-valid=false
-
-[deps]
-
-source_file="res://Scripts/Data/CardLists/card_list.csv"
-
-[params]
-
-compress=true
-delimiter=0
+importer="keep"

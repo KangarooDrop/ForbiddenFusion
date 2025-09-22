@@ -16,6 +16,10 @@ func getInactivePlayer() -> Player:
 			return p
 	return activePlayer
 
+func getOpponent(player : Player) -> Player:
+	var opponentIndex : int = (players.find(player) + 1) % players.size()
+	return players[opponentIndex]
+
 func getPlayerToFusionZone(player : Player):
 	if not playerToFusionZone.has(player):
 		return null

@@ -1,0 +1,839 @@
+[gd_scene load_steps=19 format=3 uid="uid://cr274ourfk7ae"]
+
+[ext_resource type="Script" uid="uid://b6q4mfildmbgp" path="res://Scripts/CharacterCreator.gd" id="1_j4bb0"]
+[ext_resource type="PackedScene" uid="uid://dwc0cutqm2vpa" path="res://Scenes/PlayerPortrait.tscn" id="2_ms1e4"]
+[ext_resource type="Texture2D" uid="uid://buna3g6gidejp" path="res://Art/player_parts/player_parts.png" id="3_ms1e4"]
+[ext_resource type="PackedScene" uid="uid://by000qucbvst5" path="res://Scenes/NinePatchButton.tscn" id="4_4w703"]
+[ext_resource type="FontFile" uid="uid://cq55vl12vholm" path="res://fonts/3x5 pixel font.ttf" id="5_vdfn6"]
+[ext_resource type="PackedScene" uid="uid://t3y0s0bi65fr" path="res://Scenes/NinePatchLineEdit.tscn" id="6_uojw7"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ms1e4"]
+atlas = ExtResource("3_ms1e4")
+region = Rect2(0, 40, 40, 40)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_4w703"]
+atlas = ExtResource("3_ms1e4")
+region = Rect2(0, 40, 40, 40)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_uojw7"]
+atlas = ExtResource("3_ms1e4")
+region = Rect2(0, 40, 40, 40)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_f7po3"]
+atlas = ExtResource("3_ms1e4")
+region = Rect2(80, 40, 40, 40)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_bhmax"]
+atlas = ExtResource("3_ms1e4")
+region = Rect2(0, 0, 40, 40)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_06dtv"]
+atlas = ExtResource("3_ms1e4")
+region = Rect2(80, 0, 40, 40)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_vdfn6"]
+atlas = ExtResource("3_ms1e4")
+region = Rect2(0, 120, 40, 40)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_xb0ng"]
+atlas = ExtResource("3_ms1e4")
+region = Rect2(80, 120, 40, 40)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_37u0f"]
+atlas = ExtResource("3_ms1e4")
+region = Rect2(0, 80, 40, 40)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ipxmr"]
+atlas = ExtResource("3_ms1e4")
+region = Rect2(80, 80, 40, 40)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ybtfg"]
+atlas = ExtResource("3_ms1e4")
+region = Rect2(0, 160, 40, 40)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_8rvww"]
+atlas = ExtResource("3_ms1e4")
+region = Rect2(80, 160, 40, 40)
+
+[node name="CharacterCreator" type="Node2D"]
+script = ExtResource("1_j4bb0")
+
+[node name="Camera2D" type="Camera2D" parent="."]
+zoom = Vector2(4, 4)
+
+[node name="PlayerPortrait" parent="." instance=ExtResource("2_ms1e4")]
+position = Vector2(0, -34)
+scale = Vector2(2, 2)
+
+[node name="VBoxContainer" type="VBoxContainer" parent="."]
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -140.0
+offset_top = -122.0
+offset_right = 140.0
+offset_bottom = 94.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="HeadController" type="Control" parent="VBoxContainer"]
+custom_minimum_size = Vector2(0, 40)
+layout_mode = 2
+mouse_filter = 2
+
+[node name="ButtonLeft" type="Button" parent="VBoxContainer/HeadController"]
+visible = false
+layout_mode = 1
+anchors_preset = 4
+anchor_top = 0.5
+anchor_bottom = 0.5
+offset_top = -15.5
+offset_right = 27.0
+offset_bottom = 15.5
+grow_vertical = 2
+text = "<<"
+
+[node name="TextureRect" type="TextureRect" parent="VBoxContainer/HeadController/ButtonLeft"]
+modulate = Color(1, 1, 1, 0.392157)
+layout_mode = 1
+anchors_preset = 4
+anchor_top = 0.5
+anchor_bottom = 0.5
+offset_left = -44.0
+offset_top = -20.0
+offset_right = -4.0
+offset_bottom = 20.0
+grow_vertical = 2
+texture = SubResource("AtlasTexture_ms1e4")
+
+[node name="ButtonRight" type="Button" parent="VBoxContainer/HeadController"]
+visible = false
+layout_mode = 1
+anchors_preset = 6
+anchor_left = 1.0
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+offset_left = -27.0
+offset_top = -15.5
+offset_bottom = 15.5
+grow_horizontal = 0
+grow_vertical = 2
+text = ">>"
+
+[node name="TextureRect" type="TextureRect" parent="VBoxContainer/HeadController/ButtonRight"]
+modulate = Color(1, 1, 1, 0.392157)
+layout_mode = 1
+anchors_preset = 4
+anchor_top = 0.5
+anchor_bottom = 0.5
+offset_left = 31.0
+offset_top = -20.0
+offset_right = 71.0
+offset_bottom = 20.0
+grow_vertical = 2
+texture = SubResource("AtlasTexture_4w703")
+
+[node name="BetterButtonLeft" parent="VBoxContainer/HeadController" instance=ExtResource("4_4w703")]
+custom_minimum_size = Vector2(42, 42)
+layout_mode = 1
+anchors_preset = 4
+anchor_top = 0.5
+anchor_bottom = 0.5
+offset_top = -21.0
+offset_right = 42.0
+offset_bottom = 21.0
+grow_vertical = 2
+text = ""
+
+[node name="Label" parent="VBoxContainer/HeadController/BetterButtonLeft" index="0"]
+offset_right = 5.0
+text = ""
+
+[node name="Label2" parent="VBoxContainer/HeadController/BetterButtonLeft/Label" index="0"]
+text = ""
+
+[node name="TextureRect" type="TextureRect" parent="VBoxContainer/HeadController/BetterButtonLeft"]
+modulate = Color(1, 1, 1, 0.392157)
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -20.0
+offset_top = -20.0
+offset_right = 20.0
+offset_bottom = 20.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+texture = SubResource("AtlasTexture_uojw7")
+
+[node name="Label2" type="Label" parent="VBoxContainer/HeadController/BetterButtonLeft"]
+layout_mode = 1
+anchors_preset = 4
+anchor_top = 0.5
+anchor_bottom = 0.5
+offset_left = -24.0
+offset_top = -9.0
+offset_bottom = 9.0
+grow_vertical = 2
+theme_override_fonts/font = ExtResource("5_vdfn6")
+theme_override_font_sizes/font_size = 18
+text = "<<"
+
+[node name="BetterButtonRight" parent="VBoxContainer/HeadController" instance=ExtResource("4_4w703")]
+custom_minimum_size = Vector2(42, 42)
+layout_mode = 1
+anchors_preset = 6
+anchor_left = 1.0
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+offset_left = -42.0
+offset_top = -21.0
+offset_right = 0.0
+offset_bottom = 21.0
+grow_horizontal = 0
+grow_vertical = 2
+text = ""
+
+[node name="Label" parent="VBoxContainer/HeadController/BetterButtonRight" index="0"]
+offset_right = 5.0
+text = ""
+
+[node name="Label2" parent="VBoxContainer/HeadController/BetterButtonRight/Label" index="0"]
+text = ""
+
+[node name="TextureRect" type="TextureRect" parent="VBoxContainer/HeadController/BetterButtonRight"]
+modulate = Color(1, 1, 1, 0.392157)
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -20.0
+offset_top = -20.0
+offset_right = 20.0
+offset_bottom = 20.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+texture = SubResource("AtlasTexture_f7po3")
+
+[node name="Label2" type="Label" parent="VBoxContainer/HeadController/BetterButtonRight"]
+layout_mode = 1
+anchors_preset = 6
+anchor_left = 1.0
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+offset_left = 3.0
+offset_top = -9.0
+offset_right = 27.0
+offset_bottom = 9.0
+grow_horizontal = 0
+grow_vertical = 2
+theme_override_fonts/font = ExtResource("5_vdfn6")
+theme_override_font_sizes/font_size = 18
+text = ">>"
+
+[node name="BodyController" type="Control" parent="VBoxContainer"]
+custom_minimum_size = Vector2(0, 40)
+layout_mode = 2
+mouse_filter = 2
+
+[node name="BetterButtonLeft" parent="VBoxContainer/BodyController" instance=ExtResource("4_4w703")]
+custom_minimum_size = Vector2(42, 42)
+layout_mode = 1
+anchors_preset = 4
+anchor_top = 0.5
+anchor_bottom = 0.5
+offset_top = -21.0
+offset_right = 42.0
+offset_bottom = 21.0
+grow_vertical = 2
+text = ""
+
+[node name="Label" parent="VBoxContainer/BodyController/BetterButtonLeft" index="0"]
+offset_right = 5.0
+text = ""
+
+[node name="Label2" parent="VBoxContainer/BodyController/BetterButtonLeft/Label" index="0"]
+text = ""
+
+[node name="TextureRect" type="TextureRect" parent="VBoxContainer/BodyController/BetterButtonLeft"]
+modulate = Color(1, 1, 1, 0.392157)
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -20.0
+offset_top = -20.0
+offset_right = 20.0
+offset_bottom = 20.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+texture = SubResource("AtlasTexture_bhmax")
+
+[node name="Label2" type="Label" parent="VBoxContainer/BodyController/BetterButtonLeft"]
+layout_mode = 1
+anchors_preset = 4
+anchor_top = 0.5
+anchor_bottom = 0.5
+offset_left = -24.0
+offset_top = -9.0
+offset_bottom = 9.0
+grow_vertical = 2
+theme_override_fonts/font = ExtResource("5_vdfn6")
+theme_override_font_sizes/font_size = 18
+text = "<<"
+
+[node name="BetterButtonRight" parent="VBoxContainer/BodyController" instance=ExtResource("4_4w703")]
+custom_minimum_size = Vector2(42, 42)
+layout_mode = 1
+anchors_preset = 6
+anchor_left = 1.0
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+offset_left = -42.0
+offset_top = -21.0
+offset_right = 0.0
+offset_bottom = 21.0
+grow_horizontal = 0
+grow_vertical = 2
+text = ""
+
+[node name="Label" parent="VBoxContainer/BodyController/BetterButtonRight" index="0"]
+offset_right = 5.0
+text = ""
+
+[node name="Label2" parent="VBoxContainer/BodyController/BetterButtonRight/Label" index="0"]
+text = ""
+
+[node name="TextureRect" type="TextureRect" parent="VBoxContainer/BodyController/BetterButtonRight"]
+modulate = Color(1, 1, 1, 0.392157)
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -20.0
+offset_top = -20.0
+offset_right = 20.0
+offset_bottom = 20.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+texture = SubResource("AtlasTexture_06dtv")
+
+[node name="Label2" type="Label" parent="VBoxContainer/BodyController/BetterButtonRight"]
+layout_mode = 1
+anchors_preset = 6
+anchor_left = 1.0
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+offset_left = 3.0
+offset_top = -9.0
+offset_right = 27.0
+offset_bottom = 9.0
+grow_horizontal = 0
+grow_vertical = 2
+theme_override_fonts/font = ExtResource("5_vdfn6")
+theme_override_font_sizes/font_size = 18
+text = ">>"
+
+[node name="EyeController" type="Control" parent="VBoxContainer"]
+custom_minimum_size = Vector2(0, 40)
+layout_mode = 2
+mouse_filter = 2
+
+[node name="BetterButtonLeft" parent="VBoxContainer/EyeController" instance=ExtResource("4_4w703")]
+custom_minimum_size = Vector2(42, 42)
+layout_mode = 1
+anchors_preset = 4
+anchor_top = 0.5
+anchor_bottom = 0.5
+offset_top = -21.0
+offset_right = 42.0
+offset_bottom = 21.0
+grow_vertical = 2
+text = ""
+
+[node name="Label" parent="VBoxContainer/EyeController/BetterButtonLeft" index="0"]
+offset_right = 5.0
+text = ""
+
+[node name="Label2" parent="VBoxContainer/EyeController/BetterButtonLeft/Label" index="0"]
+text = ""
+
+[node name="TextureRect" type="TextureRect" parent="VBoxContainer/EyeController/BetterButtonLeft"]
+modulate = Color(1, 1, 1, 0.392157)
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -20.0
+offset_top = -20.0
+offset_right = 20.0
+offset_bottom = 20.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+texture = SubResource("AtlasTexture_vdfn6")
+
+[node name="Label2" type="Label" parent="VBoxContainer/EyeController/BetterButtonLeft"]
+layout_mode = 1
+anchors_preset = 4
+anchor_top = 0.5
+anchor_bottom = 0.5
+offset_left = -24.0
+offset_top = -9.0
+offset_bottom = 9.0
+grow_vertical = 2
+theme_override_fonts/font = ExtResource("5_vdfn6")
+theme_override_font_sizes/font_size = 18
+text = "<<"
+
+[node name="BetterButtonRight" parent="VBoxContainer/EyeController" instance=ExtResource("4_4w703")]
+custom_minimum_size = Vector2(42, 42)
+layout_mode = 1
+anchors_preset = 6
+anchor_left = 1.0
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+offset_left = -42.0
+offset_top = -21.0
+offset_right = 0.0
+offset_bottom = 21.0
+grow_horizontal = 0
+grow_vertical = 2
+text = ""
+
+[node name="Label" parent="VBoxContainer/EyeController/BetterButtonRight" index="0"]
+offset_right = 5.0
+text = ""
+
+[node name="Label2" parent="VBoxContainer/EyeController/BetterButtonRight/Label" index="0"]
+text = ""
+
+[node name="TextureRect" type="TextureRect" parent="VBoxContainer/EyeController/BetterButtonRight"]
+modulate = Color(1, 1, 1, 0.392157)
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -20.0
+offset_top = -20.0
+offset_right = 20.0
+offset_bottom = 20.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+texture = SubResource("AtlasTexture_xb0ng")
+
+[node name="Label2" type="Label" parent="VBoxContainer/EyeController/BetterButtonRight"]
+layout_mode = 1
+anchors_preset = 6
+anchor_left = 1.0
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+offset_left = 3.0
+offset_top = -9.0
+offset_right = 27.0
+offset_bottom = 9.0
+grow_horizontal = 0
+grow_vertical = 2
+theme_override_fonts/font = ExtResource("5_vdfn6")
+theme_override_font_sizes/font_size = 18
+text = ">>"
+
+[node name="MouthController" type="Control" parent="VBoxContainer"]
+custom_minimum_size = Vector2(0, 40)
+layout_mode = 2
+mouse_filter = 2
+
+[node name="BetterButtonLeft" parent="VBoxContainer/MouthController" instance=ExtResource("4_4w703")]
+custom_minimum_size = Vector2(42, 42)
+layout_mode = 1
+anchors_preset = 4
+anchor_top = 0.5
+anchor_bottom = 0.5
+offset_top = -21.0
+offset_right = 42.0
+offset_bottom = 21.0
+grow_vertical = 2
+text = ""
+
+[node name="Label" parent="VBoxContainer/MouthController/BetterButtonLeft" index="0"]
+offset_right = 5.0
+text = ""
+
+[node name="Label2" parent="VBoxContainer/MouthController/BetterButtonLeft/Label" index="0"]
+text = ""
+
+[node name="TextureRect" type="TextureRect" parent="VBoxContainer/MouthController/BetterButtonLeft"]
+modulate = Color(1, 1, 1, 0.392157)
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -20.0
+offset_top = -20.0
+offset_right = 20.0
+offset_bottom = 20.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+texture = SubResource("AtlasTexture_37u0f")
+
+[node name="Label2" type="Label" parent="VBoxContainer/MouthController/BetterButtonLeft"]
+layout_mode = 1
+anchors_preset = 4
+anchor_top = 0.5
+anchor_bottom = 0.5
+offset_left = -24.0
+offset_top = -9.0
+offset_bottom = 9.0
+grow_vertical = 2
+theme_override_fonts/font = ExtResource("5_vdfn6")
+theme_override_font_sizes/font_size = 18
+text = "<<"
+
+[node name="BetterButtonRight" parent="VBoxContainer/MouthController" instance=ExtResource("4_4w703")]
+custom_minimum_size = Vector2(42, 42)
+layout_mode = 1
+anchors_preset = 6
+anchor_left = 1.0
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+offset_left = -42.0
+offset_top = -21.0
+offset_right = 0.0
+offset_bottom = 21.0
+grow_horizontal = 0
+grow_vertical = 2
+text = ""
+
+[node name="Label" parent="VBoxContainer/MouthController/BetterButtonRight" index="0"]
+offset_right = 5.0
+text = ""
+
+[node name="Label2" parent="VBoxContainer/MouthController/BetterButtonRight/Label" index="0"]
+text = ""
+
+[node name="TextureRect" type="TextureRect" parent="VBoxContainer/MouthController/BetterButtonRight"]
+modulate = Color(1, 1, 1, 0.392157)
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -20.0
+offset_top = -20.0
+offset_right = 20.0
+offset_bottom = 20.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+texture = SubResource("AtlasTexture_ipxmr")
+
+[node name="Label2" type="Label" parent="VBoxContainer/MouthController/BetterButtonRight"]
+layout_mode = 1
+anchors_preset = 6
+anchor_left = 1.0
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+offset_left = 3.0
+offset_top = -9.0
+offset_right = 27.0
+offset_bottom = 9.0
+grow_horizontal = 0
+grow_vertical = 2
+theme_override_fonts/font = ExtResource("5_vdfn6")
+theme_override_font_sizes/font_size = 18
+text = ">>"
+
+[node name="ArmController" type="Control" parent="VBoxContainer"]
+custom_minimum_size = Vector2(0, 40)
+layout_mode = 2
+mouse_filter = 2
+
+[node name="BetterButtonLeft" parent="VBoxContainer/ArmController" instance=ExtResource("4_4w703")]
+custom_minimum_size = Vector2(42, 42)
+layout_mode = 1
+anchors_preset = 4
+anchor_top = 0.5
+anchor_bottom = 0.5
+offset_top = -21.0
+offset_right = 42.0
+offset_bottom = 21.0
+grow_vertical = 2
+text = ""
+
+[node name="Label" parent="VBoxContainer/ArmController/BetterButtonLeft" index="0"]
+offset_right = 5.0
+text = ""
+
+[node name="Label2" parent="VBoxContainer/ArmController/BetterButtonLeft/Label" index="0"]
+text = ""
+
+[node name="TextureRect" type="TextureRect" parent="VBoxContainer/ArmController/BetterButtonLeft"]
+modulate = Color(1, 1, 1, 0.392157)
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -20.0
+offset_top = -20.0
+offset_right = 20.0
+offset_bottom = 20.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+texture = SubResource("AtlasTexture_ybtfg")
+
+[node name="Label2" type="Label" parent="VBoxContainer/ArmController/BetterButtonLeft"]
+layout_mode = 1
+anchors_preset = 4
+anchor_top = 0.5
+anchor_bottom = 0.5
+offset_left = -24.0
+offset_top = -9.0
+offset_bottom = 9.0
+grow_vertical = 2
+theme_override_fonts/font = ExtResource("5_vdfn6")
+theme_override_font_sizes/font_size = 18
+text = "<<"
+
+[node name="BetterButtonRight" parent="VBoxContainer/ArmController" instance=ExtResource("4_4w703")]
+custom_minimum_size = Vector2(42, 42)
+layout_mode = 1
+anchors_preset = 6
+anchor_left = 1.0
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+offset_left = -42.0
+offset_top = -21.0
+offset_right = 0.0
+offset_bottom = 21.0
+grow_horizontal = 0
+grow_vertical = 2
+text = ""
+
+[node name="Label" parent="VBoxContainer/ArmController/BetterButtonRight" index="0"]
+offset_right = 5.0
+text = ""
+
+[node name="Label2" parent="VBoxContainer/ArmController/BetterButtonRight/Label" index="0"]
+text = ""
+
+[node name="TextureRect" type="TextureRect" parent="VBoxContainer/ArmController/BetterButtonRight"]
+modulate = Color(1, 1, 1, 0.392157)
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -20.0
+offset_top = -20.0
+offset_right = 20.0
+offset_bottom = 20.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+texture = SubResource("AtlasTexture_8rvww")
+
+[node name="Label2" type="Label" parent="VBoxContainer/ArmController/BetterButtonRight"]
+layout_mode = 1
+anchors_preset = 6
+anchor_left = 1.0
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+offset_left = 3.0
+offset_top = -9.0
+offset_right = 27.0
+offset_bottom = 9.0
+grow_horizontal = 0
+grow_vertical = 2
+theme_override_fonts/font = ExtResource("5_vdfn6")
+theme_override_font_sizes/font_size = 18
+text = ">>"
+
+[node name="NameLineEdit" parent="." instance=ExtResource("6_uojw7")]
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -60.0
+offset_top = 58.0
+offset_right = 60.0
+offset_bottom = 86.0
+grow_horizontal = 2
+grow_vertical = 2
+placeHolder = "Name"
+fontSize = 18
+
+[node name="LineEdit" parent="NameLineEdit" index="0"]
+theme_override_font_sizes/font_size = 18
+placeholder_text = "Name"
+
+[node name="BackButton" parent="." instance=ExtResource("4_4w703")]
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -70.0
+offset_top = 108.0
+offset_right = -22.0
+offset_bottom = 128.0
+grow_horizontal = 2
+grow_vertical = 2
+text = "Back"
+fontSize = 12
+textBuffer = Vector2i(8, 4)
+
+[node name="Label" parent="BackButton" index="0"]
+offset_left = 8.0
+offset_top = -6.0
+offset_right = 40.0
+offset_bottom = 6.0
+theme_override_font_sizes/font_size = 12
+text = "Back"
+
+[node name="Label2" parent="BackButton/Label" index="0"]
+theme_override_font_sizes/font_size = 12
+text = "Back"
+
+[node name="DoneButton" parent="." instance=ExtResource("4_4w703")]
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = 22.0
+offset_top = 108.0
+offset_right = 70.0
+offset_bottom = 128.0
+grow_horizontal = 2
+grow_vertical = 2
+text = "Done"
+fontSize = 12
+textBuffer = Vector2i(8, 4)
+
+[node name="Label" parent="DoneButton" index="0"]
+offset_left = 8.0
+offset_top = -6.0
+offset_right = 40.0
+offset_bottom = 6.0
+theme_override_font_sizes/font_size = 12
+text = "Done"
+
+[node name="Label2" parent="DoneButton/Label" index="0"]
+theme_override_font_sizes/font_size = 12
+text = "Done"
+
+[node name="RandomButton" parent="." instance=ExtResource("4_4w703")]
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -32.0
+offset_top = -122.0
+offset_right = 32.0
+offset_bottom = -102.0
+grow_horizontal = 2
+grow_vertical = 2
+text = "Random"
+fontSize = 12
+textBuffer = Vector2i(8, 4)
+
+[node name="Label" parent="RandomButton" index="0"]
+offset_left = 8.0
+offset_top = -6.0
+offset_right = 56.0
+offset_bottom = 6.0
+theme_override_font_sizes/font_size = 12
+text = "Random"
+
+[node name="Label2" parent="RandomButton/Label" index="0"]
+theme_override_font_sizes/font_size = 12
+text = "Random"
+
+[node name="FlipButton" parent="." instance=ExtResource("4_4w703")]
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -24.0
+offset_top = 18.0
+offset_right = 24.0
+offset_bottom = 38.0
+grow_horizontal = 2
+grow_vertical = 2
+text = "Flip"
+fontSize = 12
+textBuffer = Vector2i(8, 4)
+
+[node name="Label" parent="FlipButton" index="0"]
+offset_left = 8.0
+offset_top = -6.0
+offset_right = 40.0
+offset_bottom = 6.0
+theme_override_font_sizes/font_size = 12
+text = "Flip"
+
+[node name="Label2" parent="FlipButton/Label" index="0"]
+theme_override_font_sizes/font_size = 12
+text = "Flip"
+
+[connection signal="pressed" from="BackButton" to="." method="onBackPressed"]
+[connection signal="pressed" from="DoneButton" to="." method="onDonePressed"]
+[connection signal="pressed" from="RandomButton" to="." method="onRandomPressed"]
+[connection signal="pressed" from="FlipButton" to="." method="onFlipPressed"]
+
+[editable path="VBoxContainer/HeadController/BetterButtonLeft"]
+[editable path="VBoxContainer/HeadController/BetterButtonRight"]
+[editable path="VBoxContainer/BodyController/BetterButtonLeft"]
+[editable path="VBoxContainer/BodyController/BetterButtonRight"]
+[editable path="VBoxContainer/EyeController/BetterButtonLeft"]
+[editable path="VBoxContainer/EyeController/BetterButtonRight"]
+[editable path="VBoxContainer/MouthController/BetterButtonLeft"]
+[editable path="VBoxContainer/MouthController/BetterButtonRight"]
+[editable path="VBoxContainer/ArmController/BetterButtonLeft"]
+[editable path="VBoxContainer/ArmController/BetterButtonRight"]
+[editable path="NameLineEdit"]
+[editable path="BackButton"]
+[editable path="DoneButton"]
+[editable path="RandomButton"]
+[editable path="FlipButton"]

@@ -194,15 +194,43 @@ static func confirmDeckData(data : Dictionary) -> DECK_ERROR:
 	return DECK_ERROR.OK
 
 static func loadDeckData(deckPath : String) -> Dictionary:
-	var rtn : Dictionary = {}
 	var data : Dictionary = FileIO.readFromJSON(deckPath)
 	if data.is_empty():
 		return {}
-	
+	return parseDeckJSON(data)
+
+static func parseDeckJSON(data : Dictionary) -> Dictionary:
+	var rtn : Dictionary = {}
 	for k in data.keys():
 		if typeof(k) != TYPE_STRING or not k.is_valid_int():
 			continue
 		if typeof(data[k]) != TYPE_FLOAT:
 			continue
 		rtn[int(k)] = int(data[k])
+	return rtn
+
+enum DECK_GEN {BST_MAX, DECK_SIZE, NULL_RAT, DIVERSITY}
+static func genStartData(bstMax : int = -1, deckSize : int = 40, numNullRatio : float = 0.15) -> Dictionary:
+	var validCardsNonNull : Array = []
+	var validCardsNull : Array = []
+	for i in range(ListOfCards.cardList.size()):
+		var card : Card = ListOfCards.getCard(i)
+		if bstMax != -1 and card.attack + card.health > bstMax:
+			continue
+		if card.rarity != Card.RARITY.BASIC:
+			continue
+		if card.creatureTypes.has(Card.CREATURE_TYPE.NULL):
+			validCardsNull.append(card)
+		else:
+			validCardsNonNull.append(card)
+	var rtn : Dictionary = {}
+	for i in range(deckSize):
+		var card : Card = null
+		if randf() < numNullRatio:
+			card = validCardsNull[randi() % validCardsNull.size()].duplicate()
+		else:
+			card = validCardsNonNull[randi() % validCardsNonNull.size()].duplicate()
+		if not rtn.has(card.UUID):
+			rtn[card.UUID] = 0
+		rtn[card.UUID] += 1
 	return rtn

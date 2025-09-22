@@ -1,0 +1,61 @@
+[gd_scene load_steps=3 format=3 uid="uid://dwc0cutqm2vpa"]
+
+[ext_resource type="Script" uid="uid://c6m3xn6or1cby" path="res://Scripts/PlayerPortrait.gd" id="1_fimkg"]
+[ext_resource type="Texture2D" uid="uid://buna3g6gidejp" path="res://Art/player_parts/player_parts.png" id="2_6u5uk"]
+
+[node name="PlayerPortrait" type="Node2D"]
+script = ExtResource("1_fimkg")
+
+[node name="ColorRect2" type="ColorRect" parent="."]
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -21.0
+offset_top = -21.0
+offset_right = 21.0
+offset_bottom = 21.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+color = Color(0, 0, 0, 1)
+
+[node name="ColorRect" type="ColorRect" parent="."]
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -20.0
+offset_top = -20.0
+offset_right = 20.0
+offset_bottom = 20.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+
+[node name="BodySprite" type="Sprite2D" parent="."]
+texture = ExtResource("2_6u5uk")
+region_enabled = true
+region_rect = Rect2(80, 0, 40, 40)
+
+[node name="ArmSprite" type="Sprite2D" parent="."]
+texture = ExtResource("2_6u5uk")
+region_enabled = true
+region_rect = Rect2(0, 160, 40, 40)
+
+[node name="HeadSprite" type="Sprite2D" parent="."]
+texture = ExtResource("2_6u5uk")
+region_enabled = true
+region_rect = Rect2(40, 40, 40, 40)
+
+[node name="EyeSprite" type="Sprite2D" parent="."]
+texture = ExtResource("2_6u5uk")
+region_enabled = true
+region_rect = Rect2(160, 120, 40, 40)
+
+[node name="MouthSprite" type="Sprite2D" parent="."]
+texture = ExtResource("2_6u5uk")
+region_enabled = true
+region_rect = Rect2(0, 80, 40, 40)

@@ -146,12 +146,10 @@ render_target_update_mode = 0
 title = "Notice!"
 initial_position = 1
 size = Vector2i(640, 320)
-visible = true
 theme = SubResource("Theme_oq4k8")
 
 [node name="ConfirmDialog" type="ConfirmationDialog" parent="Control"]
 initial_position = 1
-visible = true
 theme = SubResource("Theme_ltrq1")
 
 [node name="FileDialog" type="FileDialog" parent="Control"]

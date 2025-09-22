@@ -1,8 +1,41 @@
 extends Node2D
 
-#"user://decks/" + fileName + ".json"
+const savePath : String = "user://saves/save0.json"
+const userPath : String = "user://saves/user0.json"
+const settingsPath : String = "user://settings/settings.json"
 
-func writeToJSON(filePath : String, data : Dictionary) -> int:
+####################################################################################################
+
+func getSettingsExists() -> bool:
+	return FileAccess.file_exists(settingsPath)
+func getSettingsData():
+	return readFromJSON(settingsPath)
+func saveSettings(data) -> int:
+	return writeToJSON(settingsPath, data)
+func deleteSettings() -> bool:
+	return deleteFile(settingsPath)
+
+####################################################################################################
+
+func saveUserData(userData) -> int:
+	return writeToJSON(userPath, userData)
+func getUserData():
+	return readFromJSON(userPath)
+func deleteUserData() -> bool:
+	return deleteFile(userPath)
+
+func getSaveExists() -> bool:
+	return FileAccess.file_exists(savePath)
+func getSaveData():
+	return readFromJSON(savePath)
+func saveGame(data) -> int:
+	return writeToJSON(savePath, data)
+func deleteGame() -> bool:
+	return deleteFile(savePath)
+
+####################################################################################################
+
+func writeToJSON(filePath : String, data) -> int:
 	var folder : String = filePath.get_base_dir()
 	if not DirAccess.dir_exists_absolute(folder):
 		DirAccess.make_dir_absolute(folder)
@@ -11,13 +44,20 @@ func writeToJSON(filePath : String, data : Dictionary) -> int:
 	file.close()
 	return OK
 
-func readFromJSON(filePath : String) -> Dictionary:
+func readFromJSON(filePath : String):
 	if not FileAccess.file_exists(filePath):
 		return {}
 	var file = FileAccess.open(filePath, FileAccess.READ)
 	var string : String = file.get_as_text()
-	var rtn : Dictionary = JSON.parse_string(string)
+	var rtn = JSON.parse_string(string)
 	return rtn
+
+func deleteFile(filePath : String) -> bool:
+	if not FileAccess.file_exists(filePath):
+		return false
+	
+	var error = DirAccess.remove_absolute(filePath)
+	return error == OK
 
 """
 	var file = FileAccess.file_exists()

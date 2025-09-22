@@ -5,6 +5,7 @@ class_name CardVisual
 @onready var label = $Label
 @onready var eyeSprite = $EyeSprite
 @onready var cardPortrait  = $CardPortrait
+@onready var cardBackground = $CardBackground
 @onready var cardType = $CardType
 @onready var cardType2 = $CardType2
 @onready var cardRarity = $CardRarity

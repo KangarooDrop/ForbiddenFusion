@@ -66,6 +66,31 @@ static func getCreatureTypesShared(creatureTypes0 : Array, creatureTypes1 : Arra
 			numShared += 1
 	return numShared
 
+static func getCreatureTypeToColor(creatureType0) -> Color:
+	if creatureType0 == CREATURE_TYPE.NULL:
+		return Color.YELLOW
+	elif creatureType0 == CREATURE_TYPE.BEAST:
+		return Color.SANDY_BROWN
+	elif creatureType0 == CREATURE_TYPE.AIR:
+		return Color.LIGHT_GREEN
+	elif creatureType0 == CREATURE_TYPE.HOLY:
+		return Color.LIGHT_YELLOW
+	elif creatureType0 == CREATURE_TYPE.WATER:
+		return Color.BLUE
+	elif creatureType0 == CREATURE_TYPE.MECH:
+		return Color.SLATE_GRAY
+	elif creatureType0 == CREATURE_TYPE.EARTH:
+		return Color.SADDLE_BROWN
+	elif creatureType0 == CREATURE_TYPE.NECRO:
+		return Color.BLACK
+	elif creatureType0 == CREATURE_TYPE.FIRE:
+		return Color.RED
+	else:
+		return Color.WHITE
+
+static func getBST(card : Card) -> int:
+	return card.attack + card.health
+
 func serialize() -> Dictionary:
 	var rtn : Dictionary = {}
 	rtn["UUID"] = UUID

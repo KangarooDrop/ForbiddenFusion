@@ -5,8 +5,12 @@ class_name BoardNode
 signal card_node_pressed(cardNode, buttonIndex)
 signal turn_passed()
 signal fusion_finished()
+signal move_camera(offset : int)
+signal game_end()
 
 var board : Board
+
+var winner : Player = null
 
 @onready var cardNodeHolder : Node2D = $CardNodeHolder
 @onready var playerHandDisplay : HandNode = $PlayerHandZone
@@ -36,6 +40,17 @@ func getCardNodeToZoneNode(cardNode):
 		return null
 	return cardNodeToZoneNode[cardNode]
 
+func initDecksAndStart() -> void:
+	board.players[0].deck.setData(DeckEditor.genStartData(5))
+	board.players[0].deck.shuffle()
+	
+	board.players[1].deck.setData(DeckEditor.genStartData(-1))
+	#board.players[1].deck.loadDeckFile("res://Decks/deck_test1.json")
+	board.players[1].deck.shuffle()
+	
+	#Starting Game
+	board.startGame()
+
 func _ready() -> void:
 	#Creating board
 	var numPlayers : int = 2
@@ -43,8 +58,7 @@ func _ready() -> void:
 	board.connect("turn_started", self.onTurnStarted)
 	
 	#Loading Decks
-	board.players[0].deck.loadDeckFile("res://Decks/deck_test.json")
-	board.players[0].deck.shuffle()
+	#board.players[0].deck.loadDeckFile("res://Decks/deck_test.json")
 	playerDeckDisplay.setDeck(board.players[0].deck)
 	zoneToNode[board.players[0].deck] = playerDeckDisplay
 	playerHandDisplay.setHand(board.players[0].hand)
@@ -57,8 +71,6 @@ func _ready() -> void:
 	board.players[0].connect("after_game_loss", self.onPlayerGameLoss.bind(board.players[0]))
 	board.players[0].connect("after_health_change", self.onPlayerHealthChange.bind(board.players[0]))
 	
-	board.players[1].deck.loadDeckFile("res://Decks/deck_test1.json")
-	board.players[1].deck.shuffle()
 	opponentDeckDisplay.setDeck(board.players[1].deck)
 	zoneToNode[board.players[1].deck] = opponentDeckDisplay
 	opponentHandDisplay.setHand(board.players[1].hand)
@@ -69,9 +81,6 @@ func _ready() -> void:
 	zoneToNode[board.getPlayerToInPlayZone(board.players[1])] = opponentInPlayDisplay
 	board.players[1].connect("after_game_loss", self.onPlayerGameLoss.bind(board.players[1]))
 	board.players[1].connect("after_health_change", self.onPlayerHealthChange.bind(board.players[1]))
-	
-	#Starting Game
-	board.startGame()
 
 var gameIsOver : bool = false
 func onPlayerGameLoss(player : Player):
@@ -81,6 +90,9 @@ func onPlayerGameLoss(player : Player):
 		winLoseSprite.region_rect.position.y = 0.0
 	winLoseSprite.show()
 	gameIsOver = true
+	winner = board.getOpponent(player)
+	
+	game_end.emit()
 
 func onPlayerHealthChange(amountPointer : Array, player : Player):
 	var label : Label
@@ -114,7 +126,8 @@ func createCardNode(card = null, isSeen : bool = false):
 	cardNodeHolder.add_child(cardNode)
 	cardNode.setCard(card)
 	cardNode.setIsSeen(isSeen)
-	cardNode.global_position = get_global_mouse_position()
+	cardNode.global_position = Vector2.ZERO
+	#cardNode.global_position = get_global_mouse_position()
 	cardNode.mouse_enter.connect(self.onCardMouseEnter.bind(cardNode))
 	cardNode.mouse_exit.connect(self.onCardMouseExit.bind(cardNode))
 	cardNode.button_down.connect(self.onCardButtonDown.bind(cardNode))
@@ -146,6 +159,7 @@ func onCardButtonUp(buttonIndex : int, cardNode : CardNode):
 	if buttonIndex == MOUSE_BUTTON_LEFT:
 		cardNode.showPressed = false
 func onCardPressed(buttonIndex : int, cardNode : CardNode, sendToServer : bool = true):
+	var fromServer : bool = not sendToServer
 	if sendToServer:
 		card_node_pressed.emit(cardNode, buttonIndex)
 	
@@ -156,6 +170,10 @@ func onCardPressed(buttonIndex : int, cardNode : CardNode, sendToServer : bool =
 		#Card in Hand
 		var zoneNode : ZoneNode = getCardNodeToZoneNode(cardNode)
 		if board.activePlayer.hand.cards.has(cardNode.card):
+			if board.activePlayer != board.players[0] and not fromServer:
+				return
+			if hasFusedThisTurn:
+				return
 			board.activePlayer.hand.eraseCard(cardNode.card)
 			board.playerToFusionZone[board.activePlayer].addCard(cardNode.card)
 		#Card in Fusion Zone
@@ -188,11 +206,18 @@ func onCardPressed(buttonIndex : int, cardNode : CardNode, sendToServer : bool =
 				zoneToNode[fusionZone].flipAllToFront()
 				for cn in zoneToNode[fusionZone].cardNodes.duplicate():
 					cardNodesFusing.append(cn)
+				hasFusedThisTurn = true
+				move_camera.emit(0)
 			#Not fusing/Selecting
 			else:
 				#Active player clicking own card
 				if inpZoneNode.zone.player == board.activePlayer:
 					selectTimer = 0.0
+					if cardNode != null and cardNode.hasAttackedThisTurn:
+						return
+					if not hasFusedThisTurn:
+						return
+					
 					if selectedCardNode != null:
 						selectedCardNode.rotation = 0.0
 					if selectedCardNode == cardNode:
@@ -200,9 +225,13 @@ func onCardPressed(buttonIndex : int, cardNode : CardNode, sendToServer : bool =
 					elif cardNode.card != null:
 						selectedCardNode = cardNode
 				elif selectedCardNode != null:
+					
 					var attackingCard : Card = selectedCardNode.card
 					var defendingCard : Card = cardNode.card
 					if defendingCard == null:
+						for card in inpZoneNode.zone.cards:
+							if card != null:
+								return
 						#Attacking directly
 						var attackedPlayer : Player = cardNodeToZoneNode[cardNode].zone.player
 						attackedPlayer.addHealth(-attackingCard.attack)
@@ -232,6 +261,7 @@ func onCardPressed(buttonIndex : int, cardNode : CardNode, sendToServer : bool =
 						#	1: Damage is dealt to health and stays like Hearthstone.
 						#	2: Damage is compared against opposing damage/health like Yugioh.
 						#	3: Damage is dealt but resets at the end of a turn like Magic.
+					selectedCardNode.setHasAttackedThisTurn(true)
 					selectedCardNode.rotation = 0.0
 					selectedCardNode = null
 					
@@ -244,7 +274,9 @@ func onCardPressed(buttonIndex : int, cardNode : CardNode, sendToServer : bool =
 		if not returningFusionCards:
 			pass
 	elif buttonIndex == MOUSE_BUTTON_MIDDLE:
-		cardNode.flip()
+		pass
+#		cardNode.flip()
+#
 #		if cardNodeToInPlayButton.has(cardNode):
 #			fuseEndSlot = cardNodeToInPlayButton[cardNode]
 #			var index : int = oldDisplay.cardNodes.find(cardNode)
@@ -279,6 +311,9 @@ const fuseRPS : float = 2.0
 const fuseSpinWaitMaxTime : float = 0.501
 const fuseReturnMaxTime : float = 0.3
 
+var isFirstTurn : bool = true
+var hasFusedThisTurn : bool = false
+
 var selectedCardNode : CardNode = null
 var selectTimer : float = 0.0
 
@@ -292,8 +327,16 @@ func getFusionHashOffset(cid0 : int, cid1 : int) -> Vector2:
 	var rot : float = hashInt * 51.287513957
 	return Vector2.RIGHT.rotated(rot)
 
+var aiTimer : float = 0.0
+
 func _process(delta: float) -> void:
 	var dAnim = delta * 1.0
+	
+	if board.activePlayer != board.players[0]:
+		aiTimer += delta
+		if aiTimer > 1.0:
+			simBadAI()
+			aiTimer = 0.0
 	
 	if cardNodesFusing.size() > 0:
 		#Pause to allow cards to get into position
@@ -426,6 +469,8 @@ func _process(delta: float) -> void:
 					cardNodesFusing.clear()
 					inpNode.zone.setCard(cardNode.card, index)
 					zoneToNode[board.playerToFusionZone[board.activePlayer]].fusing = false
+					if isFirstTurn:
+						cardNode.setHasAttackedThisTurn(true)
 					checkStates()
 					fusion_finished.emit()
 	
@@ -453,35 +498,148 @@ func _process(delta: float) -> void:
 
 func onTurnStarted():
 	turnChanging = true
+	move_camera.emit(1 if board.activePlayer == board.players[0] else -1)
+	hasFusedThisTurn = false
+	if is_instance_valid(selectedCardNode):
+		selectedCardNode.rotation = 0.0
+		selectedCardNode = null
+	for cardNode in zoneToNode[board.getPlayerToInPlayZone(board.activePlayer)].cardNodes:
+		if cardNode != null:
+			cardNode.setHasAttackedThisTurn(false)
+	if board.activePlayer.hand.cards.size() == 0:
+		board.activePlayer.loseGame()
+		if board.activePlayer.hand.cards.size() == 0:
+			hasFusedThisTurn = true
 
-func playBestFusion():
+func playBestFusion(depthMax : int = -1):
 	var possibleFusions : Dictionary = {}
 	var boardTree : Dictionary = {}
 	var doneEmpty : bool = false
+	if board.activePlayer.hand.cards.size() == 0:
+		return
 	for i in range(board.getPlayerToInPlayZone(board.activePlayer).cards.size()):
 		var cardInPlay : Card = board.getPlayerToInPlayZone(board.activePlayer).cards[i]
-		var tree : Dictionary = board.activePlayer.getFusionsByDepth(-1, cardInPlay, cardInPlay == null)
+		var adjustedDepthMax : int = depthMax
+		if depthMax != -1 and cardInPlay != null:
+			adjustedDepthMax += 1
+		var tree : Dictionary = board.activePlayer.getFusionsByDepth(adjustedDepthMax, cardInPlay, cardInPlay == null)
 		if cardInPlay == null and doneEmpty:
 			continue
 		if cardInPlay == null:
 			doneEmpty = true
-			print("Best Fusion From Hand: ")
-		else:
-			print("Best Fusion For Slot ", i)
-		#ppppossibleFusions[cardInPlay] = Player.getBestFusions(tree)
-		Player.printFusionTree(tree)
-	if not doneEmpty:
+		var fusionOut : Array = []
+		Player.getBestFusion(tree, fusionOut)
+		possibleFusions[cardInPlay] = fusionOut
+	var bestStart : Card = null
+	for startingCard in possibleFusions.keys():
+		if possibleFusions[startingCard][0] == startingCard:
+			continue
+		if startingCard != null and Card.getBST(possibleFusions[startingCard][0]) < Card.getBST(startingCard):
+			continue
+		if not possibleFusions.has(bestStart):
+			bestStart = startingCard
+			continue
+		var currentCard : Card = possibleFusions[startingCard][possibleFusions[startingCard].size()-1]
+		var compCard : Card = possibleFusions[bestStart][possibleFusions[bestStart].size()-1]
+		if currentCard.attack + currentCard.health > compCard.attack + compCard.health:
+			bestStart = startingCard
+	if bestStart == null and not possibleFusions.has(bestStart):
+		#CANNOT PLAY BECAUSE SELF BOARD IS FULL
 		pass
-	print("=".repeat(80))
-	print("=".repeat(80))
+	else:
+		print("Best Start: " + ("Empty Slot" if bestStart == null else bestStart.name))
+		var fString : String = ""
+		for i in range(possibleFusions[bestStart].size()):
+			if i != possibleFusions[bestStart].size()-1:
+				fString += " + "
+			else:
+				fString += " >> "
+			fString += possibleFusions[bestStart][i].name
+		print(fString)
+		
+		for i in range(possibleFusions[bestStart].size()):
+			if i != possibleFusions[bestStart].size()-1:
+				onCardPressed(MOUSE_BUTTON_LEFT, getCardNode(possibleFusions[bestStart][i]), false)
+		if bestStart != null:
+			onCardPressed(MOUSE_BUTTON_LEFT, getCardNode(bestStart), false)
+		else:
+			var playerInpNode : InPlayNode = zoneToNode[board.getPlayerToInPlayZone(board.activePlayer)]
+			for i in range(playerInpNode.cardNodes.size()):
+				if playerInpNode.cardNodes[i].card == null:
+					onCardPressed(MOUSE_BUTTON_LEFT, playerInpNode.cardNodes[i], false)
+					break
 
-func _unhandled_input(event: InputEvent) -> void:
-	if event is InputEventKey and event.keycode == KEY_SPACE and event.is_pressed() and not event.is_echo():
-		if cardNodesFusing.size() == 0:
-			board.turnEnd()
-			turn_passed.emit()
-	if event is InputEventKey and event.keycode == KEY_P and event.is_pressed() and not event.is_echo():
-		playBestFusion()
+func simBadAI():
+	if cardNodesFusing.size() > 0:
+		return
 	
-	elif event is InputEventMouseButton and event.is_pressed() and event.button_index == MOUSE_BUTTON_RIGHT:
-		returningFusionCards = true
+	if not hasFusedThisTurn:
+		var handZoneNode : HandNode = zoneToNode[board.activePlayer.hand]
+		for i in range(handZoneNode.cardNodes.size()-1, -1, -1):
+			var cardToFuse : CardNode = handZoneNode.cardNodes[i]
+			onCardPressed(MOUSE_BUTTON_LEFT, cardToFuse, false)
+		var slotToFuse = null
+		var playerInpNode : InPlayNode = zoneToNode[board.getPlayerToInPlayZone(board.activePlayer)]
+		for i in range(playerInpNode.cardNodes.size()):
+			if playerInpNode.cardNodes[i].card == null:
+				slotToFuse = playerInpNode.cardNodes[i]
+				break
+		if slotToFuse == null:
+			var opponentInpNode : InPlayNode = zoneToNode[board.getPlayerToInPlayZone(board.getInactivePlayer())]
+			for i in range(opponentInpNode.cardNodes.size()):
+				if opponentInpNode.cardNodes[i].card != null:
+					slotToFuse = opponentInpNode.cardNodes[i]
+					break
+		if slotToFuse == null:
+			slotToFuse = playerInpNode.cardNodes[0]
+			
+		onCardPressed(MOUSE_BUTTON_LEFT, slotToFuse, false)
+	else:
+		var attackerInpNode : InPlayNode = zoneToNode[board.getPlayerToInPlayZone(board.activePlayer)]
+		var attackerNodes : Array = []
+		for cardNode in attackerInpNode.cardNodes:
+			if cardNode.card != null and not cardNode.hasAttackedThisTurn:
+				attackerNodes.append(cardNode)
+		
+		var defenderInpNode : InPlayNode = zoneToNode[board.getPlayerToInPlayZone(board.getInactivePlayer())]
+		var defenderNodes : Array = []
+		for cardNode in defenderInpNode.cardNodes:
+			if cardNode.card != null:
+				defenderNodes.append(cardNode)
+		
+		#Sort attackers and defenders by attack and defense
+		
+		var attacked : bool = false
+		for atkNode : CardNode in attackerNodes:
+			var targets : Array = []
+			var badTargets : Array = []
+			for defNode : CardNode in defenderNodes:
+				if atkNode.card.attack >= defNode.card.health:
+					if defNode.card.attack >= atkNode.card.health:
+						badTargets.append(defNode)
+					else:
+						targets.append(defNode)
+			if defenderNodes.size() == 0:
+				targets.append(defenderInpNode.cardNodes[0])
+			if targets.size() > 0 or badTargets.size() > 0:
+				onCardPressed(MOUSE_BUTTON_LEFT, atkNode, false)
+				onCardPressed(MOUSE_BUTTON_LEFT, targets[0] if targets.size() > 0 else badTargets[0], false)
+				attacked = true
+				break
+		if not attacked:
+			playerPassTurn(false)
+
+func playerPassTurn(sendToServer : bool = true):
+	if gameIsOver:
+		return
+	if not hasFusedThisTurn:
+		return
+	if cardNodesFusing.size() != 0:
+		return
+	var fromServer : bool = not sendToServer
+	if board.activePlayer != board.players[0] and not fromServer:
+		return
+	board.turnEnd()
+	if sendToServer:
+		turn_passed.emit()
+	isFirstTurn = false

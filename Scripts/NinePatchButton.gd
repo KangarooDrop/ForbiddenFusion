@@ -1,6 +1,8 @@
 @tool
 extends NinePatchRect
 
+class_name NinePatchButton
+
 @export var text : String = "":
 	set(newText):
 		text = newText
@@ -10,16 +12,34 @@ extends NinePatchRect
 			return
 		label.text = text
 		labelShadow.text = text
-		label.size.x = 0
-		self.size.x = textBuffer*2 + label.size.x
-		label.position.x = textBuffer
+		updateButtonSize()
+
+@export var fontSize : int = 6:
+	set(newFontSize):
+		fontSize = newFontSize
+		if not is_instance_valid(label):
+			return
+		label.add_theme_font_size_override("font_size", newFontSize)
+		labelShadow.add_theme_font_size_override("font_size", newFontSize)
+		updateButtonSize()
+
+@export var textBuffer : Vector2i = Vector2i(4, 2):
+	set(newTextBuffer):
+		textBuffer = newTextBuffer
+		if not is_instance_valid(label):
+			return
+		updateButtonSize()
+
+func updateButtonSize():
+	label.size = Vector2.ZERO
+	self.size.x = textBuffer.x*2 + label.size.x
+	self.size.y = textBuffer.y*2 + label.size.y
+	label.position = textBuffer
 
 @export var textureNormal : Texture
 @export var textureHover : Texture
 @export var texturePressed : Texture
 @export var textureDisabled : Texture
-
-@export var textBuffer : int = 4
 
 var pressing : bool = false
 var hovering : bool = false

@@ -1,0 +1,135 @@
+[gd_scene load_steps=5 format=3 uid="uid://dr43gow8a3rgm"]
+
+[ext_resource type="Script" uid="uid://bg2gavlky7ol5" path="res://Scripts/PlayerRankNode.gd" id="1_l66bg"]
+[ext_resource type="FontFile" uid="uid://cq55vl12vholm" path="res://fonts/3x5 pixel font.ttf" id="2_qtqu5"]
+[ext_resource type="Texture2D" uid="uid://bow0d2qimqvaf" path="res://Art/types/type_icons.png" id="3_wqggb"]
+[ext_resource type="PackedScene" uid="uid://dwc0cutqm2vpa" path="res://Scenes/PlayerPortrait.tscn" id="4_78qk5"]
+
+[node name="PlayerRankNode" type="Control"]
+clip_contents = true
+layout_mode = 3
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -83.0
+offset_right = 83.0
+offset_bottom = 16.0
+grow_horizontal = 2
+mouse_default_cursor_shape = 2
+script = ExtResource("1_l66bg")
+
+[node name="BackgroundOutline" type="ColorRect" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+color = Color(0, 0, 0, 1)
+
+[node name="BackgroundFill" type="ColorRect" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 1.0
+offset_top = 1.0
+offset_right = -1.0
+offset_bottom = -1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+
+[node name="Header" type="HBoxContainer" parent="."]
+layout_mode = 1
+anchors_preset = 10
+anchor_right = 1.0
+offset_top = 1.0
+offset_bottom = 17.0
+grow_horizontal = 2
+mouse_filter = 2
+
+[node name="RankLabel" type="Label" parent="Header"]
+custom_minimum_size = Vector2(32, 0)
+layout_mode = 2
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_fonts/font = ExtResource("2_qtqu5")
+theme_override_font_sizes/font_size = 12
+text = "#2"
+horizontal_alignment = 1
+vertical_alignment = 2
+
+[node name="BufferColorRect" type="ColorRect" parent="Header"]
+custom_minimum_size = Vector2(1, 0)
+layout_mode = 2
+mouse_filter = 2
+color = Color(0, 0, 0, 1)
+
+[node name="NameLabel" type="Label" parent="Header"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_fonts/font = ExtResource("2_qtqu5")
+theme_override_font_sizes/font_size = 12
+text = "Dexter"
+
+[node name="Type0Holder" type="Control" parent="."]
+layout_mode = 1
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -24.0
+offset_top = 8.0
+offset_right = -24.0
+offset_bottom = 8.0
+grow_horizontal = 0
+mouse_filter = 2
+
+[node name="Sprite2D" type="Sprite2D" parent="Type0Holder"]
+texture = ExtResource("3_wqggb")
+region_enabled = true
+region_rect = Rect2(8, 0, 8, 8)
+
+[node name="Type1Holder" type="Control" parent="."]
+layout_mode = 1
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -12.0
+offset_top = 8.0
+offset_right = -12.0
+offset_bottom = 8.0
+grow_horizontal = 0
+mouse_filter = 2
+
+[node name="Sprite2D" type="Sprite2D" parent="Type1Holder"]
+texture = ExtResource("3_wqggb")
+region_enabled = true
+region_rect = Rect2(0, 0, 8, 8)
+
+[node name="ExtendedPage" type="Control" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = 16.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+
+[node name="PlayerPortrait" parent="ExtendedPage" instance=ExtResource("4_78qk5")]
+position = Vector2(25, 28)
+
+[node name="FightButton" type="Button" parent="ExtendedPage"]
+layout_mode = 0
+offset_left = 75.0
+offset_top = 16.0
+offset_right = 131.0
+offset_bottom = 36.0
+theme_override_fonts/font = ExtResource("2_qtqu5")
+theme_override_font_sizes/font_size = 12
+text = "FIGHT!"
+
+[connection signal="mouse_entered" from="." to="." method="onMouseEnter"]
+[connection signal="mouse_exited" from="." to="." method="onMouseExit"]
+[connection signal="pressed" from="ExtendedPage/FightButton" to="." method="onFightPressed"]
