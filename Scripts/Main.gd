@@ -28,14 +28,14 @@ func _ready() -> void:
 
 func onGameEnd():
 	await get_tree().create_timer(3.0).timeout
-	var winnerRank : int = boardNode.winner.playerRank
-	var loserRank : int = boardNode.board.getOpponent(boardNode.winner).playerRank
+	var winnerUUID : int = boardNode.winner.playerUUID
+	var loserUUID : int = boardNode.board.getOpponent(boardNode.winner).playerUUID
 	
 	var rankingsNode = Util.changeSceneToFileButDoesntSUCK_ASS(Preloader.rankingsPath)
 	rankingsNode.movingFromGame = true
 	
-	var winnerRankNode : PlayerRankNode = rankingsNode.playerRankNodes[winnerRank-1]
-	var loserRankNode : PlayerRankNode = rankingsNode.playerRankNodes[loserRank-1]
+	var winnerRankNode : PlayerRankNode = rankingsNode.uuidToRankNode[winnerUUID]
+	var loserRankNode : PlayerRankNode = rankingsNode.uuidToRankNode[loserUUID]
 	print("Winner: ", winnerRankNode.playerRank, " Loser:", loserRankNode.playerRank)
 	if winnerRankNode.playerRank < loserRankNode.playerRank:
 		print("Winner is higher than loser")
@@ -44,9 +44,11 @@ func onGameEnd():
 			rankingsNode.setPlayerRank(loserRankNode, loserRankNode.playerRank+1-1)
 		else:
 			print("You are too weak!")
-	else:
+	elif winnerRankNode.playerRank > loserRankNode.playerRank:
 		print("Moving up in the world.")
 		rankingsNode.setPlayerRank(winnerRankNode, loserRankNode.playerRank-1)
+	else:
+		assert(false, "ERROR: Rank/UUIDs got fubar'd")
 	rankingsNode.saveToFile()
 
 func _exit_tree() -> void:
@@ -140,7 +142,12 @@ func _input(event: InputEvent) -> void:
 			elif event.button_index == MOUSE_BUTTON_WHEEL_DOWN:
 				onCamDown()
 			elif event.button_index == MOUSE_BUTTON_RIGHT:
-				boardNode.returningFusionCards = true
+				if not boardNode.hasFusedThisTurn:
+					boardNode.returningFusionCards = true
+				elif boardNode.selectedCardNode != null:
+					boardNode.selectedCardNode.rotation = 0.0
+					boardNode.selectedCardNode = null
+
 
 func _process(delta: float) -> void:
 	cam.position.y = lerp(cam.position.y, camDir * CAM_MOVE_DIST, 8.0 * delta)

@@ -123,13 +123,24 @@ position = Vector2(25, 28)
 [node name="FightButton" type="Button" parent="ExtendedPage"]
 layout_mode = 0
 offset_left = 75.0
-offset_top = 16.0
+offset_top = 6.0
 offset_right = 131.0
-offset_bottom = 36.0
+offset_bottom = 26.0
 theme_override_fonts/font = ExtResource("2_tu1a2")
 theme_override_font_sizes/font_size = 12
 text = "FIGHT!"
 
+[node name="EditButton" type="Button" parent="ExtendedPage"]
+layout_mode = 0
+offset_left = 75.0
+offset_top = 28.0
+offset_right = 131.0
+offset_bottom = 48.0
+theme_override_fonts/font = ExtResource("2_tu1a2")
+theme_override_font_sizes/font_size = 12
+text = "EDIT"
+
 [connection signal="mouse_entered" from="." to="." method="onMouseEnter"]
 [connection signal="mouse_exited" from="." to="." method="onMouseExit"]
 [connection signal="pressed" from="ExtendedPage/FightButton" to="." method="onFightPressed"]
+[connection signal="pressed" from="ExtendedPage/EditButton" to="." method="onEditPressed"]

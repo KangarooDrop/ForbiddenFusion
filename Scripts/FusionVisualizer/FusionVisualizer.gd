@@ -8,13 +8,13 @@ var cardToVis : Dictionary = {}
 @onready var cam : Camera2D = $Camera2D
 
 func _ready() -> void:
-	var uuidToCard : Dictionary = {}
+	var cidToCard : Dictionary = {}
 	var w : int = ceil(sqrt(ListOfCards.cardList.size()))
 	#var tiers : Array = []
 	for i in range(ListOfCards.cardList.size()):
 		var card : Card = ListOfCards.getCard(i)
 		cards.append(card)
-		uuidToCard[card.UUID] = card
+		cidToCard[card.cid] = card
 		
 		var fvn : FusionVisNode = fusionVisNodePacked.instantiate()
 		add_child(fvn)

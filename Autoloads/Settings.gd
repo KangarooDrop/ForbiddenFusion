@@ -5,7 +5,9 @@ const defaultSettings : Dictionary = {
 	VSYNC_KEY : true,
 	
 	SOUND_VOLUME_KEY : 0.5,
+	SOUND_MUTED_KEY : false,
 	MUSIC_VOLUME_KEY : 0.5,
+	MUSIC_MUTED_KEY : false,
 }
 
 const BRIGHTNESS_KEY : String = "brightness"

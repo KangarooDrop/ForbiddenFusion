@@ -22,7 +22,7 @@ var cards : Array = []
 var cardNodes : Array = []
 
 var deckData : Dictionary = {}
-var uuidToButton : Dictionary = {}
+var cidToButton : Dictionary = {}
 
 func _ready() -> void:
 	for y in range(HEIGHT):
@@ -60,50 +60,50 @@ func onCardButtonUp(buttonIndex : int, cardNode : CardNode):
 		cardNode.showPressed = false
 func onCardPressed(buttonIndex : int, cardNode : CardNode):
 	if buttonIndex == MOUSE_BUTTON_LEFT:
-		addCardToDeck(cardNode.card.UUID)
+		addCardToDeck(cardNode.card.cid)
 
-func addCardToDeck(UUID : int):
-	if not deckData.has(UUID):
+func addCardToDeck(cid : int):
+	if not deckData.has(cid):
 		var deckCardButton = deckCardButtonBase.duplicate()
 		deckCardButton.show()
-		deckCardButton.connect("pressed", self.onDeckCardPressed.bind(UUID))
+		deckCardButton.connect("pressed", self.onDeckCardPressed.bind(cid))
 		deckVBox.add_child(deckCardButton)
-		deckData[UUID] = 0
-		uuidToButton[UUID] = deckCardButton
-	deckData[UUID] += 1
-	uuidToButton[UUID].text = getDeckButtonText(UUID, deckData[UUID])
+		deckData[cid] = 0
+		cidToButton[cid] = deckCardButton
+	deckData[cid] += 1
+	cidToButton[cid].text = getDeckButtonText(cid, deckData[cid])
 	setDeckText()
 
-func removeCardFromDeck(UUID : int):
-	deckData[UUID] -= 1
-	if deckData[UUID] > 0:
-		uuidToButton[UUID].text = getDeckButtonText(UUID, deckData[UUID])
+func removeCardFromDeck(cid : int):
+	deckData[cid] -= 1
+	if deckData[cid] > 0:
+		cidToButton[cid].text = getDeckButtonText(cid, deckData[cid])
 	else:
-		deckData.erase(UUID)
-		uuidToButton[UUID].queue_free()
-		uuidToButton.erase(UUID)
+		deckData.erase(cid)
+		cidToButton[cid].queue_free()
+		cidToButton.erase(cid)
 	setDeckText()
 
 func getTotalCards() -> int:
 	var total : int = 0
-	for UUID in deckData.keys():
-		total += deckData[UUID]
+	for cid in deckData.keys():
+		total += deckData[cid]
 	return total
 
 func setDeckText():
 	deckLabel.text = "Deck (" + str(getTotalCards()) + "):"
 
-static func getDeckButtonText(UUID : int, count : int) -> String:
-	return "x" + str(count) + " " + ListOfCards.cardList[UUID].name
+static func getDeckButtonText(cid : int, count : int) -> String:
+	return "x" + str(count) + " " + ListOfCards.cardList[cid].name
 
-func onDeckCardPressed(UUID : int):
-	removeCardFromDeck(UUID)
+func onDeckCardPressed(cid : int):
+	removeCardFromDeck(cid)
 
 func clearDeck():
-	for UUID in deckData.keys():
-		deckData.erase(UUID)
-		uuidToButton[UUID].queue_free()
-		uuidToButton.erase(UUID)
+	for cid in deckData.keys():
+		deckData.erase(cid)
+		cidToButton[cid].queue_free()
+		cidToButton.erase(cid)
 
 func setPage(newPage : int):
 	page = newPage
@@ -133,8 +133,7 @@ func _input(event: InputEvent) -> void:
 			var deckData : Dictionary = {}
 			for i in range(deckSize):
 				var cardIndex : int = randi() % cards.size()
-				var UUID : int = cards[cardIndex].UUID
-				addCardToDeck(UUID)
+				addCardToDeck(cards[cardIndex].cid)
 
 var savingOrLoading : int = 0
 func onSaveButtonPressed() -> void:
@@ -158,10 +157,16 @@ func onFileSelected(path: String) -> void:
 			return
 		clearDeck()
 		for k in loadedData.keys():
-			var UUID : int = int(k)
+			var cid : int = int(k)
 			var count : int = int(loadedData[k])
 			for i in range(count):
-				addCardToDeck(UUID)
+				addCardToDeck(cid)
+
+func setDeckData(newDeckData : Dictionary) -> void:
+	clearDeck()
+	for cardID in newDeckData.keys():
+		for i in range(newDeckData[cardID]):
+			addCardToDeck(cardID)
 
 var clearOrMenu : int = 0
 func onClearButtonPressed() -> void:
@@ -180,7 +185,7 @@ func onDialogConfirmed() -> void:
 	if clearOrMenu == 1:
 		clearDeck()
 	elif clearOrMenu == 2:
-		get_tree().change_scene_to_file(Preloader.mainMenuPath)
+		Util.changeSceneToFileButDoesntSUCK_ASS(Preloader.mainMenuPath)
 
 enum DECK_ERROR {OK, EMPTY, INVALID_KEY, KEY_OOB}
 static func confirmDeckData(data : Dictionary) -> DECK_ERROR:
@@ -192,6 +197,20 @@ static func confirmDeckData(data : Dictionary) -> DECK_ERROR:
 		elif k < 0 or k >= ListOfCards.cardList.size():
 			return DECK_ERROR.KEY_OOB
 	return DECK_ERROR.OK
+
+static func getSaveDeck(playerUUID : int) -> Dictionary:
+	var deckData : Dictionary = {}
+	var jsonDeckData : Dictionary = {}
+	var saveData : Array = FileIO.getSaveData()
+	for i in range(saveData.size()):
+		if saveData[i]["player_uuid"] == playerUUID:
+			jsonDeckData = saveData[i]["deck_data"]
+			break
+	
+	#Parsing JSON-ified Dictionary
+	for k in jsonDeckData.keys():
+		deckData[int(k)] = int(jsonDeckData[k])
+	return deckData
 
 static func loadDeckData(deckPath : String) -> Dictionary:
 	var data : Dictionary = FileIO.readFromJSON(deckPath)
@@ -230,7 +249,7 @@ static func genStartData(bstMax : int = -1, deckSize : int = 40, numNullRatio : 
 			card = validCardsNull[randi() % validCardsNull.size()].duplicate()
 		else:
 			card = validCardsNonNull[randi() % validCardsNonNull.size()].duplicate()
-		if not rtn.has(card.UUID):
-			rtn[card.UUID] = 0
-		rtn[card.UUID] += 1
+		if not rtn.has(card.cid):
+			rtn[card.cid] = 0
+		rtn[card.cid] += 1
 	return rtn

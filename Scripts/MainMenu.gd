@@ -12,10 +12,10 @@ func onPlayPressed():
 	loadButtonHolder.visible = FileIO.getSaveExists()
 
 func onMultiplayerPressed() -> void:
-	get_tree().change_scene_to_file(Preloader.multiplayerPath)
+	Util.changeSceneToFileButDoesntSUCK_ASS(Preloader.multiplayerPath)
 
 func onCollectionPressed():
-	get_tree().change_scene_to_file(Preloader.deckEditorPath)
+	Util.changeSceneToFileButDoesntSUCK_ASS(Preloader.deckEditorPath)
 
 func onSettingsPressed():
 	Settings.showSettings()

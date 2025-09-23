@@ -41,11 +41,7 @@ func getCardNodeToZoneNode(cardNode):
 	return cardNodeToZoneNode[cardNode]
 
 func initDecksAndStart() -> void:
-	board.players[0].deck.setData(DeckEditor.genStartData(5))
 	board.players[0].deck.shuffle()
-	
-	board.players[1].deck.setData(DeckEditor.genStartData(-1))
-	#board.players[1].deck.loadDeckFile("res://Decks/deck_test1.json")
 	board.players[1].deck.shuffle()
 	
 	#Starting Game
@@ -212,12 +208,12 @@ func onCardPressed(buttonIndex : int, cardNode : CardNode, sendToServer : bool =
 			else:
 				#Active player clicking own card
 				if inpZoneNode.zone.player == board.activePlayer:
-					selectTimer = 0.0
 					if cardNode != null and cardNode.hasAttackedThisTurn:
 						return
 					if not hasFusedThisTurn:
 						return
 					
+					selectTimer = 0.0
 					if selectedCardNode != null:
 						selectedCardNode.rotation = 0.0
 					if selectedCardNode == cardNode:
@@ -267,12 +263,13 @@ func onCardPressed(buttonIndex : int, cardNode : CardNode, sendToServer : bool =
 					
 					checkStates()
 	elif buttonIndex == MOUSE_BUTTON_RIGHT:
-		if cardNodeToZoneNode[cardNode].zone is InPlayZone:
-			var inpZoneNode : InPlayNode = cardNodeToZoneNode[cardNode]
-			if inpZoneNode.cardNodeToButton.has(cardNode):
-				returningFusionCards = true
-		if not returningFusionCards:
-			pass
+		pass
+		#if cardNodeToZoneNode[cardNode].zone is InPlayZone:
+		#	var inpZoneNode : InPlayNode = cardNodeToZoneNode[cardNode]
+		#	if inpZoneNode.cardNodeToButton.has(cardNode):
+		#		returningFusionCards = true
+		#if not returningFusionCards:
+		#	pass
 	elif buttonIndex == MOUSE_BUTTON_MIDDLE:
 		pass
 #		cardNode.flip()
@@ -378,7 +375,7 @@ func _process(delta: float) -> void:
 					#Flip waiting and moving outward
 					elif fuseSpinWaitTimer < fuseSpinWaitMaxTime:
 						fuseSpinWaitTimer += dAnim
-						var v0 : Vector2 = getFusionHashOffset(cardNodesFusing[0].card.UUID, cardNodesFusing[1].card.UUID)
+						var v0 : Vector2 = getFusionHashOffset(cardNodesFusing[0].card.cid, cardNodesFusing[1].card.cid)
 						var off : Vector2 = v0 * lerp(0.0, ListOfCards.CARD_WIDTH * 1.5, fuseSpinWaitTimer / fuseSpinWaitMaxTime)
 						cardNodesFusing[0].position = fuseEndPos - off
 						cardNodesFusing[1].position = fuseEndPos + off
@@ -394,7 +391,7 @@ func _process(delta: float) -> void:
 						else:
 							ss = 0.5 + sqrt(.25 - (x-1)*(x-1))
 			
-						var v0 : Vector2 = getFusionHashOffset(cardNodesFusing[0].card.UUID, cardNodesFusing[1].card.UUID)
+						var v0 : Vector2 = getFusionHashOffset(cardNodesFusing[0].card.cid, cardNodesFusing[1].card.cid)
 						var off : Vector2 = v0.rotated(fuseSpinTimer / fuseSpinMaxTime * PI * 2 * fuseRPS) * lerp(ListOfCards.CARD_WIDTH* 1.5, 0.0, fuseSpinTimer / fuseSpinMaxTime)
 						cardNodesFusing[0].position = fuseEndPos - off
 						cardNodesFusing[1].position = fuseEndPos + off
@@ -443,8 +440,8 @@ func _process(delta: float) -> void:
 									fusionZone.removeCard(0)
 									cardNodesFusing.remove_at(0)
 							else:
-								var newUUID : int = fusionOutput
-								var newCard = ListOfCards.getCard(newUUID)
+								var newCID : int = fusionOutput
+								var newCard = ListOfCards.getCard(newCID)
 								fusionZone.cards[0] = newCard
 								cardNodesFusing[0].setCard(newCard)
 								cardNodesFusing[1].queue_free()

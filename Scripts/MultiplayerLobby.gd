@@ -103,7 +103,7 @@ func onDisconnectPressed() -> void:
 	mainMenuButton.disabled = false
 
 func onMainMenuPressed() -> void:
-	get_tree().change_scene_to_file(Preloader.mainMenuPath)
+	Util.changeSceneToFileButDoesntSUCK_ASS(Preloader.mainMenuPath)
 
 func onUsernameChange(text : String):
 	Server.myUserData.username = text
@@ -125,4 +125,4 @@ func onStartGamePressed() -> void:
 
 func startGameReceived():
 	disconnectServer()
-	get_tree().change_scene_to_file(Preloader.mainPath)
+	Util.changeSceneToFileButDoesntSUCK_ASS(Preloader.mainPath)

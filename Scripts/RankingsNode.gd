@@ -3,6 +3,7 @@ extends Node2D
 var playerRankNodePacked : PackedScene = preload("res://Scenes/PlayerRankNode.tscn")
 
 var playerRankNodes : Array = []
+var uuidToRankNode : Dictionary = {}
 
 var checkedSlam : bool = false
 var movingFromGame : bool = false
@@ -37,15 +38,21 @@ func _ready() -> void:
 	else:
 		onNewFile()
 
+func updateUUIDDict() -> void:
+	for prn : PlayerRankNode in playerRankNodes:
+		uuidToRankNode[prn.playerUUID] = prn
+
 func onNewFile():
 	clear()
 	var numPlayersTotal : int = 100
 	for i in range(numPlayersTotal-2):
 		addPlayerRank()
-	for prn : PlayerRankNode in playerRankNodes:
-		prn.randomize()
+	for i in range(playerRankNodes.size()):
+		playerRankNodes[i].randomize()
+		playerRankNodes[i].setPlayerRank(i+1)
 	createUserRank = true
 	onSlam()
+	updateUUIDDict()
 
 func onLoadFile():
 	clear()
@@ -113,7 +120,8 @@ func _process(delta: float) -> void:
 			onSlam()
 		else:
 			canSelect = true
-			moveCamY(playerRankNodes[playerRankNodes.find(userRank)-1].global_position.y)
+			moveCamY(userRank.global_position.y)
+			#moveCamY(playerRankNodes[playerRankNodes.find(userRank)-1].global_position.y)
 	
 	lastOffset = firstPlaceNode.size.y - firstPlaceNode.SHRUNK_HEIGHT_ONE
 	for i in range(1, playerRankNodes.size()):
@@ -174,6 +182,7 @@ func _process(delta: float) -> void:
 
 func serialize() -> Array:
 	var rtn : Array = []
+	var players : Array = []
 	for prn : PlayerRankNode in playerRankNodes:
 		rtn.append(prn.serialize())
 	return rtn
@@ -188,8 +197,10 @@ func deserialize(data : Array):
 			addPlayerRank()
 	for i in range(data.size()):
 		playerRankNodes[i].deserialize(data[i])
+		playerRankNodes[i].setPlayerRank(i+1)
 		if playerRankNodes[i].isUser:
 			userRank = playerRankNodes[i]
+	updateUUIDDict()
 
 func saveToFile():
 	var error = FileIO.saveGame(serialize())
@@ -228,10 +239,18 @@ func onFightPressed(prn : PlayerRankNode):
 	#swapRanks(playerRankNodes.find(prn), playerRankNodes.find(userRank))
 	
 	var mainNode = Util.changeSceneToFileButDoesntSUCK_ASS(Preloader.mainPath)
-	mainNode.boardNode.board.players[0].playerRank = userRank.playerRank
-	mainNode.boardNode.board.players[1].playerRank = prn.playerRank
-	mainNode.boardNode.initDecksAndStart()
+	mainNode.boardNode.board.players[0].playerUUID = userRank.playerUUID
+	mainNode.boardNode.board.players[1].playerUUID = prn.playerUUID
 	
+	mainNode.boardNode.board.players[0].deck.setData(DeckEditor.getSaveDeck(userRank.playerUUID))
+	mainNode.boardNode.board.players[1].deck.setData(DeckEditor.getSaveDeck(prn.playerUUID))
+	
+	mainNode.boardNode.initDecksAndStart()
+
+func onEditPressed(prn : PlayerRankNode):
+	var deckEditor = Util.changeSceneToFileButDoesntSUCK_ASS(Preloader.deckEditorPath)
+	var deckData : Dictionary = DeckEditor.getSaveDeck(prn.playerUUID)
+	deckEditor.setDeckData(deckData)
 
 func selectNode(prn : PlayerRankNode):
 	if not selectedNodes.has(prn):
@@ -256,14 +275,16 @@ func addPlayerRank(isUser : bool = false) -> PlayerRankNode:
 	CAM_BOUNDS_Y.y = max(0.0, lastOffset-80.0)
 	prn.background_pressed.connect(onRankBackgroundPressed.bind(prn))
 	prn.fight_pressed.connect(onFightPressed.bind(prn))
+	prn.edit_pressed.connect(onEditPressed.bind(prn))
 	prn.setPlayerRank(playerRankNodes.size()+1)
 	playerRankNodes.append(prn)
+	
 	return prn
 
 func addUserRank():
 	userRank = addPlayerRank(true)
-	userRank.position.x = -600
 	userRank.randomize()
+	userRank.position.x = -600
 	
 	var userDataDictionary = FileIO.getUserData()
 	userRank.setPlayerName(userDataDictionary['player_name'])
@@ -286,20 +307,40 @@ func clear():
 	lastOffset = 0.0
 
 func swapRanks(index0 : int, index1 : int):
-	var prn0 : PlayerRankNode = playerRankNodes[index0]
-	var prn1 : PlayerRankNode = playerRankNodes[index1]
-	prn0.setPlayerRank(index1+1)
-	prn1.setPlayerRank(index0+1)
-	var tmp : PlayerRankNode = prn0
-	playerRankNodes[index0] = playerRankNodes[index1]
-	playerRankNodes[index1] = tmp
+	if index0 > index1:
+		swapRanks(index1, index0)
+		return
+	if index0 == 0:
+		var frn : PlayerRankNode = playerRankNodes[index0]
+		var prn : PlayerRankNode = playerRankNodes[index1]
+		if frn == userRank:
+			userRank = prn
+		elif prn == userRank:
+			userRank = frn
+		var tmp : Dictionary = frn.serialize()
+		frn.deserialize(prn.serialize())
+		uuidToRankNode[frn.playerUUID] = frn
+		uuidToRankNode[prn.playerUUID] = prn
+		prn.deserialize(tmp)
+	else:
+		var prn0 : PlayerRankNode = playerRankNodes[index0]
+		var prn1 : PlayerRankNode = playerRankNodes[index1]
+		prn0.setPlayerRank(index1+1)
+		prn1.setPlayerRank(index0+1)
+		var tmp : PlayerRankNode = prn0
+		playerRankNodes[index0] = playerRankNodes[index1]
+		playerRankNodes[index1] = tmp
 
 func setPlayerRank(prn : PlayerRankNode, newIndex : int):
-	var oldIndex : int = playerRankNodes.find(prn)
-	playerRankNodes.remove_at(oldIndex)
-	playerRankNodes.insert(newIndex, prn)
-	for i in range(min(oldIndex, newIndex), max(oldIndex, newIndex)+1):
-		playerRankNodes[i].setPlayerRank(i+1)
+	if newIndex == 0:
+		setPlayerRank(prn, 1)
+		swapRanks(0, 1)
+	else:
+		var oldIndex : int = playerRankNodes.find(prn)
+		playerRankNodes.remove_at(oldIndex)
+		playerRankNodes.insert(newIndex, prn)
+		for i in range(min(oldIndex, newIndex), max(oldIndex, newIndex)+1):
+			playerRankNodes[i].setPlayerRank(i+1)
 
 ####################################################################################################
 #DEBUG FUNCS TO BE KILLED

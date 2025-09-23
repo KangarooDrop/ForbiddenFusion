@@ -1,4 +1,4 @@
-UUID,name,texturePath,attack,health,rarity,creatureTypes,tags,#NOTES
+cid,name,texturePath,attack,health,rarity,creatureTypes,tags,#NOTES
 0,mech0,card_NONE,1,1,basic,mech,,
 1,earth0,card_NONE,1,1,basic,earth,,
 2,necro0,card_NONE,1,1,basic,necro,,

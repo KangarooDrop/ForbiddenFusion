@@ -101,9 +101,9 @@ func setCards(newCards : Array):
 
 func setData(data : Dictionary):
 	var newCards : Array = []
-	for UUID in data.keys():
-		for i in range(data[UUID]):
-			newCards.append(ListOfCards.getCard(UUID))
+	for cid in data.keys():
+		for i in range(data[cid]):
+			newCards.append(ListOfCards.getCard(cid))
 	setCards(newCards)
 
 func setDataSerialized(serializedData : Array):
@@ -112,7 +112,7 @@ func setDataSerialized(serializedData : Array):
 		if serializedData[i] == null:
 			setCard(null, i)
 		else:
-			var newCard : Card = ListOfCards.getCard(serializedData[i]["UUID"])
+			var newCard : Card = ListOfCards.getCard(serializedData[i]["cid"])
 			newCard.deserialize(serializedData[i])
 			setCard(newCard, i)
 	for j in range(cards.size()-1, nCards, -1):

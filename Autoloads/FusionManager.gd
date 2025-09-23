@@ -3,7 +3,7 @@ extends Node
 const FUSION_INVALID : int = -1
 const FUSION_UNCHANGED : int = -2
 
-const uuidEqual = "UUID_equal"
+const cidEqual = "cid_equal"
 const atkLess = "atk_less"
 const atkMore = "atk_more"
 const hthLess = "hth_less"
@@ -15,7 +15,7 @@ const tagsContains = "tags_cotain"
 var fusionMat : Array = []
 var fusionRules : Dictionary = {}
 
-#Rules: UUID=, atk<, atk>, hth<, hth>, atk=hth, types_contain, tags_contain
+#Rules: cid=, atk<, atk>, hth<, hth>, atk=hth, types_contain, tags_contain
 func getFusion(card0 : Card, card1 : Card) -> int:
 	#Null Cards
 	if (card0.creatureTypes.has(Card.CREATURE_TYPE.NULL) and card0.creatureTypes.size() == 1) or \
@@ -33,7 +33,7 @@ func getFusion(card0 : Card, card1 : Card) -> int:
 	var validFusions : Array = []
 	for i in range(ListOfCards.cardList.size()):
 		var fCreature : Card = ListOfCards.cardList[i]
-		if fCreature.UUID == card0.UUID or fCreature.UUID == card1.UUID:
+		if fCreature.cid == card0.cid or fCreature.cid == card1.cid:
 			continue
 		if fCreature.rarity == Card.RARITY.BASIC:
 			continue
@@ -68,7 +68,7 @@ func getFusion(card0 : Card, card1 : Card) -> int:
 				continue
 		"""
 		
-		validFusions.append(ListOfCards.cardList[i].UUID)
+		validFusions.append(ListOfCards.cardList[i].cid)
 	
 	#No valid fusions
 	if validFusions.size() == 0:
@@ -78,20 +78,20 @@ func getFusion(card0 : Card, card1 : Card) -> int:
 			return FUSION_INVALID
 	
 	#Determining weakest possible card
-	var lowestUUID : int = FUSION_INVALID
+	var lowestCID : int = FUSION_INVALID
 	var lowestScore : int = 0
 	for i in range(validFusions.size()):
 		var score : int = ListOfCards.cardList[validFusions[i]].attack + ListOfCards.cardList[validFusions[i]].health
-		if lowestUUID == FUSION_INVALID or score < lowestScore:
-			lowestUUID = validFusions[i]
+		if lowestCID == FUSION_INVALID or score < lowestScore:
+			lowestCID = validFusions[i]
 			lowestScore = score
 	
-	return lowestUUID
+	return lowestCID
 
-func addFusionRule(outputUUID : int, rules : Dictionary):
-	if not fusionRules.has(outputUUID):
-		fusionRules[outputUUID] = []
-	fusionRules[outputUUID].append(fusionRules)
+func addFusionRule(outputCID : int, rules : Dictionary):
+	if not fusionRules.has(outputCID):
+		fusionRules[outputCID] = []
+	fusionRules[outputCID].append(fusionRules)
 
 func setSize(numCards : int):
 	fusionMat.clear()

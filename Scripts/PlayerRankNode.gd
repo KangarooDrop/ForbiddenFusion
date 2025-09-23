@@ -14,12 +14,14 @@ const EXPAND_HEIGHT : float = 69.0
 
 var playerName : String = "Robert Paulson"
 var playerRank : int = -1
+var playerUUID : int = -1
 var deckData : Dictionary = {0:30}
 var collection : Dictionary = {}
 var isUser : bool = false
 
 signal background_pressed(buttonIndex)
 signal fight_pressed()
+signal edit_pressed()
 
 func getPlayerPortrait():
 	return $ExtendedPage/PlayerPortrait
@@ -64,7 +66,12 @@ func setTypeSprites():
 		second = -1
 	
 	getType0Sprite().region_rect.position.x = highest * 8.0
-	getType1Sprite().region_rect.position.x = second * 8.0
+	var type1Sprite : Sprite2D = getType1Sprite()
+	if second == -1:
+		type1Sprite.hide()
+	else:
+		type1Sprite.region_rect.position.x = second * 8.0
+		type1Sprite.show()
 
 func onMouseEnter():
 	selecting = true
@@ -103,6 +110,9 @@ func _process(delta: float) -> void:
 func onFightPressed():
 	fight_pressed.emit()
 
+func onEditPressed() -> void:
+	edit_pressed.emit()
+
 
 
 
@@ -110,7 +120,7 @@ func randomize() -> void:
 	var newPlayerName : String = Util.getRandomName()
 	
 	setPlayerName(newPlayerName)
-	
+	playerUUID = Util.getUUID()
 	getPlayerPortrait().randomize()
 	
 	var validCards : Array = []
@@ -128,7 +138,7 @@ func randomize() -> void:
 func serialize() -> Dictionary:
 	var rtn : Dictionary = {}
 	rtn['player_name'] = playerName
-	rtn['player_rank'] = playerRank
+	rtn['player_uuid'] = playerUUID
 	rtn['player_data'] = getPlayerPortrait().serialize()
 	rtn["is_user"] = isUser
 	rtn['deck_data'] = deckData
@@ -139,7 +149,7 @@ func setPlayerName(newPlayerName : String):
 	self.playerName = newPlayerName
 	getNameLabel().text = newPlayerName + ("" if not isUser else " (YOU)")
 func setPlayerRank(newPlayerRank : int):
-	playerRank = newPlayerRank
+	self.playerRank = newPlayerRank
 	getRankLabel().text = "#" + str(newPlayerRank)
 func setDeckData(newDeckData : Dictionary):
 	self.deckData = newDeckData
@@ -150,7 +160,8 @@ func setCollection(newCollection : Dictionary):
 func deserialize(data : Dictionary) -> void:
 	isUser = data["is_user"]
 	setPlayerName(data['player_name'])
-	setPlayerRank(data['player_rank'])
+	playerUUID = data['player_uuid']
+	#setPlayerRank(data['player_rank'])
 	getPlayerPortrait().deserialize(data['player_data'])
 	setDeckData(data['deck_data'])
 	setCollection(data['collection'])

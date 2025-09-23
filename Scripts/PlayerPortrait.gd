@@ -15,48 +15,68 @@ var flipped : bool = false
 @onready var mouthSprite : Sprite2D = $MouthSprite
 @onready var armSprite : Sprite2D = $ArmSprite
 
+const BODY_KEY : String = "body_type"
+const HEAD_KEY : String = "head_type"
+const EYE_KEY : String = "eye_type"
+const MOUTH_KEY : String = "mouth_type"
+const ARMS_KEY : String = "arm_type"
+const FLIPPED_KEY : String = "flipped"
+
+const NUM_BODY : int = 8
+const NUM_HEAD : int = 8
+const NUM_EYE : int = 8
+const NUM_MOUTH : int = 8
+const NUM_ARMS : int = 8
+
+const SIZE : Vector2i = Vector2i(40, 40)
+
 func setBodyType(newBodyType : int) -> void:
 	bodyType = newBodyType
-	bodySprite.region_rect.position.x = newBodyType * 40.0
+	bodySprite.region_rect.position.x = newBodyType * SIZE.x
 func setHeadType(newHeadType : int) -> void:
 	headType = newHeadType
-	headSprite.region_rect.position.x = newHeadType * 40.0
+	headSprite.region_rect.position.x = newHeadType * SIZE.x
 func setEyeType(newEyeType : int) -> void:
 	eyeType = newEyeType
-	eyeSprite.region_rect.position.x = newEyeType * 40.0
+	eyeSprite.region_rect.position.x = newEyeType * SIZE.x
 func setMouthType(newMouthType : int) -> void:
 	mouthType = newMouthType
-	mouthSprite.region_rect.position.x = newMouthType * 40.0
+	mouthSprite.region_rect.position.x = newMouthType * SIZE.x
 func setArmType(newArmType : int) -> void:
 	armType = newArmType
-	armSprite.region_rect.position.x = newArmType * 40.0
+	armSprite.region_rect.position.x = newArmType * SIZE.x
 func setFlipped(newFlipped : bool) -> void:
 	if flipped != newFlipped:
 		scale.x *= -1.0
 	flipped = newFlipped
 
 func randomize():
-	setBodyType(randi() % 8)
-	setHeadType(randi() % 8)
-	setEyeType(randi() % 8)
-	setMouthType(randi() % 8)
-	setArmType(randi() % 8)
-	setFlipped(randi() % 2 == 0)
+	deserialize(getRandomSerialized())
+
+static func getRandomSerialized() -> Dictionary:
+	var rtn : Dictionary = {}
+	rtn[BODY_KEY] = randi() % NUM_BODY
+	rtn[HEAD_KEY] = randi() % NUM_HEAD
+	rtn[EYE_KEY] = randi() % NUM_EYE
+	rtn[MOUTH_KEY] = randi() % NUM_MOUTH
+	rtn[ARMS_KEY] = randi() % NUM_ARMS
+	rtn[FLIPPED_KEY] = randi() % 2 == 0
+	return rtn
 
 func serialize() -> Dictionary:
 	var rtn : Dictionary = {}
-	rtn['body_type'] = bodyType
-	rtn['head_type'] = headType
-	rtn['eye_type'] = eyeType
-	rtn['mouth_type'] = mouthType
-	rtn['arm_type'] = armType
-	rtn['flipped'] = flipped
+	rtn[BODY_KEY] = bodyType
+	rtn[HEAD_KEY] = headType
+	rtn[EYE_KEY] = eyeType
+	rtn[MOUTH_KEY] = mouthType
+	rtn[ARMS_KEY] = armType
+	rtn[FLIPPED_KEY] = flipped
 	return rtn
 
 func deserialize(data : Dictionary) -> void:
-	setBodyType(data['body_type'])
-	setHeadType(data['head_type'])
-	setEyeType(data['eye_type'])
-	setMouthType(data['mouth_type'])
-	setArmType(data['arm_type'])
-	setFlipped(data['flipped'])
+	setBodyType(data[BODY_KEY])
+	setHeadType(data[HEAD_KEY])
+	setEyeType(data[EYE_KEY])
+	setMouthType(data[MOUTH_KEY])
+	setArmType(data[ARMS_KEY])
+	setFlipped(data[FLIPPED_KEY])

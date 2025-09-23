@@ -7,7 +7,7 @@ var deck : Deck
 var hand : Hand
 var board : Board
 
-var playerRank : int = -1
+var playerUUID : int = -1
 
 signal before_game_loss()
 signal after_game_loss()
@@ -89,8 +89,8 @@ func getFusionTree(cards : Array = hand.cards.duplicate(), fusingTo : Card = nul
 					ft["out"] = newCard
 					rtn[card] = ft
 				else:
-					var newUUID : int = fusionOutput
-					var newCard : Card = ListOfCards.getCard(newUUID)
+					var newCID : int = fusionOutput
+					var newCard : Card = ListOfCards.getCard(newCID)
 					var newCards : Array = cards.duplicate()
 					newCards.erase(card)
 					var ft = getFusionTree(newCards, newCard, maxDepth, currentDepth+1)

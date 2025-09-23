@@ -1,4 +1,4 @@
-UUID,name,texturePath,attack,health,rarity,creatureTypes,tags,#NOTES
+cid,name,texturePath,attack,health,rarity,creatureTypes,tags,#NOTES
 0,Badger,BADger,4,2,basic,beast,angry,
 1,Giant Scorpone,card_GIANT_SCORPONE,5,1,basic,beast,,
 2,Arching Cobra,card_SERPENT,7,1,basic,beast,,

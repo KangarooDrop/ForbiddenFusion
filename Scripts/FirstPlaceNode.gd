@@ -20,4 +20,4 @@ func getType1Sprite() -> Sprite2D:
 	return $Type1Holder/Sprite2D
 
 func setPlayerRank(newPlayerRank : int):
-	playerRank = newPlayerRank
+	self.playerRank = newPlayerRank

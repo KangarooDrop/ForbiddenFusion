@@ -40,7 +40,7 @@ func readCardFile():
 				continue
 			if header == "texturePath":
 				val = "res://Art/portraits/" + val + ".png"
-			elif header == "UUID" or header == "attack" or header == "health":
+			elif header == "cid" or header == "attack" or header == "health":
 				val = int(val)
 			elif header == "rarity":
 				val = Card.getRarityFromString(val)
@@ -61,7 +61,7 @@ func readCardFile():
 		addCard(card)
 
 func addCard(card : Card):
-	card.UUID = cardList.size()
+	card.cid = cardList.size()
 	cardList.append(card)
 
 func createCard(data : Dictionary) -> Card:
@@ -74,4 +74,4 @@ func getCard(index : int):
 
 func getRandomCard(properties : Dictionary = {}) -> Card:
 	var cardOptions : Array = cardList.duplicate()
-	return getCard(cardOptions[randi() % cardOptions.size()].UUID)
+	return getCard(cardOptions[randi() % cardOptions.size()].cid)

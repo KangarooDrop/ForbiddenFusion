@@ -13,7 +13,7 @@ enum CREATURE_TYPE \
 # Robot -> Water -> Holy -> Earth 0/8
 enum RARITY {BASIC, COMMON, RARE, LEGENDARY}
 
-var UUID : int = -1
+var cid : int = -1
 var name : String = "_no_name"
 var texture : Texture
 var attack : int = 0
@@ -93,7 +93,7 @@ static func getBST(card : Card) -> int:
 
 func serialize() -> Dictionary:
 	var rtn : Dictionary = {}
-	rtn["UUID"] = UUID
+	rtn["cid"] = cid
 	rtn["name"] = name
 	#rtn["texture"] = texture
 	rtn["texturePath"] = texture.resource_path
@@ -105,8 +105,8 @@ func serialize() -> Dictionary:
 	return rtn
 
 func deserialize(data : Dictionary):
-	if data.has("UUID"):
-		UUID = data["UUID"]
+	if data.has("cid"):
+		cid = data["cid"]
 	if data.has("name"):
 		name = data["name"]
 	if data.has("texturePath"):
