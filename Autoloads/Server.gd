@@ -184,8 +184,6 @@ func onReceiveBoardCardNodePressed(cardLocData : Array, buttonIndex : int):
 	board_card_node_pressed.emit(cardLocData, buttonIndex)
 
 static func serializeCardNode(boardNode : BoardNode, cardNode : CardNode) -> Array:
-	var cardLocData : Array = []
-	
 	var isActivePlayers : bool = boardNode.cardNodeToZoneNode[cardNode].zone.player == boardNode.board.activePlayer
 	var zoneIndex : int = -1
 	var cardIndex : int = -1
@@ -204,7 +202,6 @@ static func serializeCardNode(boardNode : BoardNode, cardNode : CardNode) -> Arr
 
 static func deserializeCardNode(boardNode : BoardNode, cardLocData : Array) -> CardNode:
 	var card : Card = null
-	var cardNode : CardNode = null
 	var player : Player = boardNode.board.activePlayer if cardLocData[0] else boardNode.board.getInactivePlayer()
 	if cardLocData[1] == 1:
 		card = player.hand.cards[cardLocData[2]]

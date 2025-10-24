@@ -164,7 +164,6 @@ func onCardPressed(buttonIndex : int, cardNode : CardNode, sendToServer : bool =
 	
 	if buttonIndex == MOUSE_BUTTON_LEFT:
 		#Card in Hand
-		var zoneNode : ZoneNode = getCardNodeToZoneNode(cardNode)
 		if board.activePlayer.hand.cards.has(cardNode.card):
 			if board.activePlayer != board.players[0] and not fromServer:
 				return
@@ -357,17 +356,16 @@ func _process(delta: float) -> void:
 					#Collision animation
 					if fuseTimer < fuseMaxTime:
 						fuseTimer += dAnim
-						var deltaPos = cardNodesFusing[1].position
 						cardNodesFusing[1].position = lerp(fuseStartPos, fuseEndPos, fuseTimer / fuseMaxTime)
-						deltaPos -= cardNodesFusing[1].position
-						#for i in range(2, cardNodesFusing.size()):
-						#	cardNodesFusing[i].position -= deltaPos
 						
 						if fuseTimer >= fuseMaxTime:
 							var fusionOutput : int = FusionManager.getFusion(cardNodesFusing[0].card, cardNodesFusing[1].card)
 							if fusionOutput == FusionManager.FUSION_INVALID or fusionOutput == FusionManager.FUSION_UNCHANGED:
 								fuseSpinWaitTimer = fuseSpinWaitMaxTime
 								fuseSpinTimer = fuseSpinMaxTime-delta
+								if fusionOutput == FusionManager.FUSION_UNCHANGED:
+									cardNodesFusing[0].flipSame()
+									cardNodesFusing[1].flipSame()
 							else:
 								cardNodesFusing[0].flipSame()
 								cardNodesFusing[1].flipSame()
@@ -383,13 +381,6 @@ func _process(delta: float) -> void:
 					#Spinning together
 					elif fuseSpinTimer < fuseSpinMaxTime:
 						fuseSpinTimer += dAnim
-						
-						var x = fuseSpinTimer / fuseSpinMaxTime
-						var ss
-						if x < 0.5:
-							ss = 0.5 - sqrt(.25 - x*x)
-						else:
-							ss = 0.5 + sqrt(.25 - (x-1)*(x-1))
 			
 						var v0 : Vector2 = getFusionHashOffset(cardNodesFusing[0].card.cid, cardNodesFusing[1].card.cid)
 						var off : Vector2 = v0.rotated(fuseSpinTimer / fuseSpinMaxTime * PI * 2 * fuseRPS) * lerp(ListOfCards.CARD_WIDTH* 1.5, 0.0, fuseSpinTimer / fuseSpinMaxTime)
@@ -404,49 +395,38 @@ func _process(delta: float) -> void:
 							fusing = false
 							fuseReturnTimer = 0.0
 							var fusionZone = board.getPlayerToFusionZone(board.activePlayer)
-							var fusionOutput : int = FusionManager.getFusion(cardNodesFusing[0].card, cardNodesFusing[1].card)
 							
-							if fusionOutput == FusionManager.FUSION_INVALID:
-								var fusingToOpponent : bool = board.activePlayer != cardNodeToZoneNode[fuseEndSlot].zone.player and fuseWasInPlay
-								var bumpedCardNode = cardNodesFusing[0]
-								var savedCardNode = cardNodesFusing[1]
-								if fusingToOpponent:
-									bumpedCardNode = cardNodesFusing[1]
-									savedCardNode = cardNodesFusing[0]
-								#if not fusingToOpponent:
-								savedCardNode.desiredPosition = savedCardNode.global_position
+							var fusingToOpponent : bool = board.activePlayer != cardNodeToZoneNode[fuseEndSlot].zone.player and fuseWasInPlay
+							var fusionOutput : int = FusionManager.getFusion(cardNodesFusing[0].card, cardNodesFusing[1].card)
+							var fusedCard : Card  = FusionManager.applyFusionOutput(cardNodesFusing[0].card, cardNodesFusing[1].card, fusingToOpponent)
+							
+							var bumpedCardNode  : CardNode= null
+							var savedCardNode : CardNode = null
+							if fusedCard == cardNodesFusing[0].card:
+								savedCardNode = cardNodesFusing[0]
+								bumpedCardNode = cardNodesFusing[1]
+								#fusionZone.cards.remove_at(1)
+							elif fusedCard == cardNodesFusing[1].card:
+								savedCardNode = cardNodesFusing[1]
+								bumpedCardNode = cardNodesFusing[0]
+								savedCardNode.desiredPosition = bumpedCardNode.desiredPosition
+								#fusionZone.cards.remove_at(0)
+							else:
+								(cardNodesFusing[0] as CardNode).setCard(fusedCard)
+								fusionZone.cards[0] = fusedCard
+								savedCardNode = cardNodesFusing[0]
+								bumpedCardNode = cardNodesFusing[1]
+							
+							fusionZone.eraseCard(bumpedCardNode.card)
+							cardNodesFusing.erase(bumpedCardNode)
+							if fusionOutput != FusionManager.FUSION_INVALID:
+								bumpedCardNode.queue_free()
+							else:
 								get_tree().create_timer(0.5).connect("timeout", bumpedCardNode.queue_free)
-								fusionZone.eraseCard(bumpedCardNode.card)
-								cardNodesFusing.erase(bumpedCardNode)
 								bumpedCardNode.desiredPosition = cardNodesFusing[0].global_position + Vector2(-100.0, -30.0)
 							
-							elif fusionOutput == FusionManager.FUSION_UNCHANGED:
-								var keepRight : bool = not cardNodesFusing[1].card.creatureTypes.has(Card.CREATURE_TYPE.NULL)
-								if not keepRight:
-									cardNodesFusing[0].card.attack += cardNodesFusing[1].card.attack
-									cardNodesFusing[0].card.health += cardNodesFusing[1].card.health
-									cardNodesFusing[0].card.maxHealth += cardNodesFusing[1].card.maxHealth
-									cardNodesFusing[0].card.emit_signal("changed")
-									cardNodesFusing[1].queue_free()
-									fusionZone.removeCard(1)
-									cardNodesFusing.remove_at(1)
-								else:
-									cardNodesFusing[1].card.attack += cardNodesFusing[0].card.attack
-									cardNodesFusing[1].card.health += cardNodesFusing[0].card.health
-									cardNodesFusing[1].card.maxHealth += cardNodesFusing[0].card.maxHealth
-									cardNodesFusing[1].desiredPosition = cardNodesFusing[1].global_position
-									cardNodesFusing[1].card.emit_signal("changed")
-									cardNodesFusing[0].queue_free()
-									fusionZone.removeCard(0)
-									cardNodesFusing.remove_at(0)
-							else:
-								var newCID : int = fusionOutput
-								var newCard = ListOfCards.getCard(newCID)
-								fusionZone.cards[0] = newCard
-								cardNodesFusing[0].setCard(newCard)
-								cardNodesFusing[1].queue_free()
-								fusionZone.removeCard(1)
-								cardNodesFusing.remove_at(1)
+							
+							fusionZone.cards[0] = savedCardNode.card
 							
 							fuseWaiting = true
 							fuseWaitTimer = 0
@@ -508,7 +488,68 @@ func onTurnStarted():
 		if board.activePlayer.hand.cards.size() == 0:
 			hasFusedThisTurn = true
 
-func playBestFusion(depthMax : int = -1):
+func playBestFusion():
+	var currentRank : int = board.activePlayer.playerRank
+	var t : float = 1.0 - (currentRank-1)/100.0
+	var depthMax : int = 1 + int(4.0 * t)
+	
+	var allFusions : Array = []
+	var doneEmpty : bool = false
+	if board.activePlayer.hand.cards.size() == 0:
+		return
+	for i in range(board.getPlayerToInPlayZone(board.activePlayer).cards.size()):
+		var cardInPlay : Card = board.getPlayerToInPlayZone(board.activePlayer).cards[i]
+		if cardInPlay == null and doneEmpty:
+			continue
+		if cardInPlay == null:
+			doneEmpty = true
+		
+		var adjustedDepthMax : int = depthMax
+		if depthMax != -1 and cardInPlay != null:
+			adjustedDepthMax += 1
+		
+		var branchFusions : Array = board.activePlayer.getAllFusions(cardInPlay, false, adjustedDepthMax)
+		allFusions.append_array(branchFusions)
+	
+	#var allFusions : Array = board.activePlayer.getAllFusions(null, false, 2)
+	var sorted : Array = Player.sortAllFusion(allFusions)
+	print("Number of Fusions: ", sorted.size())
+	if sorted.size() == 0:
+		onCardPressed(MOUSE_BUTTON_LEFT, zoneToNode[board.activePlayer.hand].cardNodes[0], false)
+		onCardPressed(MOUSE_BUTTON_LEFT, zoneToNode[board.getPlayerToInPlayZone(board.activePlayer)].cardNodes[0], false)
+		print("AAAAAAAAAAAAAAAAAAAAAAAAAA I HAVE NO ACTIONS!")
+		return
+	
+	#for i in range(min(30, sorted.size())):
+	#	print("#", i, ": ", sorted[i], " >> score=", Player.evalScore(sorted[i]))
+	var startMin : float = 0.2
+	var startMax : float = 0.75
+	#var pMin : float = (1.0 - startMin) * t * t + startMin
+	var pMin : float = startMin + (1.0 - startMin) * t
+	var pMax : float = 1.0 - (t-1.0) * (t-1.0) * (1.0 - startMax)
+	print("Max Depth: ", depthMax, "pMin: ", pMin, " pMax: ", pMax)
+	
+	var worstIndex : int = int((sorted.size()-1) * (1.0-pMin))
+	var bestIndex : int = int((sorted.size()-1) * (1.0-pMax))
+	print("Choosing between: ", bestIndex, " and ", worstIndex)
+	var index : int = randi_range(bestIndex, worstIndex)
+	print("The Sheel Has Spoken! : ", index, " : ", sorted[index], " >> score=", Player.evalScore(sorted[index]))
+	
+	for i in range(1, sorted[index].size()-1):
+		onCardPressed(MOUSE_BUTTON_LEFT, getCardNode(sorted[index][i]), false)
+	
+	var startingCardNode
+	if sorted[index][0] != null:
+		onCardPressed(MOUSE_BUTTON_LEFT, getCardNode(sorted[index][0]), false)
+	else:
+		var playerInpNode : InPlayNode = zoneToNode[board.getPlayerToInPlayZone(board.activePlayer)]
+		for i in range(playerInpNode.cardNodes.size()):
+			if playerInpNode.cardNodes[i].card == null:
+				onCardPressed(MOUSE_BUTTON_LEFT, playerInpNode.cardNodes[i], false)
+				break
+	
+
+func playBestFusion__OLD(depthMax : int = -1):
 	var possibleFusions : Dictionary = {}
 	var boardTree : Dictionary = {}
 	var doneEmpty : bool = false
@@ -571,26 +612,26 @@ func simBadAI():
 		return
 	
 	if not hasFusedThisTurn:
-		var handZoneNode : HandNode = zoneToNode[board.activePlayer.hand]
-		for i in range(handZoneNode.cardNodes.size()-1, -1, -1):
-			var cardToFuse : CardNode = handZoneNode.cardNodes[i]
-			onCardPressed(MOUSE_BUTTON_LEFT, cardToFuse, false)
-		var slotToFuse = null
-		var playerInpNode : InPlayNode = zoneToNode[board.getPlayerToInPlayZone(board.activePlayer)]
-		for i in range(playerInpNode.cardNodes.size()):
-			if playerInpNode.cardNodes[i].card == null:
-				slotToFuse = playerInpNode.cardNodes[i]
-				break
-		if slotToFuse == null:
-			var opponentInpNode : InPlayNode = zoneToNode[board.getPlayerToInPlayZone(board.getInactivePlayer())]
-			for i in range(opponentInpNode.cardNodes.size()):
-				if opponentInpNode.cardNodes[i].card != null:
-					slotToFuse = opponentInpNode.cardNodes[i]
-					break
-		if slotToFuse == null:
-			slotToFuse = playerInpNode.cardNodes[0]
-			
-		onCardPressed(MOUSE_BUTTON_LEFT, slotToFuse, false)
+		playBestFusion()
+		#var handZoneNode : HandNode = zoneToNode[board.activePlayer.hand]
+		#for i in range(handZoneNode.cardNodes.size()-1, -1, -1):
+		#	var cardToFuse : CardNode = handZoneNode.cardNodes[i]
+		#	onCardPressed(MOUSE_BUTTON_LEFT, cardToFuse, false)
+		#var slotToFuse = null
+		#var playerInpNode : InPlayNode = zoneToNode[board.getPlayerToInPlayZone(board.activePlayer)]
+		#for i in range(playerInpNode.cardNodes.size()):
+		#	if playerInpNode.cardNodes[i].card == null:
+		#		slotToFuse = playerInpNode.cardNodes[i]
+		#		break
+		#if slotToFuse == null:
+		#	var opponentInpNode : InPlayNode = zoneToNode[board.getPlayerToInPlayZone(board.getInactivePlayer())]
+		#	for i in range(opponentInpNode.cardNodes.size()):
+		#		if opponentInpNode.cardNodes[i].card != null:
+		#			slotToFuse = opponentInpNode.cardNodes[i]
+		#			break
+		#if slotToFuse == null:
+		#	slotToFuse = playerInpNode.cardNodes[0]
+		#onCardPressed(MOUSE_BUTTON_LEFT, slotToFuse, false)
 	else:
 		var attackerInpNode : InPlayNode = zoneToNode[board.getPlayerToInPlayZone(board.activePlayer)]
 		var attackerNodes : Array = []

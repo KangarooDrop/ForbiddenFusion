@@ -65,9 +65,11 @@ visible = false
 layout_mode = 2
 theme_override_fonts/font = ExtResource("2_od0ge")
 theme_override_font_sizes/font_size = 6
+button_mask = 3
 text = "1x Slugma"
 
 [node name="OptionsHolder" type="Control" parent="."]
+visible = false
 layout_mode = 3
 anchors_preset = 8
 anchor_left = 0.5

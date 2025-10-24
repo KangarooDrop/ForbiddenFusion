@@ -119,12 +119,12 @@ func flipSame():
 	flippingToSame = true
 	flip()
 
-func flipToCard(card : Card):
+func flipToCard(newCard : Card):
 	if isSeen:
 		flipSame()
 	else:
 		flip()
-	flippingToCard = card
+	flippingToCard = newCard
 
 func _process(delta: float) -> void:
 	var desiredScale : Vector2 = Vector2.ONE

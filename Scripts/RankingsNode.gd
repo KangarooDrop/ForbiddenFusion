@@ -239,11 +239,8 @@ func onFightPressed(prn : PlayerRankNode):
 	#swapRanks(playerRankNodes.find(prn), playerRankNodes.find(userRank))
 	
 	var mainNode = Util.changeSceneToFileButDoesntSUCK_ASS(Preloader.mainPath)
-	mainNode.boardNode.board.players[0].playerUUID = userRank.playerUUID
-	mainNode.boardNode.board.players[1].playerUUID = prn.playerUUID
-	
-	mainNode.boardNode.board.players[0].deck.setData(DeckEditor.getSaveDeck(userRank.playerUUID))
-	mainNode.boardNode.board.players[1].deck.setData(DeckEditor.getSaveDeck(prn.playerUUID))
+	mainNode.boardNode.board.players[0].setPlayerUUID(userRank.playerUUID)
+	mainNode.boardNode.board.players[1].setPlayerUUID(prn.playerUUID)
 	
 	mainNode.boardNode.initDecksAndStart()
 

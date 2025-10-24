@@ -97,7 +97,10 @@ static func getDeckButtonText(cid : int, count : int) -> String:
 	return "x" + str(count) + " " + ListOfCards.cardList[cid].name
 
 func onDeckCardPressed(cid : int):
-	removeCardFromDeck(cid)
+	if lastMouseButtonIndex == MOUSE_BUTTON_LEFT:
+		removeCardFromDeck(cid)
+	elif lastMouseButtonIndex == MOUSE_BUTTON_RIGHT:
+		print("goto card ", cid)
 
 func clearDeck():
 	for cid in deckData.keys():
@@ -118,6 +121,7 @@ func setPage(newPage : int):
 		else:
 			cardNodes[i].hide()
 
+var lastMouseButtonIndex : int = -1
 func _input(event: InputEvent) -> void:
 	if event is InputEventKey and event.is_pressed() and not event.is_echo():
 		if event.keycode == KEY_LEFT:
@@ -130,10 +134,13 @@ func _input(event: InputEvent) -> void:
 		elif event.keycode == KEY_SPACE and true:
 			clearDeck()
 			var deckSize : int = 30
-			var deckData : Dictionary = {}
 			for i in range(deckSize):
 				var cardIndex : int = randi() % cards.size()
 				addCardToDeck(cards[cardIndex].cid)
+	
+	elif event is InputEventMouseButton and event.is_released():
+		lastMouseButtonIndex = event.button_index
+
 
 var savingOrLoading : int = 0
 func onSaveButtonPressed() -> void:
@@ -162,11 +169,13 @@ func onFileSelected(path: String) -> void:
 			for i in range(count):
 				addCardToDeck(cid)
 
+
 func setDeckData(newDeckData : Dictionary) -> void:
 	clearDeck()
 	for cardID in newDeckData.keys():
 		for i in range(newDeckData[cardID]):
 			addCardToDeck(cardID)
+
 
 var clearOrMenu : int = 0
 func onClearButtonPressed() -> void:
@@ -228,13 +237,26 @@ static func parseDeckJSON(data : Dictionary) -> Dictionary:
 		rtn[int(k)] = int(data[k])
 	return rtn
 
-enum DECK_GEN {BST_MAX, DECK_SIZE, NULL_RAT, DIVERSITY}
-static func genStartData(bstMax : int = -1, deckSize : int = 40, numNullRatio : float = 0.15) -> Dictionary:
+const BST_MAX : String = "bst_max"
+const DECK_SIZE : String = "deck_size"
+const NULL_RAT : String = "null_rat"
+const DIVERSITY : String = "div"
+const BASE_PARAMS : Dictionary = {
+	BST_MAX : -1, 
+	DECK_SIZE : 40,
+	NULL_RAT : 0.15,
+	DIVERSITY : 0
+}
+static func genStartData(deckParams : Dictionary = {}) -> Dictionary:
+	for k in BASE_PARAMS.keys():
+		if not deckParams.has(k):
+			deckParams[k] = BASE_PARAMS[k]
+	
 	var validCardsNonNull : Array = []
 	var validCardsNull : Array = []
 	for i in range(ListOfCards.cardList.size()):
 		var card : Card = ListOfCards.getCard(i)
-		if bstMax != -1 and card.attack + card.health > bstMax:
+		if deckParams[BST_MAX] != -1 and card.attack + card.health > deckParams[BST_MAX]:
 			continue
 		if card.rarity != Card.RARITY.BASIC:
 			continue
@@ -243,9 +265,9 @@ static func genStartData(bstMax : int = -1, deckSize : int = 40, numNullRatio : 
 		else:
 			validCardsNonNull.append(card)
 	var rtn : Dictionary = {}
-	for i in range(deckSize):
+	for i in range(deckParams[DECK_SIZE]):
 		var card : Card = null
-		if randf() < numNullRatio:
+		if randf() < deckParams[NULL_RAT]:
 			card = validCardsNull[randi() % validCardsNull.size()].duplicate()
 		else:
 			card = validCardsNonNull[randi() % validCardsNonNull.size()].duplicate()

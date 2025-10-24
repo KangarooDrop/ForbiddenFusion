@@ -10,6 +10,8 @@ const ZONE_FUSION : int = 4
 var cards : Array = []
 var player : Player
 
+signal before_card_set(card : Card, index : int)
+signal after_card_set(card : Card, index : int)
 signal before_card_added(card : Card)
 signal after_card_added(card : Card)
 signal before_card_removed(card : Card)
@@ -21,8 +23,8 @@ signal changed()
 
 ############################################################################
 
-func setPlayer(player : Player):
-	self.player = player
+func setPlayer(newPlayer : Player):
+	self.player = newPlayer
 
 ############################################################################
 
@@ -30,22 +32,22 @@ func removeCard(index : int):
 	if index < 0 or index >= cards.size():
 		return
 	var card : Card = cards[index]
-	emit_signal("before_card_removed", card)
+	before_card_removed.emit(card)
 	cards.remove_at(index)
-	emit_signal("after_card_removed", card)
-	emit_signal("changed")
+	after_card_removed.emit(card)
+	changed.emit()
 
 func eraseCard(card : Card):
 	removeCard(cards.find(card))
 
 func eraseCards(removedCards : Array):
 	for card in removedCards:
-		emit_signal("before_card_removed", card)
+		before_card_removed.emit(card)
 	for card in removedCards:
 		cards.erase(card)
 	for card in removedCards:
-		emit_signal("after_card_removed", card)
-	emit_signal("changed")
+		after_card_removed.emit(card)
+	changed.emit()
 
 func clear():
 	eraseCards(cards.duplicate())
@@ -53,23 +55,23 @@ func clear():
 ############################################################################
 
 func insertCard(newCard : Card, newIndex : int):
-	emit_signal("before_card_added", newCard)
+	before_card_added.emit(newCard)
 	cards.insert(newIndex, newCard)
-	emit_signal("after_card_added", newCard)
-	emit_signal("after_card_moved", newCard, newIndex)
-	emit_signal("changed")
+	after_card_added.emit(newCard)
+	after_card_moved.emit(newCard, newIndex)
+	changed.emit()
 
 func addCard(newCard : Card):
 	insertCard(newCard, cards.size())
 
 func addCards(newCards : Array):
 	for card in newCards:
-		emit_signal("before_card_added", card)
+		before_card_added.emit(card)
 	for card in newCards:
 		cards.append(card)
 	for card in newCards:
-		emit_signal("after_card_added", card)
-	emit_signal("changed")
+		after_card_added.emit(card)
+	changed.emit()
 	
 func setCard(newCard : Card, newIndex : int):
 	if newCard == null and cards[newIndex] == null:
@@ -78,14 +80,14 @@ func setCard(newCard : Card, newIndex : int):
 	removeCard(newIndex)
 	
 	if newCard != null:
-		emit_signal("before_card_added", newCard)
-	emit_signal("before_card_set", newCard, newIndex)
+		before_card_added.emit(newCard)
+	before_card_set.emit(newCard, newIndex)
 	cards.insert(newIndex, newCard)
 	if newCard != null:
-		newCard.connect("destroyed", self.onCardDestroyed.bind(newCard))
-		emit_signal("after_card_added", newCard)
-	emit_signal("after_card_set", newCard, newIndex)
-	emit_signal("changed")
+		newCard.destroyed.connect(self.onCardDestroyed.bind(newCard))
+		after_card_added.emit(newCard)
+	after_card_set.emit(newCard, newIndex)
+	changed.emit()
 
 func onCardDestroyed(card : Card):
 	pass
@@ -125,12 +127,12 @@ func moveIndex(oldIndex : int, newIndex : int):
 	var tmp = cards[oldIndex]
 	cards.remove_at(oldIndex)
 	cards.insert(newIndex, tmp)
-	emit_signal("after_card_moved", tmp, newIndex)
+	after_card_moved.emit(tmp, newIndex)
 
 ############################################################################
 
 func shuffle():
-	emit_signal("before_shuffle")
+	before_shuffle.emit()
 	cards.shuffle()
-	emit_signal("after_shuffle")
-	emit_signal("changed")
+	after_shuffle.emit()
+	changed.emit()

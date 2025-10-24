@@ -12,7 +12,7 @@ config_version=5
 
 config/name="ForbiddenFusion"
 run/main_scene="uid://bkk400kb67v3l"
-config/features=PackedStringArray("4.4", "Forward Plus")
+config/features=PackedStringArray("4.5", "Forward Plus")
 config/icon="res://icon.svg"
 
 [autoload]
@@ -26,6 +26,10 @@ SoundManager="*res://Autoloads/SoundManager.gd"
 Settings="*res://Autoloads/Settings.tscn"
 FusionManager="*res://Autoloads/FusionManager.gd"
 Server="*res://Autoloads/Server.gd"
+
+[debug]
+
+gdscript/warnings/integer_division=0
 
 [display]
 

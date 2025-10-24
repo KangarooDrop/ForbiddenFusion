@@ -129,3 +129,6 @@ func deserialize(data : Dictionary):
 
 func duplicate(_deep = false):
 	return get_script().new(serialize())
+
+func _to_string() -> String:
+	return "<" + name + ":" + str(attack) + "/" + str(health) + ":" + str(abs(get_instance_id())%100) + ">"

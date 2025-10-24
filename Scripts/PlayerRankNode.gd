@@ -116,7 +116,7 @@ func onEditPressed() -> void:
 
 
 
-func randomize() -> void:
+func randomize(deckParams : Dictionary = {}) -> void:
 	var newPlayerName : String = Util.getRandomName()
 	
 	setPlayerName(newPlayerName)
@@ -132,7 +132,7 @@ func randomize() -> void:
 	for i in range(30):
 		var card : Card = validCards[randi() % validCards.size()]
 		validCards.erase(card)
-		newDeckData[card.UUID] = 1
+		newDeckData[card.cid] = 1
 	setDeckData(newDeckData)
 
 func serialize() -> Dictionary:

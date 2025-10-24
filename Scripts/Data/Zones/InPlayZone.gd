@@ -4,9 +4,6 @@ class_name InPlayZone
 
 var numSlots : int = 0
 
-signal before_card_set(card : Card, index : int)
-signal after_card_set(card : Card, index : int)
-
 func setNumSlots(newNumSlots : int):
 	var d : int = newNumSlots - numSlots
 	if d > 0:

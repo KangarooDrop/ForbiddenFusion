@@ -30,8 +30,8 @@ func createAudioStreamPlayer(audioStream : AudioStream, pitch : float = 1.0, sig
 	
 	asp.pitch_scale = pitch + randf_range(-sigma, sigma)
 	
-	asp.play()
 	add_child(asp)
+	asp.play()
 	
 	streamPlayers.append(asp)
 	

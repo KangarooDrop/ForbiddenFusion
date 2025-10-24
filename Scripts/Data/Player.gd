@@ -8,6 +8,7 @@ var hand : Hand
 var board : Board
 
 var playerUUID : int = -1
+var playerRank : int = -1
 
 signal before_game_loss()
 signal after_game_loss()
@@ -22,6 +23,16 @@ func _init() -> void:
 	deck.setPlayer(self)
 	hand = Hand.new()
 	hand.setPlayer(self)
+
+func setPlayerUUID(newPlayerUUID : int) -> void:
+	self.playerUUID = newPlayerUUID
+	deck.setData(DeckEditor.getSaveDeck(newPlayerUUID))
+	
+	var saveData : Array = FileIO.getSaveData()
+	for i in range(saveData.size()):
+		if saveData[i]["player_uuid"] == playerUUID:
+			self.playerRank = i+1
+			break
 
 func setHealth(amount : int):
 	var amountPointer : Array = [amount]
@@ -57,7 +68,7 @@ func getFusionTree(cards : Array = hand.cards.duplicate(), fusingTo : Card = nul
 			if fusingTo == null:
 				var newCards : Array = cards.duplicate()
 				newCards.erase(card)
-				var childTree = getFusionTree(newCards, card, maxDepth, currentDepth+1)
+				var childTree = getFusionTree(newCards, card, maxDepth, currentDepth+1, allowBumping)
 				if not childTree.is_empty():
 					rtn[card] = childTree
 			else:
@@ -67,7 +78,7 @@ func getFusionTree(cards : Array = hand.cards.duplicate(), fusingTo : Card = nul
 						continue
 					var newCards : Array = cards.duplicate()
 					newCards.erase(card)
-					rtn[card] = getFusionTree(newCards, card, maxDepth, currentDepth+1)
+					rtn[card] = getFusionTree(newCards, card, maxDepth, currentDepth+1, allowBumping)
 				elif fusionOutput == FusionManager.FUSION_UNCHANGED:
 					#continue
 					var keepRight : bool = fusingTo.creatureTypes.has(Card.CREATURE_TYPE.NULL)
@@ -85,7 +96,7 @@ func getFusionTree(cards : Array = hand.cards.duplicate(), fusingTo : Card = nul
 					
 					var newCards : Array = cards.duplicate()
 					newCards.erase(card)
-					var ft = getFusionTree(newCards, newCard, maxDepth, currentDepth+1)
+					var ft = getFusionTree(newCards, newCard, maxDepth, currentDepth+1, allowBumping)
 					ft["out"] = newCard
 					rtn[card] = ft
 				else:
@@ -93,13 +104,72 @@ func getFusionTree(cards : Array = hand.cards.duplicate(), fusingTo : Card = nul
 					var newCard : Card = ListOfCards.getCard(newCID)
 					var newCards : Array = cards.duplicate()
 					newCards.erase(card)
-					var ft = getFusionTree(newCards, newCard, maxDepth, currentDepth+1)
+					var ft = getFusionTree(newCards, newCard, maxDepth, currentDepth+1, allowBumping)
 					ft["out"] = newCard
 					rtn[card] = ft
 	
 	if rtn.is_empty():
 		rtn["out"] = fusingTo
 	return rtn
+
+func getAllFusions(fusingTo : Card = null, isOpponent : bool = false, maxDepth : int = -1) -> Array:
+	#print(FusionManager.getFusionCardResult(hand.cards[0], hand.cards[1], false))
+	var out : Array = []
+	getAllFusionsRecursive(out, hand.cards.duplicate(), fusingTo, isOpponent, maxDepth)
+	return out
+
+func getAllFusionsRecursive(out : Array, cards : Array, fusingTo : Card, isOpponent : bool, maxDepth : int, currentLine : Array = []) -> void:
+	if currentLine.size() > 0:
+		out.append(currentLine + [fusingTo])
+	else:
+		currentLine.append(fusingTo)
+	if (maxDepth != -1 and currentLine.size() >= maxDepth+1) or cards.size() == 0:
+		return
+	
+	for card : Card in cards:
+		if fusingTo == null:
+			var newCards : Array = cards.duplicate()
+			newCards.erase(card)
+			getAllFusionsRecursive(out, newCards, card, isOpponent, maxDepth, currentLine + [card])
+		else:
+			var fusedCard : Card = FusionManager.getFusionCardResult(fusingTo, card, isOpponent)
+			#First fusion results in a bump (e.g. Ignore fusions that start invalid)
+			if currentLine.size() == 1 and FusionManager.getFusion(fusingTo, card) == FusionManager.FUSION_INVALID:
+				continue
+			
+			var newCards : Array = cards.duplicate()
+			newCards.erase(card)
+			getAllFusionsRecursive(out, newCards, fusedCard, isOpponent, maxDepth, currentLine + [card])
+
+static func evalScore(fusionLine : Array) -> int:
+	var currentFusedCard : Card = fusionLine[fusionLine.size()-1]
+	var currentBST : int = currentFusedCard.attack + currentFusedCard.health
+	#var currentDepth : int = fusionLine.size()-1
+	var murderPenalty : int = 0
+	if fusionLine[0] != null:
+		murderPenalty = -(fusionLine[0].attack + fusionLine[0].health) - (fusionLine.size()-2)
+		murderPenalty = min(0, murderPenalty)
+	return currentBST + murderPenalty
+
+static func sortAllFusion(fusionLinesArray : Array) -> Array:
+	var unsorted : Array = fusionLinesArray.duplicate()
+	var sorted : Array = []
+	while unsorted.size() > 0:
+		var highestScore : int = Util.INT_MIN
+		var highestIndex : int = -1
+		var lowestDepth : int = Util.INT_MAX
+		for i in range(unsorted.size()):
+			var currentScore : int = evalScore(unsorted[i])
+			var currentDepth : int = unsorted[i].size()-1
+			if highestIndex == -1 or \
+					currentScore > highestScore or \
+					(currentScore == highestScore and currentDepth < lowestDepth):
+				highestScore = currentScore
+				highestIndex = i
+				lowestDepth = currentDepth
+		sorted.append(unsorted[highestIndex])
+		unsorted.remove_at(highestIndex)
+	return sorted
 
 static func getBestFusion(tree : Dictionary, bestLineOut : Array, currentLine : Array = []):
 	for key in tree.keys():
@@ -116,7 +186,6 @@ static func getBestFusion(tree : Dictionary, bestLineOut : Array, currentLine : 
 			getBestFusion(tree[key], bestLineOut, currentLine + [key])
 
 static func printFusionTree(tree : Dictionary, buffer : String = "", currentBestPointer = [Vector2i.ZERO], currentDepth : int = 0):
-	var string : String = ""
 	for key in tree.keys():
 		if typeof(key) == TYPE_STRING:
 			var isBetter : bool = tree[key].attack + tree[key].health >= currentBestPointer[0].x + currentBestPointer[0].y
@@ -149,7 +218,6 @@ func getBumpTree(cards : Array = hand.cards.duplicate(), fusingFrom : Card = nul
 	return rtn
 
 static func printBumpTree(tree : Dictionary, buffer : String = "", currentDepth : int = 0):
-	var string : String = ""
 	for key in tree.keys():
 		if typeof(key) == TYPE_STRING:
 			print("*".repeat(currentDepth) + buffer + "    >> ", tree[key].name)

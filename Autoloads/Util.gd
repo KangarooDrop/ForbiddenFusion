@@ -2,6 +2,9 @@ extends Node
 
 signal scene_changed(path : String, scene : Node)
 
+const INT_MAX : int = 9223372036854775807
+const INT_MIN : int = -9223372036854775808
+
 func getRandomName() -> String:
 	var cons : String = "bcdfghjklmnpqrstvwxz"
 	var vows : String = "aeiou"
