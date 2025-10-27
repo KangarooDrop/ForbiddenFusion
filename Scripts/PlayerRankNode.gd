@@ -134,11 +134,12 @@ func randomize(deckParams : Dictionary = {}) -> void:
 		validCards.erase(card)
 		newDeckData[card.cid] = 1
 	setDeckData(newDeckData)
+	setCollection(newDeckData.duplicate())
 
 func serialize() -> Dictionary:
 	var rtn : Dictionary = {}
 	rtn['player_name'] = playerName
-	rtn['player_uuid'] = playerUUID
+	rtn['player_rank'] = playerRank
 	rtn['player_data'] = getPlayerPortrait().serialize()
 	rtn["is_user"] = isUser
 	rtn['deck_data'] = deckData
@@ -160,8 +161,8 @@ func setCollection(newCollection : Dictionary):
 func deserialize(data : Dictionary) -> void:
 	isUser = data["is_user"]
 	setPlayerName(data['player_name'])
-	playerUUID = data['player_uuid']
-	#setPlayerRank(data['player_rank'])
+	#playerUUID = data['player_uuid']
+	setPlayerRank(data['player_rank'])
 	getPlayerPortrait().deserialize(data['player_data'])
 	setDeckData(data['deck_data'])
 	setCollection(data['collection'])

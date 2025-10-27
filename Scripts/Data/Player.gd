@@ -28,11 +28,8 @@ func setPlayerUUID(newPlayerUUID : int) -> void:
 	self.playerUUID = newPlayerUUID
 	deck.setData(DeckEditor.getSaveDeck(newPlayerUUID))
 	
-	var saveData : Array = FileIO.getSaveData()
-	for i in range(saveData.size()):
-		if saveData[i]["player_uuid"] == playerUUID:
-			self.playerRank = i+1
-			break
+	var saveData : Dictionary = FileIO.getSaveData()
+	self.playerRank = saveData[newPlayerUUID]["player_rank"]
 
 func setHealth(amount : int):
 	var amountPointer : Array = [amount]

@@ -180,14 +180,13 @@ func _process(delta: float) -> void:
 ####################################################################################################
 #SAVING AND LOADING GAME DATA
 
-func serialize() -> Array:
-	var rtn : Array = []
-	var players : Array = []
+func serialize() -> Dictionary:
+	var rtn : Dictionary = {}
 	for prn : PlayerRankNode in playerRankNodes:
-		rtn.append(prn.serialize())
+		rtn[prn.playerUUID] = prn.serialize()
 	return rtn
 
-func deserialize(data : Array):
+func deserialize(data : Dictionary):
 	var d : int = data.size() - playerRankNodes.size()
 	if d < 0:
 		for i in range(-d):
@@ -195,9 +194,11 @@ func deserialize(data : Array):
 	elif d > 0:
 		for i in range(d):
 			addPlayerRank()
-	for i in range(data.size()):
-		playerRankNodes[i].deserialize(data[i])
-		playerRankNodes[i].setPlayerRank(i+1)
+	
+	for playerUUID in data.keys():
+		var i : int = data[playerUUID]["player_rank"]-1
+		playerRankNodes[i].deserialize(data[playerUUID])
+		playerRankNodes[i].playerUUID = playerUUID
 		if playerRankNodes[i].isUser:
 			userRank = playerRankNodes[i]
 	updateUUIDDict()
@@ -210,17 +211,7 @@ func saveToFile():
 		print("Game Saved!")
 
 func loadFromFile() -> bool:
-	var saveData = FileIO.getSaveData()
-	
-	for i in range(saveData.size()):
-		saveData[i]["player_data"]["head_type"] = int(saveData[i]["player_data"]["head_type"])
-		saveData[i]["player_data"]["body_type"] = int(saveData[i]["player_data"]["body_type"])
-		saveData[i]["player_data"]["eye_type"] = int(saveData[i]["player_data"]["eye_type"])
-		saveData[i]["player_data"]["mouth_type"] = int(saveData[i]["player_data"]["mouth_type"])
-		saveData[i]["player_data"]["arm_type"] = int(saveData[i]["player_data"]["arm_type"])
-		saveData[i]["deck_data"] = DeckEditor.parseDeckJSON(saveData[i]["deck_data"])
-	
-	deserialize(saveData)
+	deserialize(FileIO.getSaveData())
 	return true
 
 ####################################################################################################
@@ -246,8 +237,7 @@ func onFightPressed(prn : PlayerRankNode):
 
 func onEditPressed(prn : PlayerRankNode):
 	var deckEditor = Util.changeSceneToFileButDoesntSUCK_ASS(Preloader.deckEditorPath)
-	var deckData : Dictionary = DeckEditor.getSaveDeck(prn.playerUUID)
-	deckEditor.setDeckData(deckData)
+	deckEditor.setPlayerUUID(prn.playerUUID)
 
 func selectNode(prn : PlayerRankNode):
 	if not selectedNodes.has(prn):

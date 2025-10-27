@@ -27,7 +27,28 @@ func deleteUserData() -> bool:
 func getSaveExists() -> bool:
 	return FileAccess.file_exists(savePath)
 func getSaveData():
-	return readFromJSON(savePath)
+	var saveDataRaw = readFromJSON(savePath)
+	var saveData : Dictionary = {}
+	for k in saveDataRaw.keys():
+		var playerUUID : int = int(k)
+		saveData[playerUUID] = saveDataRaw[k]
+		saveData[playerUUID]["player_data"]["head_type"] = int(saveData[playerUUID]["player_data"]["head_type"])
+		saveData[playerUUID]["player_data"]["body_type"] = int(saveData[playerUUID]["player_data"]["body_type"])
+		saveData[playerUUID]["player_data"]["eye_type"] = int(saveData[playerUUID]["player_data"]["eye_type"])
+		saveData[playerUUID]["player_data"]["mouth_type"] = int(saveData[playerUUID]["player_data"]["mouth_type"])
+		saveData[playerUUID]["player_data"]["arm_type"] = int(saveData[playerUUID]["player_data"]["arm_type"])
+		
+		var newDeckData : Dictionary = {}
+		for k2 in saveData[playerUUID]["deck_data"].keys():
+			newDeckData[int(k2)] = saveData[playerUUID]["deck_data"][k2]
+		saveData[playerUUID]["deck_data"] = newDeckData
+		
+		var newCollectionData : Dictionary = {}
+		for k2 in saveData[playerUUID]["collection"].keys():
+			newCollectionData[int(k2)] = saveData[playerUUID]["collection"][k2]
+		saveData[playerUUID]["collection"] = newCollectionData
+		
+	return saveData
 func saveGame(data) -> int:
 	return writeToJSON(savePath, data)
 func deleteGame() -> bool:
@@ -40,7 +61,7 @@ func writeToJSON(filePath : String, data) -> int:
 	if not DirAccess.dir_exists_absolute(folder):
 		DirAccess.make_dir_absolute(folder)
 	var file = FileAccess.open(filePath, FileAccess.WRITE)
-	file.store_string(JSON.stringify(data))
+	file.store_string(JSON.stringify(data, "  "))
 	file.close()
 	return OK
 

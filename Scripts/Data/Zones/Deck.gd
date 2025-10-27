@@ -7,12 +7,6 @@ signal after_draw(amount : int)
 signal before_mill(pointer : Array)
 signal after_mill(amount : int)
 
-func loadDeckFile(path : String):
-	var data : Dictionary = DeckEditor.loadDeckData(path)
-	if data.is_empty():
-		return
-	setData(data)
-
 ############################################################################
 
 func draw(amount : int = 1):

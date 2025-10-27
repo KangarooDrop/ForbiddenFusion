@@ -14,3 +14,4 @@ const cardbackDefault = preload("res://Art/cardbacks/default.png")
 const noneCardTex = preload("res://Art/portraits/card_NONE.png")
 
 const cardNodePacked : PackedScene = preload("res://Scenes/CardNode.tscn")
+const deckEditCardNodePacked : PackedScene = preload("res://Scenes/DeckEditCardNode.tscn")

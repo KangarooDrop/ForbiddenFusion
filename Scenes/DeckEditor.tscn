@@ -1,14 +1,30 @@
-[gd_scene load_steps=6 format=3 uid="uid://c5dfn5brp3bxf"]
+[gd_scene load_steps=13 format=3 uid="uid://c5dfn5brp3bxf"]
 
 [ext_resource type="Script" uid="uid://bgpbe83ffuno5" path="res://Scripts/DeckEditor.gd" id="1_370mm"]
 [ext_resource type="FontFile" uid="uid://cq55vl12vholm" path="res://fonts/3x5 pixel font.ttf" id="2_od0ge"]
+[ext_resource type="Texture2D" uid="uid://bow0d2qimqvaf" path="res://Art/types/type_icons.png" id="3_oq4k8"]
 
-[sub_resource type="Theme" id="Theme_oq4k8"]
-default_base_scale = 2.0
+[sub_resource type="AtlasTexture" id="AtlasTexture_ltrq1"]
+resource_local_to_scene = true
+atlas = ExtResource("3_oq4k8")
+region = Rect2(0, 0, 8, 8)
+margin = Rect2(3, 3, 3, 3)
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_oq4k8"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_ltrq1"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_ocuxc"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_i838a"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_toaqm"]
+
+[sub_resource type="Theme" id="Theme_od0ge"]
 default_font = ExtResource("2_od0ge")
-default_font_size = 12
-AcceptDialog/font_sizes/title_font_size = 18
-AcceptDialog/fonts/title_font = ExtResource("2_od0ge")
+default_font_size = 6
+FileDialog/font_sizes/title_font_size = 18
+FileDialog/fonts/title_font = ExtResource("2_od0ge")
 
 [sub_resource type="Theme" id="Theme_ltrq1"]
 default_base_scale = 2.0
@@ -17,11 +33,12 @@ default_font_size = 12
 AcceptDialog/font_sizes/title_font_size = 16
 AcceptDialog/fonts/title_font = ExtResource("2_od0ge")
 
-[sub_resource type="Theme" id="Theme_od0ge"]
+[sub_resource type="Theme" id="Theme_oq4k8"]
+default_base_scale = 2.0
 default_font = ExtResource("2_od0ge")
-default_font_size = 6
-FileDialog/font_sizes/title_font_size = 18
-FileDialog/fonts/title_font = ExtResource("2_od0ge")
+default_font_size = 12
+AcceptDialog/font_sizes/title_font_size = 18
+AcceptDialog/fonts/title_font = ExtResource("2_od0ge")
 
 [node name="DeckEditor" type="Node2D"]
 script = ExtResource("1_370mm")
@@ -30,6 +47,7 @@ script = ExtResource("1_370mm")
 zoom = Vector2(4, 4)
 
 [node name="CardNodeHolder" type="Node2D" parent="."]
+position = Vector2(0, 32)
 
 [node name="DeckHolder" type="Control" parent="."]
 layout_mode = 3
@@ -60,7 +78,15 @@ theme_override_fonts/font = ExtResource("2_od0ge")
 theme_override_font_sizes/font_size = 12
 text = "Deck:"
 
-[node name="DeckCardButton" type="Button" parent="DeckHolder/VBoxContainer"]
+[node name="ScrollContainer" type="ScrollContainer" parent="DeckHolder/VBoxContainer"]
+custom_minimum_size = Vector2(100, 256)
+layout_mode = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="DeckHolder/VBoxContainer/ScrollContainer"]
+layout_mode = 2
+theme_override_constants/separation = 1
+
+[node name="DeckCardButton" type="Button" parent="DeckHolder/VBoxContainer/ScrollContainer/VBoxContainer"]
 visible = false
 layout_mode = 2
 theme_override_fonts/font = ExtResource("2_od0ge")
@@ -69,7 +95,6 @@ button_mask = 3
 text = "1x Slugma"
 
 [node name="OptionsHolder" type="Control" parent="."]
-visible = false
 layout_mode = 3
 anchors_preset = 8
 anchor_left = 0.5
@@ -79,7 +104,7 @@ anchor_bottom = 0.5
 offset_left = -230.0
 offset_top = -100.0
 offset_right = -150.0
-offset_bottom = 100.0
+offset_bottom = -23.0
 grow_horizontal = 2
 grow_vertical = 2
 
@@ -103,12 +128,6 @@ theme_override_fonts/font = ExtResource("2_od0ge")
 theme_override_font_sizes/font_size = 6
 text = "Save"
 
-[node name="LoadButton" type="Button" parent="OptionsHolder/VBoxContainer"]
-layout_mode = 2
-theme_override_fonts/font = ExtResource("2_od0ge")
-theme_override_font_sizes/font_size = 6
-text = "Load"
-
 [node name="ClearButton" type="Button" parent="OptionsHolder/VBoxContainer"]
 layout_mode = 2
 theme_override_fonts/font = ExtResource("2_od0ge")
@@ -119,50 +138,276 @@ text = "Clear"
 layout_mode = 2
 theme_override_fonts/font = ExtResource("2_od0ge")
 theme_override_font_sizes/font_size = 6
-text = "Main Menu"
+text = "Exit"
 
-[node name="Control" type="Control" parent="."]
+[node name="FilterHolder" type="Control" parent="."]
 layout_mode = 3
 anchors_preset = 8
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
+offset_top = -108.0
+offset_bottom = -108.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="FilterHolder"]
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -7.5
+offset_right = 7.5
+offset_bottom = 15.0
+grow_horizontal = 2
+theme_override_constants/separation = 15
+alignment = 1
+
+[node name="HBoxContainer" type="HBoxContainer" parent="FilterHolder/VBoxContainer"]
+layout_mode = 2
+mouse_filter = 2
+theme_override_constants/separation = 15
+alignment = 1
+
+[node name="TFBHolder" type="Control" parent="FilterHolder/VBoxContainer/HBoxContainer"]
+visible = false
+layout_mode = 2
+mouse_filter = 2
+
+[node name="TypeFilterButton" type="TextureButton" parent="FilterHolder/VBoxContainer/HBoxContainer/TFBHolder"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -7.0
+offset_top = -7.0
+offset_right = 7.0
+offset_bottom = 7.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_default_cursor_shape = 2
+button_mask = 3
+texture_normal = SubResource("AtlasTexture_ltrq1")
+
+[node name="ColorRect2" type="ColorRect" parent="FilterHolder/VBoxContainer/HBoxContainer/TFBHolder/TypeFilterButton"]
+show_behind_parent = true
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+color = Color(0, 0, 0, 1)
+
+[node name="ColorRect" type="ColorRect" parent="FilterHolder/VBoxContainer/HBoxContainer/TFBHolder/TypeFilterButton"]
+show_behind_parent = true
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -6.0
+offset_top = -6.0
+offset_right = 6.0
+offset_bottom = 6.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+color = Color(0.74509805, 0.74509805, 0.74509805, 1)
+
+[node name="HBoxContainer2" type="HBoxContainer" parent="FilterHolder/VBoxContainer"]
+layout_mode = 2
+mouse_filter = 2
+theme_override_constants/separation = 15
+
+[node name="NFBHolder1" type="Control" parent="FilterHolder/VBoxContainer/HBoxContainer2"]
+layout_mode = 2
+mouse_filter = 2
+
+[node name="NumFilterButton" type="Button" parent="FilterHolder/VBoxContainer/HBoxContainer2/NFBHolder1"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -7.0
+offset_top = -7.0
+offset_right = 7.0
+offset_bottom = 7.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_default_cursor_shape = 2
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_colors/font_focus_color = Color(0, 0, 0, 1)
+theme_override_colors/font_pressed_color = Color(0, 0, 0, 1)
+theme_override_colors/font_hover_color = Color(0, 0, 0, 1)
+theme_override_colors/font_hover_pressed_color = Color(0, 0, 0, 1)
+theme_override_fonts/font = ExtResource("2_od0ge")
+theme_override_font_sizes/font_size = 6
+theme_override_styles/normal = SubResource("StyleBoxEmpty_oq4k8")
+theme_override_styles/pressed = SubResource("StyleBoxEmpty_ltrq1")
+theme_override_styles/hover = SubResource("StyleBoxEmpty_ocuxc")
+theme_override_styles/disabled = SubResource("StyleBoxEmpty_i838a")
+theme_override_styles/focus = SubResource("StyleBoxEmpty_toaqm")
+button_mask = 3
+text = "1"
+
+[node name="ColorRect2" type="ColorRect" parent="FilterHolder/VBoxContainer/HBoxContainer2/NFBHolder1/NumFilterButton"]
+show_behind_parent = true
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+color = Color(0, 0, 0, 1)
+
+[node name="ColorRect" type="ColorRect" parent="FilterHolder/VBoxContainer/HBoxContainer2/NFBHolder1/NumFilterButton"]
+show_behind_parent = true
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 1.0
+offset_top = 1.0
+offset_right = -1.0
+offset_bottom = -1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+color = Color(0.74509805, 0.74509805, 0.74509805, 1)
+
+[node name="NFBHolder2" type="Control" parent="FilterHolder/VBoxContainer/HBoxContainer2"]
+layout_mode = 2
+mouse_filter = 2
+
+[node name="NumFilterButton" type="Button" parent="FilterHolder/VBoxContainer/HBoxContainer2/NFBHolder2"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -7.0
+offset_top = -7.0
+offset_right = 7.0
+offset_bottom = 7.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_default_cursor_shape = 2
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_colors/font_focus_color = Color(0, 0, 0, 1)
+theme_override_colors/font_pressed_color = Color(0, 0, 0, 1)
+theme_override_colors/font_hover_color = Color(0, 0, 0, 1)
+theme_override_colors/font_hover_pressed_color = Color(0, 0, 0, 1)
+theme_override_fonts/font = ExtResource("2_od0ge")
+theme_override_font_sizes/font_size = 6
+theme_override_styles/normal = SubResource("StyleBoxEmpty_oq4k8")
+theme_override_styles/pressed = SubResource("StyleBoxEmpty_ltrq1")
+theme_override_styles/hover = SubResource("StyleBoxEmpty_ocuxc")
+theme_override_styles/disabled = SubResource("StyleBoxEmpty_i838a")
+theme_override_styles/focus = SubResource("StyleBoxEmpty_toaqm")
+button_mask = 3
+text = "2"
+
+[node name="ColorRect2" type="ColorRect" parent="FilterHolder/VBoxContainer/HBoxContainer2/NFBHolder2/NumFilterButton"]
+show_behind_parent = true
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+color = Color(0, 0, 0, 1)
+
+[node name="ColorRect" type="ColorRect" parent="FilterHolder/VBoxContainer/HBoxContainer2/NFBHolder2/NumFilterButton"]
+show_behind_parent = true
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 1.0
+offset_top = 1.0
+offset_right = -1.0
+offset_bottom = -1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+color = Color(0.74509805, 0.74509805, 0.74509805, 1)
+
+[node name="Control" type="Control" parent="."]
+visible = false
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 
 [node name="SubViewportContainer" type="SubViewportContainer" parent="Control"]
-visible = false
-layout_mode = 0
-offset_left = 599.0
-offset_top = 428.0
-offset_right = 1314.0
-offset_bottom = 847.0
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -240.0
+offset_top = -160.0
+offset_right = 240.0
+offset_bottom = 160.0
+grow_horizontal = 2
+grow_vertical = 2
 
 [node name="SubViewport" type="SubViewport" parent="Control/SubViewportContainer"]
+transparent_bg = true
 handle_input_locally = false
-size = Vector2i(200, 200)
+size = Vector2i(480, 320)
 render_target_update_mode = 0
 
-[node name="NoticeDialog" type="AcceptDialog" parent="Control"]
-title = "Notice!"
-initial_position = 1
-size = Vector2i(640, 320)
-theme = SubResource("Theme_oq4k8")
-
-[node name="ConfirmDialog" type="ConfirmationDialog" parent="Control"]
-initial_position = 1
-theme = SubResource("Theme_ltrq1")
+[node name="ColorRect" type="ColorRect" parent="Control/SubViewportContainer/SubViewport"]
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -20.0
+offset_top = -20.0
+offset_right = 20.0
+offset_bottom = 20.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(1, 0, 0, 1)
 
 [node name="FileDialog" type="FileDialog" parent="Control"]
+oversampling_override = 1.0
 initial_position = 1
 size = Vector2i(430, 250)
 theme = SubResource("Theme_od0ge")
 filters = PackedStringArray("*.json")
 
+[node name="ConfirmDialog" type="ConfirmationDialog" parent="Control"]
+oversampling_override = 1.0
+initial_position = 1
+theme = SubResource("Theme_ltrq1")
+
+[node name="NoticeDialog" type="AcceptDialog" parent="Control"]
+oversampling_override = 1.0
+title = "Notice!"
+initial_position = 1
+size = Vector2i(200, 100)
+theme = SubResource("Theme_oq4k8")
+
 [connection signal="pressed" from="OptionsHolder/VBoxContainer/SaveButton" to="." method="onSaveButtonPressed"]
-[connection signal="pressed" from="OptionsHolder/VBoxContainer/LoadButton" to="." method="onLoadButtonPressed"]
 [connection signal="pressed" from="OptionsHolder/VBoxContainer/ClearButton" to="." method="onClearButtonPressed"]
 [connection signal="pressed" from="OptionsHolder/VBoxContainer/MainMenuButton" to="." method="onMainMenuButtonPressed"]
-[connection signal="confirmed" from="Control/ConfirmDialog" to="." method="onDialogConfirmed"]
 [connection signal="file_selected" from="Control/FileDialog" to="." method="onFileSelected"]
+[connection signal="confirmed" from="Control/ConfirmDialog" to="." method="onDialogConfirmed"]
