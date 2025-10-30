@@ -52,7 +52,8 @@ var settings : Dictionary = {}
 @onready var soundMutedButton : CheckBox = audioPage.get_node("VBoxContainer/SoundMutedOption/CheckBox")
 
 func _ready() -> void:
-	if not FileIO.getSaveExists():
+	if not FileIO.getSettingsExists():
+		print("No save file found")
 		settings = defaultSettings.duplicate()
 	else:
 		settings = FileIO.getSettingsData()
@@ -67,6 +68,7 @@ func verifySettings():
 			settings[k] = defaultSettings[k]
 			resaveSettings = true
 	if resaveSettings:
+		print("Settings file updated")
 		saveSettings()
 
 func initSettingsNodes():

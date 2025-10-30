@@ -1,7 +1,8 @@
-[gd_scene load_steps=3 format=3 uid="uid://bkk400kb67v3l"]
+[gd_scene load_steps=4 format=3 uid="uid://bkk400kb67v3l"]
 
 [ext_resource type="Script" uid="uid://fppphk7ro8iy" path="res://Scripts/MainMenu.gd" id="1_tt5f1"]
 [ext_resource type="PackedScene" uid="uid://by000qucbvst5" path="res://Scenes/NinePatchButton.tscn" id="2_853f1"]
+[ext_resource type="PackedScene" uid="uid://c0c52v6k2ha14" path="res://Scenes/SavePreview.tscn" id="3_8saeu"]
 
 [node name="MainMenu" type="Node2D"]
 script = ExtResource("1_tt5f1")
@@ -9,11 +10,29 @@ script = ExtResource("1_tt5f1")
 [node name="Camera2D" type="Camera2D" parent="."]
 zoom = Vector2(4, 4)
 
-[node name="MenuHolder" type="Control" parent="."]
+[node name="Center" type="Control" parent="."]
 layout_mode = 3
-anchors_preset = 0
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_top = 32.0
+offset_bottom = 32.0
+grow_horizontal = 2
+grow_vertical = 2
 
-[node name="VBoxContainer" type="VBoxContainer" parent="MenuHolder"]
+[node name="MenuHolder" type="Control" parent="Center"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Center/MenuHolder"]
 layout_mode = 1
 anchors_preset = 8
 anchor_left = 0.5
@@ -28,10 +47,10 @@ grow_horizontal = 2
 grow_vertical = 2
 theme_override_constants/separation = 12
 
-[node name="PlayHolder" type="Control" parent="MenuHolder/VBoxContainer"]
+[node name="PlayHolder" type="Control" parent="Center/MenuHolder/VBoxContainer"]
 layout_mode = 2
 
-[node name="PlayButton" parent="MenuHolder/VBoxContainer/PlayHolder" instance=ExtResource("2_853f1")]
+[node name="PlayButton" parent="Center/MenuHolder/VBoxContainer/PlayHolder" instance=ExtResource("2_853f1")]
 layout_mode = 1
 anchors_preset = 8
 anchor_left = 0.5
@@ -46,18 +65,18 @@ grow_horizontal = 2
 grow_vertical = 2
 text = "Play"
 
-[node name="Label" parent="MenuHolder/VBoxContainer/PlayHolder/PlayButton" index="0"]
+[node name="Label" parent="Center/MenuHolder/VBoxContainer/PlayHolder/PlayButton" index="0"]
 offset_right = 20.0
 text = "Play"
 
-[node name="Label2" parent="MenuHolder/VBoxContainer/PlayHolder/PlayButton/Label" index="0"]
+[node name="Label2" parent="Center/MenuHolder/VBoxContainer/PlayHolder/PlayButton/Label" index="0"]
 text = "Play"
 
-[node name="MultiplayerHolder" type="Control" parent="MenuHolder/VBoxContainer"]
+[node name="MultiplayerHolder" type="Control" parent="Center/MenuHolder/VBoxContainer"]
 visible = false
 layout_mode = 2
 
-[node name="MultiplayerButton" parent="MenuHolder/VBoxContainer/MultiplayerHolder" instance=ExtResource("2_853f1")]
+[node name="MultiplayerButton" parent="Center/MenuHolder/VBoxContainer/MultiplayerHolder" instance=ExtResource("2_853f1")]
 layout_mode = 1
 anchors_preset = 8
 anchor_left = 0.5
@@ -72,18 +91,18 @@ grow_horizontal = 2
 grow_vertical = 2
 text = "Multiplayer"
 
-[node name="Label" parent="MenuHolder/VBoxContainer/MultiplayerHolder/MultiplayerButton" index="0"]
+[node name="Label" parent="Center/MenuHolder/VBoxContainer/MultiplayerHolder/MultiplayerButton" index="0"]
 offset_right = 48.0
 text = "Multiplayer"
 
-[node name="Label2" parent="MenuHolder/VBoxContainer/MultiplayerHolder/MultiplayerButton/Label" index="0"]
+[node name="Label2" parent="Center/MenuHolder/VBoxContainer/MultiplayerHolder/MultiplayerButton/Label" index="0"]
 text = "Multiplayer"
 
-[node name="CollectionHolder" type="Control" parent="MenuHolder/VBoxContainer"]
+[node name="CollectionHolder" type="Control" parent="Center/MenuHolder/VBoxContainer"]
 visible = false
 layout_mode = 2
 
-[node name="CollectionButton" parent="MenuHolder/VBoxContainer/CollectionHolder" instance=ExtResource("2_853f1")]
+[node name="CollectionButton" parent="Center/MenuHolder/VBoxContainer/CollectionHolder" instance=ExtResource("2_853f1")]
 layout_mode = 1
 anchors_preset = 8
 anchor_left = 0.5
@@ -98,17 +117,17 @@ grow_horizontal = 2
 grow_vertical = 2
 text = "Deck Editor"
 
-[node name="Label" parent="MenuHolder/VBoxContainer/CollectionHolder/CollectionButton" index="0"]
+[node name="Label" parent="Center/MenuHolder/VBoxContainer/CollectionHolder/CollectionButton" index="0"]
 offset_right = 48.0
 text = "Deck Editor"
 
-[node name="Label2" parent="MenuHolder/VBoxContainer/CollectionHolder/CollectionButton/Label" index="0"]
+[node name="Label2" parent="Center/MenuHolder/VBoxContainer/CollectionHolder/CollectionButton/Label" index="0"]
 text = "Deck Editor"
 
-[node name="SettingsHolder" type="Control" parent="MenuHolder/VBoxContainer"]
+[node name="SettingsHolder" type="Control" parent="Center/MenuHolder/VBoxContainer"]
 layout_mode = 2
 
-[node name="SettingsButton" parent="MenuHolder/VBoxContainer/SettingsHolder" instance=ExtResource("2_853f1")]
+[node name="SettingsButton" parent="Center/MenuHolder/VBoxContainer/SettingsHolder" instance=ExtResource("2_853f1")]
 layout_mode = 1
 anchors_preset = 8
 anchor_left = 0.5
@@ -123,16 +142,16 @@ grow_horizontal = 2
 grow_vertical = 2
 text = "Settings"
 
-[node name="Label" parent="MenuHolder/VBoxContainer/SettingsHolder/SettingsButton" index="0"]
+[node name="Label" parent="Center/MenuHolder/VBoxContainer/SettingsHolder/SettingsButton" index="0"]
 text = "Settings"
 
-[node name="Label2" parent="MenuHolder/VBoxContainer/SettingsHolder/SettingsButton/Label" index="0"]
+[node name="Label2" parent="Center/MenuHolder/VBoxContainer/SettingsHolder/SettingsButton/Label" index="0"]
 text = "Settings"
 
-[node name="ExitHolder" type="Control" parent="MenuHolder/VBoxContainer"]
+[node name="ExitHolder" type="Control" parent="Center/MenuHolder/VBoxContainer"]
 layout_mode = 2
 
-[node name="ExitButton" parent="MenuHolder/VBoxContainer/ExitHolder" instance=ExtResource("2_853f1")]
+[node name="ExitButton" parent="Center/MenuHolder/VBoxContainer/ExitHolder" instance=ExtResource("2_853f1")]
 layout_mode = 1
 anchors_preset = 8
 anchor_left = 0.5
@@ -147,16 +166,16 @@ grow_horizontal = 2
 grow_vertical = 2
 text = "Exit"
 
-[node name="Label" parent="MenuHolder/VBoxContainer/ExitHolder/ExitButton" index="0"]
+[node name="Label" parent="Center/MenuHolder/VBoxContainer/ExitHolder/ExitButton" index="0"]
 offset_right = 20.0
 text = "Exit"
 
-[node name="Label2" parent="MenuHolder/VBoxContainer/ExitHolder/ExitButton/Label" index="0"]
+[node name="Label2" parent="Center/MenuHolder/VBoxContainer/ExitHolder/ExitButton/Label" index="0"]
 text = "Exit"
 
-[node name="PlayHolder" type="Control" parent="."]
+[node name="PlayHolder" type="Control" parent="Center"]
 visible = false
-layout_mode = 3
+layout_mode = 1
 anchors_preset = 8
 anchor_left = 0.5
 anchor_top = 0.5
@@ -165,7 +184,7 @@ anchor_bottom = 0.5
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="VBoxContainer" type="VBoxContainer" parent="PlayHolder"]
+[node name="VBoxContainer" type="VBoxContainer" parent="Center/PlayHolder"]
 layout_mode = 1
 anchors_preset = 8
 anchor_left = 0.5
@@ -180,10 +199,27 @@ grow_horizontal = 2
 grow_vertical = 2
 theme_override_constants/separation = 12
 
-[node name="LoadHolder" type="Control" parent="PlayHolder/VBoxContainer"]
+[node name="LoadHolder" type="Control" parent="Center/PlayHolder/VBoxContainer"]
+custom_minimum_size = Vector2(0, 16)
 layout_mode = 2
 
-[node name="LoadButton" parent="PlayHolder/VBoxContainer/LoadHolder" instance=ExtResource("2_853f1")]
+[node name="Control" type="Control" parent="Center/PlayHolder/VBoxContainer/LoadHolder"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_top = -33.0
+offset_bottom = -33.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="SavePreview" parent="Center/PlayHolder/VBoxContainer/LoadHolder/Control" instance=ExtResource("3_8saeu")]
+position = Vector2(0, -32)
+scale = Vector2(2, 2)
+
+[node name="LoadButton" parent="Center/PlayHolder/VBoxContainer/LoadHolder" instance=ExtResource("2_853f1")]
 layout_mode = 1
 anchors_preset = 8
 anchor_left = 0.5
@@ -198,17 +234,17 @@ grow_horizontal = 2
 grow_vertical = 2
 text = "Load"
 
-[node name="Label" parent="PlayHolder/VBoxContainer/LoadHolder/LoadButton" index="0"]
+[node name="Label" parent="Center/PlayHolder/VBoxContainer/LoadHolder/LoadButton" index="0"]
 offset_right = 20.0
 text = "Load"
 
-[node name="Label2" parent="PlayHolder/VBoxContainer/LoadHolder/LoadButton/Label" index="0"]
+[node name="Label2" parent="Center/PlayHolder/VBoxContainer/LoadHolder/LoadButton/Label" index="0"]
 text = "Load"
 
-[node name="NewHolder" type="Control" parent="PlayHolder/VBoxContainer"]
+[node name="NewHolder" type="Control" parent="Center/PlayHolder/VBoxContainer"]
 layout_mode = 2
 
-[node name="NewButon" parent="PlayHolder/VBoxContainer/NewHolder" instance=ExtResource("2_853f1")]
+[node name="NewButon" parent="Center/PlayHolder/VBoxContainer/NewHolder" instance=ExtResource("2_853f1")]
 layout_mode = 1
 anchors_preset = 8
 anchor_left = 0.5
@@ -223,17 +259,17 @@ grow_horizontal = 2
 grow_vertical = 2
 text = "New"
 
-[node name="Label" parent="PlayHolder/VBoxContainer/NewHolder/NewButon" index="0"]
+[node name="Label" parent="Center/PlayHolder/VBoxContainer/NewHolder/NewButon" index="0"]
 offset_right = 16.0
 text = "New"
 
-[node name="Label2" parent="PlayHolder/VBoxContainer/NewHolder/NewButon/Label" index="0"]
+[node name="Label2" parent="Center/PlayHolder/VBoxContainer/NewHolder/NewButon/Label" index="0"]
 text = "New"
 
-[node name="BackHolder" type="Control" parent="PlayHolder/VBoxContainer"]
+[node name="BackHolder" type="Control" parent="Center/PlayHolder/VBoxContainer"]
 layout_mode = 2
 
-[node name="BackButton" parent="PlayHolder/VBoxContainer/BackHolder" instance=ExtResource("2_853f1")]
+[node name="BackButton" parent="Center/PlayHolder/VBoxContainer/BackHolder" instance=ExtResource("2_853f1")]
 layout_mode = 1
 anchors_preset = 8
 anchor_left = 0.5
@@ -248,27 +284,27 @@ grow_horizontal = 2
 grow_vertical = 2
 text = "Back"
 
-[node name="Label" parent="PlayHolder/VBoxContainer/BackHolder/BackButton" index="0"]
+[node name="Label" parent="Center/PlayHolder/VBoxContainer/BackHolder/BackButton" index="0"]
 offset_right = 20.0
 text = "Back"
 
-[node name="Label2" parent="PlayHolder/VBoxContainer/BackHolder/BackButton/Label" index="0"]
+[node name="Label2" parent="Center/PlayHolder/VBoxContainer/BackHolder/BackButton/Label" index="0"]
 text = "Back"
 
-[connection signal="pressed" from="MenuHolder/VBoxContainer/PlayHolder/PlayButton" to="." method="onPlayPressed"]
-[connection signal="pressed" from="MenuHolder/VBoxContainer/MultiplayerHolder/MultiplayerButton" to="." method="onMultiplayerPressed"]
-[connection signal="pressed" from="MenuHolder/VBoxContainer/CollectionHolder/CollectionButton" to="." method="onCollectionPressed"]
-[connection signal="pressed" from="MenuHolder/VBoxContainer/SettingsHolder/SettingsButton" to="." method="onSettingsPressed"]
-[connection signal="pressed" from="MenuHolder/VBoxContainer/ExitHolder/ExitButton" to="." method="onExitPressed"]
-[connection signal="pressed" from="PlayHolder/VBoxContainer/LoadHolder/LoadButton" to="." method="onLoadPressed"]
-[connection signal="pressed" from="PlayHolder/VBoxContainer/NewHolder/NewButon" to="." method="onNewPressed"]
-[connection signal="pressed" from="PlayHolder/VBoxContainer/BackHolder/BackButton" to="." method="onBackPressed"]
+[connection signal="pressed" from="Center/MenuHolder/VBoxContainer/PlayHolder/PlayButton" to="." method="onPlayPressed"]
+[connection signal="pressed" from="Center/MenuHolder/VBoxContainer/MultiplayerHolder/MultiplayerButton" to="." method="onMultiplayerPressed"]
+[connection signal="pressed" from="Center/MenuHolder/VBoxContainer/CollectionHolder/CollectionButton" to="." method="onCollectionPressed"]
+[connection signal="pressed" from="Center/MenuHolder/VBoxContainer/SettingsHolder/SettingsButton" to="." method="onSettingsPressed"]
+[connection signal="pressed" from="Center/MenuHolder/VBoxContainer/ExitHolder/ExitButton" to="." method="onExitPressed"]
+[connection signal="pressed" from="Center/PlayHolder/VBoxContainer/LoadHolder/LoadButton" to="." method="onLoadPressed"]
+[connection signal="pressed" from="Center/PlayHolder/VBoxContainer/NewHolder/NewButon" to="." method="onNewPressed"]
+[connection signal="pressed" from="Center/PlayHolder/VBoxContainer/BackHolder/BackButton" to="." method="onBackPressed"]
 
-[editable path="MenuHolder/VBoxContainer/PlayHolder/PlayButton"]
-[editable path="MenuHolder/VBoxContainer/MultiplayerHolder/MultiplayerButton"]
-[editable path="MenuHolder/VBoxContainer/CollectionHolder/CollectionButton"]
-[editable path="MenuHolder/VBoxContainer/SettingsHolder/SettingsButton"]
-[editable path="MenuHolder/VBoxContainer/ExitHolder/ExitButton"]
-[editable path="PlayHolder/VBoxContainer/LoadHolder/LoadButton"]
-[editable path="PlayHolder/VBoxContainer/NewHolder/NewButon"]
-[editable path="PlayHolder/VBoxContainer/BackHolder/BackButton"]
+[editable path="Center/MenuHolder/VBoxContainer/PlayHolder/PlayButton"]
+[editable path="Center/MenuHolder/VBoxContainer/MultiplayerHolder/MultiplayerButton"]
+[editable path="Center/MenuHolder/VBoxContainer/CollectionHolder/CollectionButton"]
+[editable path="Center/MenuHolder/VBoxContainer/SettingsHolder/SettingsButton"]
+[editable path="Center/MenuHolder/VBoxContainer/ExitHolder/ExitButton"]
+[editable path="Center/PlayHolder/VBoxContainer/LoadHolder/LoadButton"]
+[editable path="Center/PlayHolder/VBoxContainer/NewHolder/NewButon"]
+[editable path="Center/PlayHolder/VBoxContainer/BackHolder/BackButton"]

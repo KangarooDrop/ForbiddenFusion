@@ -32,15 +32,14 @@ static func getRarityFromString(string : String) -> RARITY:
 	if RARITY.has(string):
 		return RARITY[string]
 	else:
-		return -1
+		return RARITY.LEGENDARY
 
 static func getCreatureTypeFromString(string : String) -> CREATURE_TYPE:
 	string = string.to_upper()
 	if CREATURE_TYPE.has(string):
 		return CREATURE_TYPE[string]
 	else:
-		return -1
-
+		return CREATURE_TYPE.NULL
 func _init(data : Dictionary):
 	deserialize(data)
 
@@ -48,6 +47,53 @@ func onDestroy():
 	if not isDestroyed:
 		isDestroyed = true
 		emit_signal("destroyed")
+
+static func isNULL(creatureTypesStatic : Array) -> bool:
+	return creatureTypesStatic.has(CREATURE_TYPE.NULL)
+static func isOnlyNULL(creatureTypesStatic : Array) -> bool:
+	return isNULL(creatureTypesStatic) and creatureTypesStatic.size() == 1
+static func isNotNULL(creatureTypesStatic : Array) -> bool:
+	return not isNULL(creatureTypesStatic)
+static func isDualNotNULL(creatureTypesStatic : Array) -> bool:
+	return isNotNULL(creatureTypesStatic) and creatureTypesStatic.size() == 2
+static func getPercentNULL(creatureTypesStatic : Array) -> float:
+	if isNotNULL(creatureTypesStatic):
+		return 0.0
+	else:
+		return 1.0/creatureTypesStatic.size()
+
+static func getCreatureTypesToVal(creatureTypesStatic : Array) -> int:
+	var vBase : int = int(pow(2.0, CREATURE_TYPE.size()))
+	var v : int = 0
+	if isOnlyNULL(creatureTypesStatic):
+		v = 0
+	elif isNULL(creatureTypesStatic):
+		v = vBase
+	elif isDualNotNULL(creatureTypesStatic):
+		v = vBase*3
+	else:
+		v = vBase*2
+	
+	for ct : CREATURE_TYPE in creatureTypesStatic:
+		v += int(pow(2.0, ct))
+	return v
+
+static func getSort(card0 : Card, card1 : Card) -> bool:
+	var v0 : int = getCreatureTypesToVal(card0.creatureTypes)
+	var v1 : int = getCreatureTypesToVal(card1.creatureTypes)
+	if v0 != v1:
+		return v0 < v1
+	
+	var bst0 : int = getBST(card0)
+	var bst1 : int = getBST(card1)
+	if bst0 != bst1:
+		return bst0 < bst1
+	
+	if card0.name != card1.name:
+		return card0.name < card1.name
+	
+	return true
+
 
 static func getCreatureTypeDist(creatureTypes0 : Array, creatureTypes1 : Array) -> int:
 	var dist : int = 0

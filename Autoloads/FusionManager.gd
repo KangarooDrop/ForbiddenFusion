@@ -164,13 +164,18 @@ func applyFusionOutput(card0 : Card, card1 : Card, isOpponent : bool) -> Card:
 			else:
 				return card1
 	
+	
 	#Determining weakest possible card
 	var lowestCID : int = FUSION_INVALID
 	var lowestScore : int = 0
+	var lowestSharedTypes : int = 0
 	for i in range(validFusions.size()):
-		var score : int = ListOfCards.cardList[validFusions[i]].attack + ListOfCards.cardList[validFusions[i]].health
-		if lowestCID == FUSION_INVALID or score < lowestScore:
+		var fCreature : Card = ListOfCards.getCard(validFusions[i])
+		var score : int = Card.getBST(fCreature)
+		var ctSharedTotal : int = Card.getCreatureTypesShared(fCreature.creatureTypes, creatureTypesTotal)
+		if lowestCID == FUSION_INVALID or score < lowestScore or (lowestScore == score and lowestSharedTypes < ctSharedTotal):
 			lowestCID = validFusions[i]
 			lowestScore = score
+			lowestSharedTypes = ctSharedTotal
 	
 	return ListOfCards.getCard(lowestCID)

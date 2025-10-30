@@ -1,8 +1,9 @@
 extends Node
 
-@onready var menuHolder : Control = $MenuHolder
-@onready var playHolder : Control = $PlayHolder
-@onready var loadButtonHolder : Control = $PlayHolder/VBoxContainer/LoadHolder
+@onready var menuHolder : Control = $Center/MenuHolder
+@onready var playHolder : Control = $Center/PlayHolder
+@onready var loadButtonHolder : Control = $Center/PlayHolder/VBoxContainer/LoadHolder
+@onready var savePreview : Node2D = $Center/PlayHolder/VBoxContainer/LoadHolder/Control/SavePreview
 
 ####################################################################################################
 
@@ -10,6 +11,8 @@ func onPlayPressed():
 	menuHolder.hide()
 	playHolder.show()
 	loadButtonHolder.visible = FileIO.getSaveExists()
+	if loadButtonHolder.visible:
+		savePreview.setPlayerData()
 
 func onMultiplayerPressed() -> void:
 	Util.changeSceneToFileButDoesntSUCK_ASS(Preloader.multiplayerPath)

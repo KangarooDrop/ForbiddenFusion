@@ -123,16 +123,23 @@ offset_bottom = 2.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="FightButton" type="Button" parent="."]
+[node name="HBoxContainer" type="HBoxContainer" parent="."]
 layout_mode = 1
 anchors_preset = 5
 anchor_left = 0.5
 anchor_right = 0.5
-offset_left = -24.0
 offset_top = 148.0
-offset_right = 24.0
-offset_bottom = 168.0
+offset_bottom = 148.0
 grow_horizontal = 2
+
+[node name="FightButton" type="Button" parent="HBoxContainer"]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("2_f4lms")
+theme_override_font_sizes/font_size = 12
+text = "Fight"
+
+[node name="EditButton" type="Button" parent="HBoxContainer"]
+layout_mode = 2
 theme_override_fonts/font = ExtResource("2_f4lms")
 theme_override_font_sizes/font_size = 12
 text = "Fight"
@@ -175,4 +182,5 @@ region_rect = Rect2(8, 0, 8, 8)
 
 [connection signal="mouse_entered" from="." to="." method="onMouseEnter"]
 [connection signal="mouse_exited" from="." to="." method="onMouseExit"]
-[connection signal="pressed" from="FightButton" to="." method="onFightPressed"]
+[connection signal="pressed" from="HBoxContainer/FightButton" to="." method="onFightPressed"]
+[connection signal="pressed" from="HBoxContainer/EditButton" to="." method="onFightPressed"]

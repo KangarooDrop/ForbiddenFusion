@@ -11,8 +11,10 @@ func getExpandHeight() -> float:
 func getPlayerPortrait():
 	return $Header/PlayerPortraitHolder/PlayerPortrait
 
-func getFightButton():
-	return $FightButton
+func getFightButton() -> Button:
+	return $HBoxContainer/FightButton
+func getEditButton() -> Button:
+	return $HBoxContainer/EditButton
 
 func getType0Sprite() -> Sprite2D:
 	return $Type0Holder/Sprite2D

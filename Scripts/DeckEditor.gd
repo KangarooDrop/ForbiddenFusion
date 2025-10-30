@@ -171,6 +171,8 @@ func updateFilters() -> void:
 		
 		if not failed:
 			cards.append(card)
+			#print(Card.getCreatureTypesToVal(card.creatureTypes))
+	cards.sort_custom(Card.getSort)
 	setPage(0)
 
 ####################################################################################################
@@ -196,6 +198,9 @@ func addCardToDeck(cid : int):
 	hasSaved = false
 
 func removeCardFromDeck(cid : int):
+	if not deckData.has(cid):
+		return
+	
 	deckData[cid] -= 1
 	if deckData[cid] > 0:
 		cidToButton[cid].text = getDeckButtonText(cid, deckData[cid])

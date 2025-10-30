@@ -32,8 +32,10 @@ func getNameLabel() -> Label:
 func getRankLabel() -> Label:
 	return $Header/RankLabel
 
-func getFightButton():
-	return $ExtendedPage/FightButton
+func getFightButton() -> Button:
+	return $ExtendedPage/HBoxContainer/FightButton
+func getEditButton() -> Button:
+	return $ExtendedPage/HBoxContainer/EditButton
 
 func getType0Sprite() -> Sprite2D:
 	return $Type0Holder/Sprite2D
@@ -46,31 +48,13 @@ func getExpandHeight() -> float:
 	return EXPAND_HEIGHT
 
 func setTypeSprites():
-	var ctDict : Dictionary = {}
-	for ct in Card.CREATURE_TYPE.values():
-		ctDict[ct] = 0
-	for uuid in deckData.keys():
-		var card : Card = ListOfCards.cardList[uuid]
-		for ct in card.creatureTypes:
-			ctDict[ct] += 1
-	ctDict[Card.CREATURE_TYPE.NULL] *= 0.85
-	var highest : int = -1
-	var second : int = -1
-	for ct in Card.CREATURE_TYPE.values():
-		if highest == -1 or ctDict[ct]>ctDict[highest]:
-			second = highest
-			highest = ct
-		elif second == -1 or ctDict[ct]>ctDict[second]:
-			second = ct
-	if second != -1 and ctDict[highest] > ctDict[second]*1.25:
-		second = -1
-	
-	getType0Sprite().region_rect.position.x = highest * 8.0
+	var mostCommonTypes : Array = Util.getMostCommonTypes(deckData)
+	getType0Sprite().region_rect.position.x = mostCommonTypes[0] * 8.0
 	var type1Sprite : Sprite2D = getType1Sprite()
-	if second == -1:
+	if mostCommonTypes.size() == 1:
 		type1Sprite.hide()
 	else:
-		type1Sprite.region_rect.position.x = second * 8.0
+		type1Sprite.region_rect.position.x = mostCommonTypes[1] * 8.0
 		type1Sprite.show()
 
 func onMouseEnter():
@@ -146,6 +130,10 @@ func serialize() -> Dictionary:
 	rtn['collection'] = collection
 	return rtn
 
+func setIsUser(newIsUser : bool) -> void:
+	self.isUser = newIsUser
+	self.getEditButton().visible = isUser
+	self.getFightButton().visible = not isUser
 func setPlayerName(newPlayerName : String):
 	self.playerName = newPlayerName
 	getNameLabel().text = newPlayerName + ("" if not isUser else " (YOU)")
@@ -159,7 +147,7 @@ func setCollection(newCollection : Dictionary):
 	self.collection = newCollection
 
 func deserialize(data : Dictionary) -> void:
-	isUser = data["is_user"]
+	setIsUser(data["is_user"])
 	setPlayerName(data['player_name'])
 	#playerUUID = data['player_uuid']
 	setPlayerRank(data['player_rank'])
