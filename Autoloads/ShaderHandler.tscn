@@ -1,0 +1,25 @@
+[gd_scene load_steps=3 format=3 uid="uid://ey0xj0ipgq4g"]
+
+[ext_resource type="Texture2D" uid="uid://ncjj8l6qhwtd" path="res://Art/portraits/annointed_angel.png" id="1_lgtn2"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_us2r3"]
+
+[node name="ShaderHandler" type="CanvasLayer"]
+layer = 99
+
+[node name="TextureRect" type="TextureRect" parent="."]
+visible = false
+offset_right = 40.0
+offset_bottom = 40.0
+mouse_filter = 2
+texture = ExtResource("1_lgtn2")
+
+[node name="ColorRect" type="ColorRect" parent="."]
+visible = false
+material = SubResource("ShaderMaterial_us2r3")
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2

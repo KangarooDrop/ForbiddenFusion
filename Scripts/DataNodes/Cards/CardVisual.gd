@@ -10,6 +10,7 @@ class_name CardVisual
 @onready var cardType2 = $CardType2
 @onready var cardRarity = $CardRarity
 @onready var cardback = $Cardback
+@onready var nameLabel : Label = $Label2
 
 func showCard(card : Card):
 	cardPortrait.visible = true
@@ -18,6 +19,7 @@ func showCard(card : Card):
 	if card != null:
 		label.visible = true
 		label.text = str(card.attack) + "/" + str(card.health)
+		nameLabel.text = card.name
 		if card.creatureTypes.size() > 0:
 			cardType.visible = true
 			cardType.region_rect.position.x = card.creatureTypes[0] * 8

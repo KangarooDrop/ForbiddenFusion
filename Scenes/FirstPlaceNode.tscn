@@ -142,7 +142,7 @@ text = "Fight"
 layout_mode = 2
 theme_override_fonts/font = ExtResource("2_f4lms")
 theme_override_font_sizes/font_size = 12
-text = "Fight"
+text = "Edit"
 
 [node name="Type0Holder" type="Control" parent="."]
 layout_mode = 1
@@ -183,4 +183,4 @@ region_rect = Rect2(8, 0, 8, 8)
 [connection signal="mouse_entered" from="." to="." method="onMouseEnter"]
 [connection signal="mouse_exited" from="." to="." method="onMouseExit"]
 [connection signal="pressed" from="HBoxContainer/FightButton" to="." method="onFightPressed"]
-[connection signal="pressed" from="HBoxContainer/EditButton" to="." method="onFightPressed"]
+[connection signal="pressed" from="HBoxContainer/EditButton" to="." method="onEditPressed"]

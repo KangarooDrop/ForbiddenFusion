@@ -1,4 +1,4 @@
-[gd_scene load_steps=8 format=3 uid="uid://dda8aufvip874"]
+[gd_scene load_steps=9 format=3 uid="uid://dda8aufvip874"]
 
 [ext_resource type="Script" uid="uid://ervewxspjohp" path="res://Scripts/DataNodes/Cards/CardVisual.gd" id="1_25b8w"]
 [ext_resource type="Texture2D" uid="uid://bwduqkx7crmyr" path="res://Art/backgrounds/card_active.png" id="2_25b8w"]
@@ -7,6 +7,7 @@
 [ext_resource type="Texture2D" uid="uid://cfw68lhailage" path="res://Art/Rarity/rarity.png" id="5_s0sc8"]
 [ext_resource type="Texture2D" uid="uid://cbrfftu8hwokc" path="res://Art/UI/eye.png" id="6_axv6l"]
 [ext_resource type="FontFile" uid="uid://cq55vl12vholm" path="res://fonts/3x5 pixel font.ttf" id="7_eff0o"]
+[ext_resource type="Texture2D" uid="uid://bt72ptnxnvrn8" path="res://Art/button_hover.png" id="8_7hptf"]
 
 [node name="CardVisual" type="Node2D"]
 z_index = 1
@@ -78,3 +79,38 @@ alignment = 1
 [node name="Overlays" type="Node2D" parent="."]
 
 [node name="Cardback" type="Sprite2D" parent="."]
+
+[node name="Label2" type="Label" parent="."]
+visible = false
+anchors_preset = -1
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -3.0
+offset_top = 8.0
+offset_right = 3.0
+offset_bottom = 14.000002
+grow_horizontal = 2
+grow_vertical = 0
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_fonts/font = ExtResource("7_eff0o")
+theme_override_font_sizes/font_size = 6
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="NinePatchRect" type="NinePatchRect" parent="Label2"]
+show_behind_parent = true
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -2.0
+offset_top = -2.0
+offset_right = 2.0
+offset_bottom = 2.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("8_7hptf")
+patch_margin_left = 3
+patch_margin_top = 3
+patch_margin_right = 3
+patch_margin_bottom = 3

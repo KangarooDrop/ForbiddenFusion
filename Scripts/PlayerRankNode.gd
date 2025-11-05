@@ -108,15 +108,17 @@ func randomize(deckParams : Dictionary = {}) -> void:
 	getPlayerPortrait().randomize()
 	
 	var validCards : Array = []
-	var newDeckData : Dictionary = {}
+	var newDeckData : Dictionary[int, int] = {}
 	for index in ListOfCards.cardList.size():
 		var card : Card = ListOfCards.cardList[index]
 		if card.rarity == Card.RARITY.BASIC:
 			validCards.append(card.duplicate())
 	for i in range(30):
 		var card : Card = validCards[randi() % validCards.size()]
-		validCards.erase(card)
-		newDeckData[card.cid] = 1
+		if not newDeckData.has(card.cid):
+			newDeckData[card.cid] = 0
+		newDeckData[card.cid] += 1
+	
 	setDeckData(newDeckData)
 	setCollection(newDeckData.duplicate())
 

@@ -90,3 +90,10 @@ func getMostCommonTypes(deckData : Dictionary) -> Array:
 		return [highest]
 	else:
 		return [highest, second]
+
+func getCardDictToArray(dict : Dictionary) -> Array:
+	var out : Array = []
+	for k in dict.keys():
+		for i in range(dict[k]):
+			out.append(k)
+	return out

@@ -1,0 +1,117 @@
+[gd_scene load_steps=7 format=3 uid="uid://b4rqg8ilus0tb"]
+
+[ext_resource type="Script" uid="uid://5dgan6a4mte6" path="res://Scripts/RewardNode.gd" id="1_nsft4"]
+[ext_resource type="Shader" uid="uid://cmpjl35covenw" path="res://Shaders/dither_rect.gdshader" id="2_pnctg"]
+[ext_resource type="FontFile" uid="uid://cq55vl12vholm" path="res://fonts/3x5 pixel font.ttf" id="3_duyjh"]
+[ext_resource type="Texture2D" uid="uid://kvtb1kbu3dmy" path="res://Art/button_disabled.png" id="4_oqhbn"]
+[ext_resource type="PackedScene" uid="uid://by000qucbvst5" path="res://Scenes/NinePatchButton.tscn" id="5_0cudh"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_4yklb"]
+shader = ExtResource("2_pnctg")
+shader_parameter/rect_size = Vector2(384, 288)
+shader_parameter/margin = Vector2(96, 72)
+
+[node name="RewardNode" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_nsft4")
+
+[node name="Center" type="Control" parent="."]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+
+[node name="Node2D" type="Node2D" parent="Center"]
+
+[node name="ColorRect" type="ColorRect" parent="Center/Node2D"]
+material = SubResource("ShaderMaterial_4yklb")
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -192.0
+offset_top = -120.0
+offset_right = 192.0
+offset_bottom = 120.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+color = Color(0, 0, 0, 1)
+
+[node name="TitleLabel" type="Label" parent="Center/Node2D/ColorRect"]
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -32.0
+offset_top = 64.0
+offset_right = 32.0
+offset_bottom = 76.0
+grow_horizontal = 2
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_fonts/font = ExtResource("3_duyjh")
+theme_override_font_sizes/font_size = 12
+text = "Take Any"
+
+[node name="NinePatchRect" type="NinePatchRect" parent="Center/Node2D/ColorRect/TitleLabel"]
+show_behind_parent = true
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -4.0
+offset_top = -4.0
+offset_right = 4.0
+offset_bottom = 4.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("4_oqhbn")
+patch_margin_left = 3
+patch_margin_top = 3
+patch_margin_right = 3
+patch_margin_bottom = 3
+
+[node name="SkipButton" parent="Center/Node2D/ColorRect" instance=ExtResource("5_0cudh")]
+layout_mode = 1
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -52.0
+offset_top = -80.0
+offset_right = 52.0
+offset_bottom = -60.0
+grow_horizontal = 2
+grow_vertical = 0
+text = "Skip Rewards"
+fontSize = 12
+textBuffer = Vector2i(4, 4)
+
+[node name="Label" parent="Center/Node2D/ColorRect/SkipButton" index="0"]
+offset_top = -6.0
+offset_right = 100.0
+offset_bottom = 6.0
+theme_override_font_sizes/font_size = 12
+text = "Skip Rewards"
+
+[node name="Label2" parent="Center/Node2D/ColorRect/SkipButton/Label" index="0"]
+theme_override_font_sizes/font_size = 12
+text = "Skip Rewards"
+
+[node name="CardNodeHolder" type="Node2D" parent="."]
+
+[connection signal="pressed" from="Center/Node2D/ColorRect/SkipButton" to="." method="onSkipPressed"]
+
+[editable path="Center/Node2D/ColorRect/SkipButton"]

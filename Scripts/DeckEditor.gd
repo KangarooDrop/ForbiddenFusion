@@ -241,11 +241,11 @@ func clearDeck():
 		cidToButton.erase(cid)
 
 func setPlayerUUID(newPlayerUUID : int) -> void:
-	var newDeckData : Dictionary = getSaveDeck(newPlayerUUID)
-	setDeckData(newDeckData)
 	var newCollectionData : Dictionary = getSaveCollection(newPlayerUUID)
 	setCollectionData(newCollectionData)
 	playerUUID = newPlayerUUID
+	var newDeckData : Dictionary = getSaveDeck(newPlayerUUID)
+	setDeckData(newDeckData)
 
 func setDeckData(newDeckData : Dictionary) -> void:
 	clearDeck()
@@ -340,12 +340,12 @@ static func confirmDeckData(data : Dictionary) -> DECK_ERROR:
 			return DECK_ERROR.KEY_OOB
 	return DECK_ERROR.OK
 
-static func getSaveDeck(playerUUID : int) -> Dictionary:
-	var newDeckData : Dictionary = FileIO.getSaveData()[playerUUID]["deck_data"]
+static func getSaveDeck(newPlayerUUID : int) -> Dictionary:
+	var newDeckData : Dictionary = FileIO.getSaveData()[newPlayerUUID]["deck_data"]
 	return newDeckData
 
-static func getSaveCollection(playerUUID : int) -> Dictionary:
-	var newCollectionData : Dictionary = FileIO.getSaveData()[playerUUID]["collection"]
+static func getSaveCollection(newPlayerUUID : int) -> Dictionary:
+	var newCollectionData : Dictionary = FileIO.getSaveData()[newPlayerUUID]["collection"]
 	return newCollectionData
 
 const BST_MAX : String = "bst_max"

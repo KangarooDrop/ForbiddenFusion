@@ -8,6 +8,7 @@ const CAM_ZOOM_INC : float = 0.125
 var camDir : int = 0
 
 @onready var pauseMenu : Control = $Camera2D/PauseMenu
+@onready var rewardNode : RewardNode = $RewardNode
 
 func _ready() -> void:
 	boardNode.card_node_pressed.connect(self.onCardNodePressed)
@@ -27,7 +28,46 @@ func _ready() -> void:
 		syncBoard()
 
 func onGameEnd():
+	onBoardMoveCamera(0)
 	await get_tree().create_timer(3.0).timeout
+	if boardNode.winner == boardNode.board.players[0]:
+		rewardNode.visible = true
+		boardNode.visible = false
+		
+		var loserUUID : int = boardNode.board.getOpponent(boardNode.winner).playerUUID
+		var loserDeckData : Dictionary = FileIO.getSaveData()[loserUUID]["deck_data"]
+		var loserCardArray : Array = Util.getCardDictToArray(loserDeckData)
+		var cardCIDToShow : Array = []
+		for i in range(3):
+			var index : int = randi() % loserCardArray.size()
+			cardCIDToShow.append(loserCardArray[index])
+			loserCardArray.remove_at(index)
+		for i in range(cardCIDToShow.size()):
+			rewardNode.addCard(cardCIDToShow[i])
+	else:
+		backToRankings()
+
+func onRewardSkipPressed() -> void:
+	backToRankings()
+func onRewardCardPressed(cid : int) -> void:
+	var winnerUUID : int = boardNode.winner.playerUUID
+	var loserUUID : int = boardNode.board.getOpponent(boardNode.winner).playerUUID
+	var saveData : Dictionary = FileIO.getSaveData()
+	
+	if not saveData[winnerUUID]["collection"].has(cid):
+		saveData[winnerUUID]["collection"][cid] = 0
+	saveData[winnerUUID]["collection"][cid] += 1
+	
+	saveData[loserUUID]["collection"][cid] -= 1
+	if saveData[loserUUID]["collection"][cid] == 0:
+		saveData[loserUUID]["collection"].erase(cid)
+	saveData[loserUUID]["deck_data"][cid] -= 1
+	if saveData[loserUUID]["deck_data"][cid] == 0:
+		saveData[loserUUID]["deck_data"].erase(cid)
+	
+	FileIO.saveGame(saveData)
+
+func backToRankings():
 	var winnerUUID : int = boardNode.winner.playerUUID
 	var loserUUID : int = boardNode.board.getOpponent(boardNode.winner).playerUUID
 	

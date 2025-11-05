@@ -40,13 +40,15 @@ func getFusion(card0 : Card, card1 : Card) -> int:
 			continue
 		if fCreature.health < statTotal.y:
 			continue
-		if fCreature.attack == statTotal.x and fCreature.health == statTotal.y:
+		if (fCreature.attack == card0.attack and fCreature.health == card0.health) or (fCreature.attack == card1.attack and fCreature.health == card1.health):
 			continue
 		
+		"""
 		#The fusion creature's types can differ from the total creature types by no more than 1 
 		var ctDistTotal : int = Card.getCreatureTypeDist(fCreature.creatureTypes, creatureTypesTotal)
 		if ctDistTotal > 1:
 			continue
+		"""
 		
 		#If the fusion creature shares no types with either card: continue
 		var ctShared0 : int = Card.getCreatureTypesShared(fCreature.creatureTypes, card0.creatureTypes)
@@ -58,14 +60,6 @@ func getFusion(card0 : Card, card1 : Card) -> int:
 		var ctSharedTotal : int = Card.getCreatureTypesShared(fCreature.creatureTypes, creatureTypesTotal)
 		if ctSharedTotal < fCreature.creatureTypes.size():
 			continue
-		
-		"""
-		if fCreature.creatureTypes.size() > creatureTypesTotal.size():
-			continue
-		if not fCreature.creatureTypes.has(card1.creatureTypes[0]):
-			if card1.creatureTypes.size() == 1 or not fCreature.creatureTypes.has(card1.creatureTypes[1]):
-				continue
-		"""
 		
 		validFusions.append(ListOfCards.cardList[i].cid)
 	
@@ -79,9 +73,17 @@ func getFusion(card0 : Card, card1 : Card) -> int:
 	#Determining weakest possible card
 	var lowestCID : int = FUSION_INVALID
 	var lowestScore : int = 0
+	var lowestSharedTypes : int = 0
 	for i in range(validFusions.size()):
-		var score : int = ListOfCards.cardList[validFusions[i]].attack + ListOfCards.cardList[validFusions[i]].health
-		if lowestCID == FUSION_INVALID or score < lowestScore:
+		var fCreature : Card = ListOfCards.getCard(validFusions[i])
+		var score : int = Card.getBST(fCreature)
+		var ctSharedTotal : int = Card.getCreatureTypesShared(fCreature.creatureTypes, creatureTypesTotal)
+		var swap : bool = lowestCID == FUSION_INVALID
+		if ctSharedTotal > lowestSharedTypes:
+			swap = true
+		elif ctSharedTotal == lowestSharedTypes and score < lowestScore:
+			swap = true
+		if swap:
 			lowestCID = validFusions[i]
 			lowestScore = score
 	
@@ -113,13 +115,15 @@ func applyFusionOutput(card0 : Card, card1 : Card, isOpponent : bool) -> Card:
 			continue
 		if fCreature.health < statTotal.y:
 			continue
-		if fCreature.attack == statTotal.x and fCreature.health == statTotal.y:
+		if (fCreature.attack == card0.attack and fCreature.health == card0.health) or (fCreature.attack == card1.attack and fCreature.health == card1.health):
 			continue
 		
+		"""
 		#The fusion creature's types can differ from the total creature types by no more than 1 
 		var ctDistTotal : int = Card.getCreatureTypeDist(fCreature.creatureTypes, creatureTypesTotal)
 		if ctDistTotal > 1:
 			continue
+		"""
 		
 		#If the fusion creature shares no types with either card: continue
 		var ctShared0 : int = Card.getCreatureTypesShared(fCreature.creatureTypes, card0.creatureTypes)
@@ -131,14 +135,6 @@ func applyFusionOutput(card0 : Card, card1 : Card, isOpponent : bool) -> Card:
 		var ctSharedTotal : int = Card.getCreatureTypesShared(fCreature.creatureTypes, creatureTypesTotal)
 		if ctSharedTotal < fCreature.creatureTypes.size():
 			continue
-		
-		"""
-		if fCreature.creatureTypes.size() > creatureTypesTotal.size():
-			continue
-		if not fCreature.creatureTypes.has(card1.creatureTypes[0]):
-			if card1.creatureTypes.size() == 1 or not fCreature.creatureTypes.has(card1.creatureTypes[1]):
-				continue
-		"""
 		
 		validFusions.append(ListOfCards.cardList[i].cid)
 	
@@ -173,7 +169,12 @@ func applyFusionOutput(card0 : Card, card1 : Card, isOpponent : bool) -> Card:
 		var fCreature : Card = ListOfCards.getCard(validFusions[i])
 		var score : int = Card.getBST(fCreature)
 		var ctSharedTotal : int = Card.getCreatureTypesShared(fCreature.creatureTypes, creatureTypesTotal)
-		if lowestCID == FUSION_INVALID or score < lowestScore or (lowestScore == score and lowestSharedTypes < ctSharedTotal):
+		var swap : bool = lowestCID == FUSION_INVALID
+		if ctSharedTotal > lowestSharedTypes:
+			swap = true
+		elif ctSharedTotal == lowestSharedTypes and score < lowestScore:
+			swap = true
+		if swap:
 			lowestCID = validFusions[i]
 			lowestScore = score
 			lowestSharedTypes = ctSharedTotal

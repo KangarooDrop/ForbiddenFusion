@@ -1,13 +1,17 @@
-[gd_scene load_steps=4 format=3 uid="uid://c3584evmmxn0v"]
+[gd_scene load_steps=5 format=3 uid="uid://c3584evmmxn0v"]
 
 [ext_resource type="Script" uid="uid://srto4kgxr3tu" path="res://Scripts/Main.gd" id="1_idj7w"]
 [ext_resource type="PackedScene" uid="uid://bhmqc41sgnmv5" path="res://Scenes/BoardNode.tscn" id="2_idj7w"]
 [ext_resource type="PackedScene" uid="uid://by000qucbvst5" path="res://Scenes/NinePatchButton.tscn" id="3_kln2b"]
+[ext_resource type="PackedScene" uid="uid://b4rqg8ilus0tb" path="res://Scenes/RewardNode.tscn" id="4_rgh2o"]
 
 [node name="Main" type="Node2D"]
 script = ExtResource("1_idj7w")
 
 [node name="Board" parent="." instance=ExtResource("2_idj7w")]
+
+[node name="RewardNode" parent="." instance=ExtResource("4_rgh2o")]
+visible = false
 
 [node name="Camera2D" type="Camera2D" parent="."]
 
@@ -153,6 +157,8 @@ text = "Main Menu"
 [node name="Label2" parent="Camera2D/PauseMenu/VBoxContainer/MainMenuHolder/MainMenuButton/Label" index="0"]
 text = "Main Menu"
 
+[connection signal="card_pressed" from="RewardNode" to="." method="onRewardCardPressed"]
+[connection signal="skip_pressed" from="RewardNode" to="." method="onRewardSkipPressed"]
 [connection signal="pressed" from="Camera2D/PauseMenu/VBoxContainer/ResumeHolder/ResumeButton" to="." method="onResumePressed"]
 [connection signal="pressed" from="Camera2D/PauseMenu/VBoxContainer/SettingsHolder/SettingsButton" to="." method="onSettingsPressed"]
 [connection signal="pressed" from="Camera2D/PauseMenu/VBoxContainer/ConcedeHolder/ConcedeButton" to="." method="onConcedePressed"]

@@ -38,14 +38,16 @@ func getSaveData():
 		saveData[playerUUID]["player_data"]["mouth_type"] = int(saveData[playerUUID]["player_data"]["mouth_type"])
 		saveData[playerUUID]["player_data"]["arm_type"] = int(saveData[playerUUID]["player_data"]["arm_type"])
 		
+		saveData[playerUUID]["player_rank"] = int(saveData[playerUUID]["player_rank"])
+		
 		var newDeckData : Dictionary = {}
 		for k2 in saveData[playerUUID]["deck_data"].keys():
-			newDeckData[int(k2)] = saveData[playerUUID]["deck_data"][k2]
+			newDeckData[int(k2)] = int(saveData[playerUUID]["deck_data"][k2])
 		saveData[playerUUID]["deck_data"] = newDeckData
 		
 		var newCollectionData : Dictionary = {}
 		for k2 in saveData[playerUUID]["collection"].keys():
-			newCollectionData[int(k2)] = saveData[playerUUID]["collection"][k2]
+			newCollectionData[int(k2)] = int(saveData[playerUUID]["collection"][k2])
 		saveData[playerUUID]["collection"] = newCollectionData
 		
 	return saveData

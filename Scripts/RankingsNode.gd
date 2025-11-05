@@ -31,6 +31,7 @@ func _ready() -> void:
 	playerRankNodes.append(firstPlaceNode)
 	firstPlaceNode.background_pressed.connect(onRankBackgroundPressed.bind(firstPlaceNode))
 	firstPlaceNode.fight_pressed.connect(onFightPressed.bind(firstPlaceNode))
+	firstPlaceNode.edit_pressed.connect(onEditPressed.bind(firstPlaceNode))
 	moveCam(firstPlaceHolder.global_position)
 	
 	if FileIO.getSaveExists():
@@ -254,7 +255,7 @@ func selectNode(prn : PlayerRankNode):
 
 func addPlayerRank(isUser : bool = false) -> PlayerRankNode:
 	var prn : PlayerRankNode = playerRankNodePacked.instantiate()
-	prn.isUser = isUser
+	prn.setIsUser(isUser)
 	playerRankHolder.add_child(prn)
 	prn.position.y = lastOffset
 	#prn.position.x = 600
@@ -309,6 +310,8 @@ func swapRanks(index0 : int, index1 : int):
 		uuidToRankNode[frn.playerUUID] = frn
 		uuidToRankNode[prn.playerUUID] = prn
 		prn.deserialize(tmp)
+		frn.setPlayerRank(index0+1)
+		prn.setPlayerRank(index1+1)
 	else:
 		var prn0 : PlayerRankNode = playerRankNodes[index0]
 		var prn1 : PlayerRankNode = playerRankNodes[index1]

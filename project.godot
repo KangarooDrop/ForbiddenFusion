@@ -26,6 +26,7 @@ SoundManager="*res://Autoloads/SoundManager.gd"
 Settings="*res://Autoloads/Settings.tscn"
 FusionManager="*res://Autoloads/FusionManager.gd"
 Server="*res://Autoloads/Server.gd"
+ShaderHandler="*res://Autoloads/ShaderHandler.tscn"
 
 [debug]
 
