@@ -72,6 +72,77 @@ func getCard(index : int):
 		return null
 	return cardList[index].duplicate()
 
-func getRandomCard(properties : Dictionary = {}) -> Card:
-	var cardOptions : Array = cardList.duplicate()
-	return getCard(cardOptions[randi() % cardOptions.size()].cid)
+####################################################################################################
+
+var basicsArray : Array = []
+func getAllBasics() -> Array:
+	if basicsArray.is_empty():
+		for card : Card in cardList:
+			if card.rarity == Card.RARITY.BASIC:
+				basicsArray.append(card)
+	return basicsArray
+
+func getCardWeight(card : Card, deckParams : Dictionary) -> float:
+	if Card.isNULL(card.creatureTypes):
+		return deckParams[DECK_MUL_NULL]
+	elif Card.isDualNotNULL(card.creatureTypes):
+		return deckParams[DECK_MUL_DUAL]
+	else:
+		return 1.0
+
+const DECK_MUL_NULL : String = "mul_null"
+const DECK_MUL_DUAL : String = "mul_dual"
+const DECK_MUL_COMP : String = "mul_comp"
+const DEFAULT_DECK_PARAMS : Dictionary = \
+{
+	DECK_MUL_NULL : 0.0,
+	DECK_MUL_DUAL : 0.0,
+	DECK_MUL_COMP : 0.0,
+}
+
+func genStartDeckData(deckParams : Dictionary) -> Dictionary[int, int]:
+	for k in DEFAULT_DECK_PARAMS.keys():
+		if not deckParams.has(k):
+			deckParams[k] = DEFAULT_DECK_PARAMS[k]
+	
+	var deckData : Dictionary[int, int] = {}
+	var valWeights : Dictionary = {}
+	for card : Card in getAllBasics():
+		valWeights[card.cid] = getCardWeight(card, deckParams)
+	
+	for i in range(30):
+		var cidToAdd : int = Util.getWeightedRand(valWeights)
+		var cardToAdd : Card = ListOfCards.cardList[cidToAdd]
+		for possibleCID : int in valWeights.keys():
+			var possibleCard : Card = ListOfCards.cardList[possibleCID]
+			var wAdded : float = 1.0
+			var canFuse : bool = FusionManager.getFusion(cardToAdd, possibleCard) >= 0
+			if Card.isNULL(possibleCard.creatureTypes):
+				wAdded = deckParams[DECK_MUL_NULL]
+				if canFuse:
+					wAdded = min(1.0, wAdded * 20)
+			else:
+				if not canFuse:
+					wAdded -= deckParams[DECK_MUL_COMP]
+				if Card.isDualNotNULL(possibleCard.creatureTypes):
+					wAdded *= deckParams[DECK_MUL_DUAL]
+			
+			"""
+			if Card.isNULL(possibleCard.creatureTypes):
+				wAdded = deckParams[DECK_MUL_NULL]
+			else:
+				if FusionManager.getFusion(cardToAdd, possibleCard) >= 0:
+					wAdded = 1.0
+				else:
+					wAdded = 1.0-deckParams[DECK_MUL_COMP]
+				if Card.isDualNotNULL(possibleCard.creatureTypes):
+					wAdded *= deckParams[DECK_MUL_DUAL]
+			"""
+			valWeights[possibleCID] += wAdded
+			
+		if not deckData.has(cidToAdd):
+			deckData[cidToAdd] = 0
+		deckData[cidToAdd] += 1
+	#print(valWeights)
+	
+	return deckData

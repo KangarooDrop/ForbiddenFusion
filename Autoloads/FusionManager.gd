@@ -14,11 +14,29 @@ const tagsContains = "tags_cotain"
 
 var fusionMat : Array = []
 
+#Matches base card cids to their output
+var fusionCache : Dictionary[Array, int] = {}
+
 #Rules: cid=, atk<, atk>, hth<, hth>, atk=hth, types_contain, tags_contain
 func getFusion(card0 : Card, card1 : Card) -> int:
+	var c0 : Card = ListOfCards.cardList[card0.cid]
+	var c1 : Card = ListOfCards.cardList[card1.cid]
+	var cacheResult : bool = false
+	if c0.attack == card0.attack and card0.health == card0.health and c1.attack == card1.attack and card1.health == card1.health:
+		var k0 : Array = [card0.cid, card1.cid]
+		var k1 : Array = [card1.cid, card0.cid]
+		if fusionCache.has(k0):
+			return fusionCache[k0]
+		elif fusionCache.has(k1):
+			return fusionCache[k1]
+		else:
+			cacheResult = true
+	
 	#Null Cards
 	if (card0.creatureTypes.has(Card.CREATURE_TYPE.NULL) and card0.creatureTypes.size() == 1) or \
 			(card1.creatureTypes.has(Card.CREATURE_TYPE.NULL) and card1.creatureTypes.size() == 1):
+		if cacheResult:
+			fusionCache[[card0.cid, card1.cid]] = FUSION_UNCHANGED
 		return FUSION_UNCHANGED
 	
 	#Fusing
@@ -66,8 +84,12 @@ func getFusion(card0 : Card, card1 : Card) -> int:
 	#No valid fusions
 	if validFusions.size() == 0:
 		if card0.creatureTypes.has(Card.CREATURE_TYPE.NULL) or card1.creatureTypes.has(Card.CREATURE_TYPE.NULL):
+			if cacheResult:
+				fusionCache[[card0.cid, card1.cid]] = FUSION_UNCHANGED
 			return FUSION_UNCHANGED
 		else:
+			if cacheResult:
+				fusionCache[[card0.cid, card1.cid]] = FUSION_INVALID
 			return FUSION_INVALID
 	
 	#Determining weakest possible card
@@ -87,6 +109,8 @@ func getFusion(card0 : Card, card1 : Card) -> int:
 			lowestCID = validFusions[i]
 			lowestScore = score
 	
+	if cacheResult:
+		fusionCache[[card0.cid, card1.cid]] = lowestCID
 	return lowestCID
 
 func getFusionCardResult(card0 : Card, card1 : Card, isOpponent : bool) -> Card:

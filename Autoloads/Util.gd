@@ -73,7 +73,7 @@ func getMostCommonTypes(deckData : Dictionary) -> Array:
 	for uuid in deckData.keys():
 		var card : Card = ListOfCards.cardList[uuid]
 		for ct in card.creatureTypes:
-			ctDict[ct] += 1
+			ctDict[ct] += deckData[uuid]
 	ctDict[Card.CREATURE_TYPE.NULL] *= 0.85
 	var highest : int = -1
 	var second : int = -1
@@ -97,3 +97,26 @@ func getCardDictToArray(dict : Dictionary) -> Array:
 		for i in range(dict[k]):
 			out.append(k)
 	return out
+
+func getWeightedRand(weights : Dictionary):
+	var totalWeight : float = 0.0
+	for k in weights.keys():
+		totalWeight += weights[k]
+	if totalWeight == 0.0:
+		return weights.keys()[randi() % weights.size()]
+
+	return weights.keys()[RandomNumberGenerator.new().rand_weighted(weights.values())]
+	
+	"""
+	var vals : Array = weights.keys()
+	
+	if totalWeight == 0.0:
+		return vals[randi() % vals.size()]
+	
+	var r : float = randf() * totalWeight
+	for val in vals:
+		r -= weights[val]
+		if r <= 0.0:
+			return val
+	return vals[vals.size()-1]
+	"""

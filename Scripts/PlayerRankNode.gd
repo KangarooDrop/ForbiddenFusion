@@ -100,24 +100,33 @@ func onEditPressed() -> void:
 
 
 
-func randomize(deckParams : Dictionary = {}) -> void:
+func randomize() -> void:
 	var newPlayerName : String = Util.getRandomName()
 	
 	setPlayerName(newPlayerName)
 	playerUUID = Util.getUUID()
 	getPlayerPortrait().randomize()
 	
-	var validCards : Array = []
-	var newDeckData : Dictionary[int, int] = {}
-	for index in ListOfCards.cardList.size():
-		var card : Card = ListOfCards.cardList[index]
-		if card.rarity == Card.RARITY.BASIC:
-			validCards.append(card.duplicate())
-	for i in range(30):
-		var card : Card = validCards[randi() % validCards.size()]
-		if not newDeckData.has(card.cid):
-			newDeckData[card.cid] = 0
-		newDeckData[card.cid] += 1
+	var t : float = (playerRank-1)/99.0
+	var mulCompatible : float = lerp(1.0, 0.0, t)
+	var mulNULL : float = pow(1.0-t, 2.0)
+	var mulDual : float = lerp(1.0, 0.0, t)
+	if playerRank >= 50:
+		if randi() % 10 == 0:
+			mulNULL = 1.0
+		if randi() % 10 == 0:
+			mulDual = 1.0
+	if playerRank == 100:
+		mulNULL = 0.35
+	if playerRank == 100:
+		mulDual = 0.35
+	
+	var deckParams : Dictionary = {}
+	deckParams[ListOfCards.DECK_MUL_NULL] = mulNULL
+	deckParams[ListOfCards.DECK_MUL_DUAL] = mulDual
+	deckParams[ListOfCards.DECK_MUL_COMP] = mulCompatible
+	
+	var newDeckData : Dictionary[int, int] = ListOfCards.genStartDeckData(deckParams)
 	
 	setDeckData(newDeckData)
 	setCollection(newDeckData.duplicate())
@@ -134,8 +143,10 @@ func serialize() -> Dictionary:
 
 func setIsUser(newIsUser : bool) -> void:
 	self.isUser = newIsUser
-	self.getEditButton().visible = isUser
-	self.getFightButton().visible = not isUser
+	#self.getEditButton().visible = isUser
+	#self.getFightButton().visible = not isUser
+	self.getEditButton().visible = true
+	self.getFightButton().visible = true
 func setPlayerName(newPlayerName : String):
 	self.playerName = newPlayerName
 	getNameLabel().text = newPlayerName + ("" if not isUser else " (YOU)")

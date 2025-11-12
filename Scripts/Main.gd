@@ -39,6 +39,8 @@ func onGameEnd():
 		var loserCardArray : Array = Util.getCardDictToArray(loserDeckData)
 		var cardCIDToShow : Array = []
 		for i in range(3):
+			if loserCardArray.size() <= 0:
+				break
 			var index : int = randi() % loserCardArray.size()
 			cardCIDToShow.append(loserCardArray[index])
 			loserCardArray.remove_at(index)

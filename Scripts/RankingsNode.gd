@@ -28,6 +28,7 @@ var lastOffset : float = 0.0
 var userRank : PlayerRankNode = null
 
 func _ready() -> void:
+	firstPlaceNode.playerRank = 1
 	playerRankNodes.append(firstPlaceNode)
 	firstPlaceNode.background_pressed.connect(onRankBackgroundPressed.bind(firstPlaceNode))
 	firstPlaceNode.fight_pressed.connect(onFightPressed.bind(firstPlaceNode))
