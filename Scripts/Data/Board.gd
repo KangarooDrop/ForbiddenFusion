@@ -125,14 +125,22 @@ func deserialize(data : Dictionary) -> void:
 ####################################################################################################
 
 func startGame():
-	for player in players:
-		fillHand(player)
 	var startingIndex : int = randi() % players.size()
+	for i in range(players.size()):
+		var numCards : int = handSize
+		if i == startingIndex:
+			numCards -= 1
+		fillHand(players[i], numCards)
 	turnStart(players[startingIndex])
 
-func fillHand(player : Player):
+func fillHand(player : Player, numCards : int = -1):
 	var cardsInHand : int = player.hand.cards.size()
-	player.deck.draw(handSize - cardsInHand)
+	if numCards == -1:
+		numCards = handSize - cardsInHand
+	else:
+		numCards = numCards - cardsInHand
+	if numCards > 0:
+		player.deck.draw(numCards)
 
 var activePlayer : Player = null
 func turnStart(player : Player):

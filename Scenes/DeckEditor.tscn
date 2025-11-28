@@ -1,8 +1,9 @@
-[gd_scene load_steps=13 format=3 uid="uid://c5dfn5brp3bxf"]
+[gd_scene load_steps=14 format=3 uid="uid://c5dfn5brp3bxf"]
 
 [ext_resource type="Script" uid="uid://bgpbe83ffuno5" path="res://Scripts/DeckEditor.gd" id="1_370mm"]
 [ext_resource type="FontFile" uid="uid://cq55vl12vholm" path="res://fonts/3x5 pixel font.ttf" id="2_od0ge"]
 [ext_resource type="Texture2D" uid="uid://bow0d2qimqvaf" path="res://Art/types/type_icons.png" id="3_oq4k8"]
+[ext_resource type="PackedScene" uid="uid://cj5hnuwk6nn5c" path="res://Scenes/CTCounter.tscn" id="4_ltrq1"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_ltrq1"]
 resource_local_to_scene = true
@@ -405,6 +406,12 @@ title = "Notice!"
 initial_position = 1
 size = Vector2i(200, 100)
 theme = SubResource("Theme_oq4k8")
+
+[node name="CTCounterDeck" parent="." instance=ExtResource("4_ltrq1")]
+position = Vector2(3, -76)
+
+[node name="CTCounterCollection" parent="." instance=ExtResource("4_ltrq1")]
+position = Vector2(3, -124)
 
 [connection signal="pressed" from="OptionsHolder/VBoxContainer/SaveButton" to="." method="onSaveButtonPressed"]
 [connection signal="pressed" from="OptionsHolder/VBoxContainer/ClearButton" to="." method="onClearButtonPressed"]

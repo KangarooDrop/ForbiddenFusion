@@ -1,0 +1,53 @@
+[gd_scene load_steps=6 format=3 uid="uid://di2b1cfo6351o"]
+
+[ext_resource type="Texture2D" uid="uid://bow0d2qimqvaf" path="res://Art/types/type_icons.png" id="1_6kr2o"]
+[ext_resource type="Script" uid="uid://drscbkpsab0mf" path="res://Scripts/CreatureTypeCount.gd" id="1_r1uw4"]
+[ext_resource type="FontFile" uid="uid://cq55vl12vholm" path="res://fonts/3x5 pixel font.ttf" id="2_53lyc"]
+[ext_resource type="Shader" uid="uid://dihu86yb6rixe" path="res://Shaders/font_outline_shader.gdshader" id="3_53lyc"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_r1uw4"]
+shader = ExtResource("3_53lyc")
+shader_parameter/thresh = 0.0
+
+[node name="CreatureTypeCount" type="Control"]
+layout_mode = 3
+anchors_preset = 0
+script = ExtResource("1_r1uw4")
+
+[node name="Center" type="Control" parent="."]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Sprite2D" type="Sprite2D" parent="Center"]
+position = Vector2(-4, 0)
+texture = ExtResource("1_6kr2o")
+region_enabled = true
+region_rect = Rect2(0, 0, 8, 8)
+
+[node name="Label" type="Label" parent="Center"]
+layout_mode = 0
+offset_left = -3.0
+offset_right = 5.0
+offset_bottom = 6.0
+theme_override_constants/outline_size = 0
+theme_override_fonts/font = ExtResource("2_53lyc")
+theme_override_font_sizes/font_size = 6
+text = "x1"
+
+[node name="LabelBack" type="Label" parent="Center/Label"]
+show_behind_parent = true
+material = SubResource("ShaderMaterial_r1uw4")
+layout_mode = 0
+offset_right = 8.0
+offset_bottom = 6.0
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 1
+theme_override_fonts/font = ExtResource("2_53lyc")
+theme_override_font_sizes/font_size = 6
+text = "x1"

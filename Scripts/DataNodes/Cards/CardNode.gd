@@ -16,6 +16,8 @@ var showHovering : bool = false
 var showPressed : bool = false
 
 var moveDelay : float = 0.0
+var velocity : Vector2 = Vector2.ZERO
+var stopped : bool = true
 
 signal mouse_enter()
 signal mouse_exit()
@@ -25,6 +27,7 @@ signal pressed(buttonIndex : int)
 signal flip_ended()
 signal card_changed(oldCard : Card, newCard : Card)
 signal destroyed()
+signal on_stop()
 
 @onready var cardVisual : CardVisual = $CardVisual
 @onready var slotSprite : Sprite2D = $SlotSprite
@@ -138,8 +141,28 @@ func _process(delta: float) -> void:
 		if moveDelay > 0.0:
 			moveDelay -= delta
 		else:
-			global_position = lerp(global_position, desiredPosition, 8.0 * delta)
-	
+			var dp : Vector2 = (desiredPosition - global_position)
+			if dp.length() < 0.1:
+				if not stopped:
+					stopped = true
+					on_stop.emit()
+					global_position = desiredPosition
+			else:
+				if stopped:
+					stopped = false
+				global_position = lerp(global_position, desiredPosition, 8.0 * delta)
+			"""
+			var dp : Vector2 = (desiredPosition - global_position)
+			if dp.length() < velocity.length() * delta and velocity.length() < STOP_EPSILON:
+				global_position = desiredPosition
+				velocity = Vector2.ZERO
+				stopped = true
+				on_stop.emit()
+			else:
+				velocity += dp * ACC * delta
+				global_position += velocity * delta
+				velocity = lerp(velocity, Vector2.ZERO, DEC)
+			"""
 	
 	if flipping:
 		flipTimer += delta
@@ -160,6 +183,13 @@ func _process(delta: float) -> void:
 			flippingToCard = null
 			scale.x = 1.0
 			emit_signal("flip_ended")
+
+const ACC : float = 128.0
+const DEC : float = 0.25
+const STOP_EPSILON : float = ACC*DEC
+
+func _physics_process(_delta: float) -> void:
+	pass
 
 func onDestroy(fromSelfCard : bool = false):
 	emit_signal("destroyed")

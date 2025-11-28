@@ -143,10 +143,8 @@ func serialize() -> Dictionary:
 
 func setIsUser(newIsUser : bool) -> void:
 	self.isUser = newIsUser
-	#self.getEditButton().visible = isUser
-	#self.getFightButton().visible = not isUser
-	self.getEditButton().visible = true
-	self.getFightButton().visible = true
+	self.getEditButton().visible = isUser
+	self.getFightButton().visible = not isUser
 func setPlayerName(newPlayerName : String):
 	self.playerName = newPlayerName
 	getNameLabel().text = newPlayerName + ("" if not isUser else " (YOU)")

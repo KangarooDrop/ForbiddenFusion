@@ -112,10 +112,12 @@ func getFusionTree(cards : Array = hand.cards.duplicate(), fusingTo : Card = nul
 func getAllFusions(fusingTo : Card = null, isOpponent : bool = false, maxDepth : int = -1) -> Array:
 	#print(FusionManager.getFusionCardResult(hand.cards[0], hand.cards[1], false))
 	var out : Array = []
-	getAllFusionsRecursive(out, hand.cards.duplicate(), fusingTo, isOpponent, maxDepth)
+	getAllFusionsRecursive(out, hand.cards.duplicate(), fusingTo, isOpponent, isOpponent and fusingTo != null, maxDepth)
+	for line : Array in out:
+		line.insert(0, not isOpponent)
 	return out
 
-func getAllFusionsRecursive(out : Array, cards : Array, fusingTo : Card, isOpponent : bool, maxDepth : int, currentLine : Array = []) -> void:
+func getAllFusionsRecursive(out : Array, cards : Array, fusingTo : Card, isOpponent : bool, noBump : bool, maxDepth : int, currentLine : Array = []) -> void:
 	if currentLine.size() > 0:
 		out.append(currentLine + [fusingTo])
 	else:
@@ -127,26 +129,39 @@ func getAllFusionsRecursive(out : Array, cards : Array, fusingTo : Card, isOppon
 		if fusingTo == null:
 			var newCards : Array = cards.duplicate()
 			newCards.erase(card)
-			getAllFusionsRecursive(out, newCards, card, isOpponent, maxDepth, currentLine + [card])
+			getAllFusionsRecursive(out, newCards, card, isOpponent, noBump, maxDepth, currentLine + [card])
 		else:
-			var fusedCard : Card = FusionManager.getFusionCardResult(fusingTo, card, isOpponent)
+			var fusedCard : Card = FusionManager.getFusionCardResult(fusingTo, card, noBump)
 			#First fusion results in a bump (e.g. Ignore fusions that start invalid)
-			if currentLine.size() == 1 and FusionManager.getFusion(fusingTo, card) == FusionManager.FUSION_INVALID:
+			if currentLine.size() == 1 and FusionManager.getFusion(fusingTo, card) == FusionManager.FUSION_INVALID and not noBump:
 				continue
 			
 			var newCards : Array = cards.duplicate()
 			newCards.erase(card)
-			getAllFusionsRecursive(out, newCards, fusedCard, isOpponent, maxDepth, currentLine + [card])
+			getAllFusionsRecursive(out, newCards, fusedCard, isOpponent, noBump, maxDepth, currentLine + [card])
 
+#score = BST * 10 - cardsUsed
 static func evalScore(fusionLine : Array) -> int:
-	var currentFusedCard : Card = fusionLine[fusionLine.size()-1]
-	var currentBST : int = currentFusedCard.attack + currentFusedCard.health
-	#var currentDepth : int = fusionLine.size()-1
-	var murderPenalty : int = 0
-	if fusionLine[0] != null:
-		murderPenalty = -(fusionLine[0].attack + fusionLine[0].health) - (fusionLine.size()-2)
-		murderPenalty = min(0, murderPenalty)
-	return currentBST + murderPenalty
+	if fusionLine[0]:
+		var startCard : Card = fusionLine[1]
+		var endCard : Card = fusionLine[fusionLine.size()-1]
+		var endBST : int = endCard.attack + endCard.health
+		var numCards : int = fusionLine.size()-3
+		if startCard == null:
+			return endBST * 10 - numCards
+		else:
+			var startBST : int = startCard.attack + startCard.health
+			return (endBST - startBST) * 10 - numCards
+	else:
+		var startCard : Card = fusionLine[1]
+		var endCard : Card = fusionLine[fusionLine.size()-1]
+		var endBST : int = endCard.attack + endCard.health
+		if startCard == null:
+			return -endBST * 10
+		else:
+			var startBST : int = startCard.attack + startCard.health
+			var numCards : int = fusionLine.size()-3
+			return (startBST - endBST) * 10 - numCards
 
 static func sortAllFusion(fusionLinesArray : Array) -> Array:
 	var unsorted : Array = fusionLinesArray.duplicate()
@@ -164,6 +179,8 @@ static func sortAllFusion(fusionLinesArray : Array) -> Array:
 				highestScore = currentScore
 				highestIndex = i
 				lowestDepth = currentDepth
+		if highestScore < -2 and sorted.size() > 0:
+			break
 		sorted.append(unsorted[highestIndex])
 		unsorted.remove_at(highestIndex)
 	return sorted

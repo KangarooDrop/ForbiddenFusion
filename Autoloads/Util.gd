@@ -66,7 +66,7 @@ func changeSceneToFileButDoesntSUCK_ASS(path : String) -> Node:
 	
 	return newScene
 
-func getMostCommonTypes(deckData : Dictionary) -> Array:
+func getDeckDataToTypes(deckData : Dictionary) -> Dictionary:
 	var ctDict : Dictionary = {}
 	for ct in Card.CREATURE_TYPE.values():
 		ctDict[ct] = 0
@@ -74,6 +74,10 @@ func getMostCommonTypes(deckData : Dictionary) -> Array:
 		var card : Card = ListOfCards.cardList[uuid]
 		for ct in card.creatureTypes:
 			ctDict[ct] += deckData[uuid]
+	return ctDict
+
+func getMostCommonTypes(deckData : Dictionary) -> Array:
+	var ctDict : Dictionary = getDeckDataToTypes(deckData)
 	ctDict[Card.CREATURE_TYPE.NULL] *= 0.85
 	var highest : int = -1
 	var second : int = -1

@@ -2,6 +2,8 @@ extends Node2D
 
 class_name CardDisplay
 
+@export var baseZIndex : int = 0
+
 var cardNodes : Array = []
 var moveQueueSize : int = 0
 const QUEUE_DELAY : float = 0.05
@@ -35,6 +37,10 @@ func _ready() -> void:
 	setSeenMode(seenMode)
 	setOffsetMode(offsetMode)
 
+func updateZIndices():
+	for i in range(cardNodes.size()):
+		cardNodes[i].z_index = baseZIndex + i
+
 func addCardNode(cardNode : CardNode):
 	cardNodes.append(cardNode)
 	if seenMode == SEEN_MODE.SEEN and not cardNode.isSeen:
@@ -43,16 +49,19 @@ func addCardNode(cardNode : CardNode):
 		cardNode.flip()
 	cardNode.moveDelay = QUEUE_DELAY * moveQueueSize
 	moveQueueSize += 1
+	updateZIndices()
 
 func moveCardNode(cardNode : CardNode, index : int):
 	cardNodes.erase(cardNode)
 	cardNodes.insert(index, cardNode)
+	updateZIndices()
 
 func removeCardNode(index : int):
 	if index < 0 or index >= cardNodes.size():
 		return
 	cardNodes[index].desiredPosition = null
 	cardNodes.remove_at(index)
+	updateZIndices()
 
 func eraseCardNode(cardNode : CardNode):
 	removeCardNode(cardNodes.find(cardNode))

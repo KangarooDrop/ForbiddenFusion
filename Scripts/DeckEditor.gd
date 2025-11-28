@@ -10,6 +10,8 @@ class_name DeckEditor
 @onready var nfbHolder1 : Control = $FilterHolder/VBoxContainer/HBoxContainer2/NFBHolder1
 @onready var nfbHolder2 : Control = $FilterHolder/VBoxContainer/HBoxContainer2/NFBHolder2
 @onready var nfbHolders : Array = [nfbHolder1, nfbHolder2]
+@onready var ctCounterDeck : Node = $CTCounterDeck
+@onready var ctCounterCollection : Node = $CTCounterCollection
 
 @onready var noticeDialog : AcceptDialog = $Control/NoticeDialog
 @onready var confirmDialog : ConfirmationDialog = $Control/ConfirmDialog
@@ -33,6 +35,9 @@ var cidToCardNode : Dictionary = {}
 var hasSaved : bool = false
 
 func _ready() -> void:
+	ctCounterDeck.setText("Deck:")
+	ctCounterCollection.setText("Collection:")
+	
 	for i in range(Card.CREATURE_TYPE.size()):
 		var newHolder : Control = tfbHolder.duplicate()
 		tfbHolder.get_parent().add_child(newHolder)
@@ -222,6 +227,7 @@ func getTotalCards() -> int:
 
 func setDeckText():
 	deckLabel.text = "Deck (" + str(getTotalCards()) + "):"
+	ctCounterDeck.setDeckData(deckData)
 
 static func getDeckButtonText(cid : int, count : int) -> String:
 	return "x" + str(count) + " " + ListOfCards.cardList[cid].name
@@ -255,6 +261,7 @@ func setDeckData(newDeckData : Dictionary) -> void:
 
 func setCollectionData(newCollectionData : Dictionary) -> void:
 	self.collectionData = newCollectionData
+	ctCounterCollection.setDeckData(newCollectionData)
 	updateFilters()
 
 ####################################################################################################

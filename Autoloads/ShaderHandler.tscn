@@ -1,8 +1,13 @@
-[gd_scene load_steps=3 format=3 uid="uid://ey0xj0ipgq4g"]
+[gd_scene load_steps=4 format=3 uid="uid://ey0xj0ipgq4g"]
 
 [ext_resource type="Texture2D" uid="uid://ncjj8l6qhwtd" path="res://Art/portraits/annointed_angel.png" id="1_lgtn2"]
+[ext_resource type="Shader" uid="uid://c7c8t4jscb2ue" path="res://Shaders/color_shader.gdshader" id="2_lgtn2"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_us2r3"]
+shader = ExtResource("2_lgtn2")
+shader_parameter/cWhite = Color(1, 1, 1, 1)
+shader_parameter/cGray = Color(0.8, 0.8, 0.8, 1)
+shader_parameter/cBlack = Color(0, 0, 0, 1)
 
 [node name="ShaderHandler" type="CanvasLayer"]
 layer = 99

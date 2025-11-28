@@ -232,8 +232,8 @@ func onFightPressed(prn : PlayerRankNode):
 	#swapRanks(playerRankNodes.find(prn), playerRankNodes.find(userRank))
 	
 	var mainNode = Util.changeSceneToFileButDoesntSUCK_ASS(Preloader.mainPath)
-	mainNode.boardNode.board.players[0].setPlayerUUID(userRank.playerUUID)
-	mainNode.boardNode.board.players[1].setPlayerUUID(prn.playerUUID)
+	mainNode.boardNode.setPlayerUUID(0, userRank.playerUUID)
+	mainNode.boardNode.setPlayerUUID(1, prn.playerUUID)
 	
 	mainNode.boardNode.initDecksAndStart()
 
