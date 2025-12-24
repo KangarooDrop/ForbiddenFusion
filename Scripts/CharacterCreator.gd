@@ -34,9 +34,14 @@ func updatePreviews(controller):
 
 func _ready() -> void:
 	for controller in controllers:
-		var previews : Array = [controller.get_node("BetterButtonLeft/TextureRect"), controller.get_node("BetterButtonRight/TextureRect")]
-		previews[0].get_parent().pressed.connect(self.onControllerPreviousPressed.bind(controller))
-		previews[1].get_parent().pressed.connect(self.onControllerNextPressed.bind(controller))
+		var previews : Array = []
+		for i in range(2):
+			var charPrev : CharacterPreview = controller.get_child(i)
+			if i == 0:
+				charPrev.button.pressed.connect(self.onControllerPreviousPressed.bind(controller))
+			else:
+				charPrev.button.pressed.connect(self.onControllerNextPressed.bind(controller))
+			previews.append(charPrev.textureRect)
 		controllerToPreviews[controller] = previews
 	onRandomPressed()
 

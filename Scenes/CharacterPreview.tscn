@@ -1,0 +1,163 @@
+[gd_scene load_steps=17 format=3 uid="uid://dskuow5bnfhgb"]
+
+[ext_resource type="Script" uid="uid://m3v53ux4a37h" path="res://Scripts/CharacterPreview.gd" id="1_6rpga"]
+[ext_resource type="PackedScene" uid="uid://c4ahlhdrrtdcb" path="res://Scenes/NPRButton.tscn" id="1_vxblg"]
+[ext_resource type="FontFile" uid="uid://cq55vl12vholm" path="res://fonts/3x5 pixel font.ttf" id="2_6rpga"]
+[ext_resource type="Texture2D" uid="uid://kvtb1kbu3dmy" path="res://Art/button_disabled.png" id="3_jwsni"]
+[ext_resource type="Texture2D" uid="uid://bt72ptnxnvrn8" path="res://Art/button_hover.png" id="4_nbaqs"]
+[ext_resource type="Texture2D" uid="uid://btk2cwuke8hgv" path="res://Art/button_pressed.png" id="5_ocw8d"]
+[ext_resource type="Texture2D" uid="uid://dii2j70bfnqmg" path="res://Art/button_normal.png" id="6_625pj"]
+[ext_resource type="Texture2D" uid="uid://buna3g6gidejp" path="res://Art/player_parts/player_parts.png" id="7_6ke48"]
+
+[sub_resource type="FontVariation" id="FontVariation_vxblg"]
+resource_local_to_scene = true
+base_font = ExtResource("2_6rpga")
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_8y25g"]
+texture = ExtResource("3_jwsni")
+texture_margin_left = 3.0
+texture_margin_top = 3.0
+texture_margin_right = 3.0
+texture_margin_bottom = 3.0
+expand_margin_left = 1.0
+expand_margin_top = 1.0
+expand_margin_right = 1.0
+axis_stretch_horizontal = 1
+axis_stretch_vertical = 1
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_xodmh"]
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_jqngr"]
+texture = ExtResource("4_nbaqs")
+texture_margin_left = 3.0
+texture_margin_top = 3.0
+texture_margin_right = 3.0
+texture_margin_bottom = 3.0
+expand_margin_left = 1.0
+expand_margin_top = 1.0
+expand_margin_right = 1.0
+axis_stretch_horizontal = 1
+axis_stretch_vertical = 1
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_0ptwo"]
+texture = ExtResource("5_ocw8d")
+texture_margin_left = 3.0
+texture_margin_top = 3.0
+texture_margin_right = 3.0
+texture_margin_bottom = 3.0
+expand_margin_left = 1.0
+expand_margin_top = 1.0
+expand_margin_right = 1.0
+axis_stretch_horizontal = 1
+axis_stretch_vertical = 1
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_toaqm"]
+texture = ExtResource("6_625pj")
+texture_margin_left = 3.0
+texture_margin_top = 3.0
+texture_margin_right = 3.0
+texture_margin_bottom = 3.0
+expand_margin_left = 1.0
+expand_margin_top = 1.0
+expand_margin_right = 1.0
+axis_stretch_horizontal = 1
+axis_stretch_vertical = 1
+
+[sub_resource type="Theme" id="Theme_u4xkj"]
+resource_local_to_scene = true
+Button/colors/font_color = Color(0, 0, 0, 1)
+Button/colors/font_disabled_color = Color(0.8, 0.8, 0.8, 1)
+Button/colors/font_focus_color = Color(0, 0, 0, 1)
+Button/colors/font_hover_color = Color(0, 0, 0, 1)
+Button/colors/font_hover_pressed_color = Color(0, 0, 0, 1)
+Button/colors/font_outline_color = Color(1, 1, 1, 1)
+Button/colors/font_pressed_color = Color(0, 0, 0, 1)
+Button/constants/outline_size = 1
+Button/font_sizes/font_size = 6
+Button/fonts/font = SubResource("FontVariation_vxblg")
+Button/styles/disabled = SubResource("StyleBoxTexture_8y25g")
+Button/styles/focus = SubResource("StyleBoxEmpty_xodmh")
+Button/styles/hover = SubResource("StyleBoxTexture_jqngr")
+Button/styles/hover_pressed = SubResource("StyleBoxTexture_0ptwo")
+Button/styles/normal = SubResource("StyleBoxTexture_toaqm")
+Button/styles/pressed = SubResource("StyleBoxTexture_0ptwo")
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_37u0f"]
+resource_local_to_scene = true
+atlas = ExtResource("7_6ke48")
+region = Rect2(0, 40, 40, 40)
+
+[node name="CharacterPreview" type="Control"]
+layout_mode = 3
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -20.0
+offset_top = -20.0
+offset_right = 20.0
+offset_bottom = 20.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_6rpga")
+
+[node name="NPRButton" parent="." instance=ExtResource("1_vxblg")]
+custom_minimum_size = Vector2(43, 43)
+layout_mode = 1
+anchors_preset = 15
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -1.0
+offset_top = -1.0
+offset_right = 2.0
+offset_bottom = 2.0
+theme = SubResource("Theme_u4xkj")
+text = ""
+
+[node name="TextureRect" type="TextureRect" parent="NPRButton"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -20.5
+offset_top = -20.5
+offset_right = 19.5
+offset_bottom = 19.5
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+texture = SubResource("AtlasTexture_37u0f")
+
+[node name="ArrowLeft" type="Label" parent="."]
+layout_mode = 1
+anchors_preset = 4
+anchor_top = 0.5
+anchor_bottom = 0.5
+offset_left = -28.0
+offset_top = -9.0
+offset_right = -4.0
+offset_bottom = 9.0
+grow_vertical = 2
+theme_override_fonts/font = ExtResource("2_6rpga")
+theme_override_font_sizes/font_size = 18
+text = "<<"
+
+[node name="ArrowRight" type="Label" parent="."]
+visible = false
+layout_mode = 1
+anchors_preset = 4
+anchor_top = 0.5
+anchor_bottom = 0.5
+offset_left = 47.0
+offset_top = -9.0
+offset_right = 71.0
+offset_bottom = 9.0
+grow_vertical = 2
+theme_override_fonts/font = ExtResource("2_6rpga")
+theme_override_font_sizes/font_size = 18
+text = ">>"

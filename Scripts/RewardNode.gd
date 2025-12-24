@@ -8,7 +8,7 @@ signal skip_pressed()
 var allCardNodes : Array = []
 @onready var center : Control = $Center
 @onready var cardNodeHolder : Node2D = $CardNodeHolder
-@onready var skipButton : NinePatchButton = $Center/Node2D/ColorRect/SkipButton
+@onready var skipButton : Button = $Center/Node2D/ColorRect/SkipButton
 
 func addCards(cardIndices : Array) -> void:
 	for cid in cardIndices:
@@ -57,9 +57,9 @@ func onCardPressed(buttonIndex : int, cardNode : CardNode):
 			if is_instance_valid(cn) and not cn == cardNode:
 				isValid = true
 		if not isValid:
-			var oldButtonSizeX : float = skipButton.size.x
+			#var oldButtonSizeX : float = skipButton.size.x
 			skipButton.text = "Next Fight"
-			skipButton.position.x += (oldButtonSizeX - skipButton.size.x)/2.0
+			#skipButton.position.x += (oldButtonSizeX - skipButton.size.x)/2.0
 		
 func onSkipPressed() -> void:
 	skip_pressed.emit()

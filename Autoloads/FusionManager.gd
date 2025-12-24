@@ -166,7 +166,13 @@ func applyFusionOutput(card0 : Card, card1 : Card, isOpponent : bool) -> Card:
 	if validFusions.size() == 0:
 		if card0.creatureTypes.has(Card.CREATURE_TYPE.NULL) or card1.creatureTypes.has(Card.CREATURE_TYPE.NULL):
 			#Apply null buffs
-			if card1.creatureTypes.has(Card.CREATURE_TYPE.NULL):
+			var pickLeft : bool = true
+			if not card1.creatureTypes.has(Card.CREATURE_TYPE.NULL):
+				pickLeft = false
+			elif card0.creatureTypes.has(Card.CREATURE_TYPE.NULL) and card1.creatureTypes.has(Card.CREATURE_TYPE.NULL) and card1.creatureTypes.size() > card0.creatureTypes.size():
+				pickLeft = false
+			
+			if pickLeft:
 				card0.attack += card1.attack
 				card0.health += card1.health
 				card0.maxHealth += card1.maxHealth

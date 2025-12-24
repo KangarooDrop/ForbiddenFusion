@@ -39,7 +39,7 @@ cid,name,texturePath,attack,health,rarity,creatureTypes,tags,#NOTES
 37,Submersible ,submersible,4,6,common,mech;water,,A submarine with fish-like equalities darts beneath the surface of the water. Its torpedos ready to fire.
 38,Floating City,floating_city,5,10,common,mech;water,,A futuristic city housed atop a rundown ship.
 39,Grey Goo,grey_goo,7,13,rare,mech;water,,
-40,Boarzuka,boarzuka,4,5,common,mech;beast,,A weapon that can launch boars at a speed of over 200km/h. Anyone who survives the shot becomes boar food.
+40,Boarzuka,boarzuka,6,4,common,mech;beast,,A weapon that can launch boars at a speed of over 200km/h. Anyone who survives the shot becomes boar food.
 41,Cyberwolf,cyberwolf,8,6,common,mech;beast,,"A large dire wolf that has been outfitted with cybernetic enhancements including limb armor, eyesight improvements, claw upgrades."
 42,Dracozoid,dracozoid,12,8,rare,mech;beast,,
 43,Corpse Bride,corpse_bride,4,7,common,earth;necro,,
@@ -63,7 +63,7 @@ cid,name,texturePath,attack,health,rarity,creatureTypes,tags,#NOTES
 61,Grifferberus,grifferberus,9,5,common,beast;air,,
 62,Mountain Dragon,mountain_dragon,14,6,rare,beast;air,,
 63,Aurai,aurai,3,6,common,air;holy,,
-64,Anointed Angel,annointed_angel,4,9,rare,air;holy,,
+64,Anointed Angel,annointed_angel,5,9,rare,air;holy,,
 65,Rapturous Throne,rapturous_throne,2,10,common,holy,,
 66,Hand of God,hand_of_god,5,15,rare,holy,,
 67,Naga,card_RIVER_WEAVER,2,8,common,holy;water,,

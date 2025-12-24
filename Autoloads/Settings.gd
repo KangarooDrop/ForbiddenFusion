@@ -31,7 +31,7 @@ var settings : Dictionary = {}
 @onready var videoTab : Control = tabsInactive.get_node("VideoTab")
 @onready var audioTab : Control = tabsInactive.get_node("AudioTab")
 
-@onready var pageHolder : Control = settingsNode.get_node("Background/Pages")
+@onready var pageHolder : Control = settingsNode.get_node("NinePatchRect/Pages")
 @onready var videoPage : Control = pageHolder.get_node("VideoPage")
 @onready var audioPage : Control = pageHolder.get_node("AudioPage")
 
@@ -93,7 +93,7 @@ func initSettingsNodes():
 var currentTab = null
 func setCurrentTab(newTab):
 	if currentTab != null:
-		currentTab.get_node("Background").color = Color(0.8, 0.8, 0.8, 1.0)
+		currentTab.get_node("NinePatchRect").modulate = Color(0.8, 0.8, 0.8, 1.0)
 		currentTab.get_node("TextureButton").mouse_default_cursor_shape = Control.CURSOR_POINTING_HAND
 		tabsActive.remove_child(currentTab)
 		tabsInactive.add_child(currentTab)
@@ -102,7 +102,7 @@ func setCurrentTab(newTab):
 	currentTab = newTab
 	tabsInactive.remove_child(currentTab)
 	tabsActive.add_child(currentTab)
-	currentTab.get_node("Background").color = Color(1.0, 1.0, 1.0, 1.0)
+	currentTab.get_node("NinePatchRect").modulate = Color(1.0, 1.0, 1.0, 1.0)
 	currentTab.get_node("TextureButton").mouse_default_cursor_shape = Control.CURSOR_ARROW
 	tabToPage[currentTab].visible = true
 
@@ -175,6 +175,7 @@ func saveSettings():
 	FileIO.saveSettings(settings)
 
 func showSettings():
+	onVideoTabPressed()
 	settingsNode.show()
 
 func hideSettings():

@@ -2,8 +2,8 @@
 
 [ext_resource type="Script" uid="uid://srto4kgxr3tu" path="res://Scripts/Main.gd" id="1_idj7w"]
 [ext_resource type="PackedScene" uid="uid://bhmqc41sgnmv5" path="res://Scenes/BoardNode.tscn" id="2_idj7w"]
-[ext_resource type="PackedScene" uid="uid://by000qucbvst5" path="res://Scenes/NinePatchButton.tscn" id="3_kln2b"]
 [ext_resource type="PackedScene" uid="uid://b4rqg8ilus0tb" path="res://Scenes/RewardNode.tscn" id="4_rgh2o"]
+[ext_resource type="PackedScene" uid="uid://c4ahlhdrrtdcb" path="res://Scenes/NPRButton.tscn" id="4_vy5pj"]
 
 [node name="Main" type="Node2D"]
 script = ExtResource("1_idj7w")
@@ -50,121 +50,41 @@ offset_right = 30.4375
 offset_bottom = 26.0
 grow_horizontal = 2
 grow_vertical = 2
-theme_override_constants/separation = 2
+theme_override_constants/separation = 5
 alignment = 1
 
 [node name="ResumeHolder" type="Control" parent="Camera2D/PauseMenu/VBoxContainer"]
 custom_minimum_size = Vector2(0, 10)
 layout_mode = 2
 
-[node name="ResumeButton" parent="Camera2D/PauseMenu/VBoxContainer/ResumeHolder" instance=ExtResource("3_kln2b")]
+[node name="NPRButton" parent="Camera2D/PauseMenu/VBoxContainer/ResumeHolder" instance=ExtResource("4_vy5pj")]
 layout_mode = 1
-anchors_preset = 8
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-offset_left = -16.0
-offset_top = -5.0
-offset_right = 16.0
-offset_bottom = 5.0
-grow_horizontal = 2
-grow_vertical = 2
-text = "Resume"
-
-[node name="Label" parent="Camera2D/PauseMenu/VBoxContainer/ResumeHolder/ResumeButton" index="0"]
-offset_right = 28.0
-text = "Resume"
-
-[node name="Label2" parent="Camera2D/PauseMenu/VBoxContainer/ResumeHolder/ResumeButton/Label" index="0"]
+offset_left = -15.0
+offset_right = 15.0
 text = "Resume"
 
 [node name="SettingsHolder" type="Control" parent="Camera2D/PauseMenu/VBoxContainer"]
 custom_minimum_size = Vector2(0, 10)
 layout_mode = 2
 
-[node name="SettingsButton" parent="Camera2D/PauseMenu/VBoxContainer/SettingsHolder" instance=ExtResource("3_kln2b")]
+[node name="NPRButton" parent="Camera2D/PauseMenu/VBoxContainer/SettingsHolder" instance=ExtResource("4_vy5pj")]
 layout_mode = 1
-anchors_preset = 8
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-offset_left = -20.0
-offset_top = -5.0
-offset_right = 20.0
-offset_bottom = 5.0
-grow_horizontal = 2
-grow_vertical = 2
-text = "Settings"
-
-[node name="Label" parent="Camera2D/PauseMenu/VBoxContainer/SettingsHolder/SettingsButton" index="0"]
-text = "Settings"
-
-[node name="Label2" parent="Camera2D/PauseMenu/VBoxContainer/SettingsHolder/SettingsButton/Label" index="0"]
+offset_left = -19.0
+offset_right = 19.0
 text = "Settings"
 
 [node name="ConcedeHolder" type="Control" parent="Camera2D/PauseMenu/VBoxContainer"]
 custom_minimum_size = Vector2(0, 10)
 layout_mode = 2
 
-[node name="ConcedeButton" parent="Camera2D/PauseMenu/VBoxContainer/ConcedeHolder" instance=ExtResource("3_kln2b")]
+[node name="NPRButton" parent="Camera2D/PauseMenu/VBoxContainer/ConcedeHolder" instance=ExtResource("4_vy5pj")]
 layout_mode = 1
-anchors_preset = 8
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-offset_left = -18.0
-offset_top = -5.0
-offset_right = 18.0
-offset_bottom = 5.0
-grow_horizontal = 2
-grow_vertical = 2
+offset_left = -17.0
+offset_right = 17.0
 text = "Concede"
-
-[node name="Label" parent="Camera2D/PauseMenu/VBoxContainer/ConcedeHolder/ConcedeButton" index="0"]
-offset_right = 32.0
-text = "Concede"
-
-[node name="Label2" parent="Camera2D/PauseMenu/VBoxContainer/ConcedeHolder/ConcedeButton/Label" index="0"]
-text = "Concede"
-
-[node name="MainMenuHolder" type="Control" parent="Camera2D/PauseMenu/VBoxContainer"]
-visible = false
-custom_minimum_size = Vector2(0, 10)
-layout_mode = 2
-
-[node name="MainMenuButton" parent="Camera2D/PauseMenu/VBoxContainer/MainMenuHolder" instance=ExtResource("3_kln2b")]
-layout_mode = 1
-anchors_preset = 8
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-offset_left = -22.0
-offset_top = -5.0
-offset_right = 22.0
-offset_bottom = 5.0
-grow_horizontal = 2
-grow_vertical = 2
-text = "Main Menu"
-
-[node name="Label" parent="Camera2D/PauseMenu/VBoxContainer/MainMenuHolder/MainMenuButton" index="0"]
-offset_right = 40.0
-text = "Main Menu"
-
-[node name="Label2" parent="Camera2D/PauseMenu/VBoxContainer/MainMenuHolder/MainMenuButton/Label" index="0"]
-text = "Main Menu"
 
 [connection signal="card_pressed" from="RewardNode" to="." method="onRewardCardPressed"]
 [connection signal="skip_pressed" from="RewardNode" to="." method="onRewardSkipPressed"]
-[connection signal="pressed" from="Camera2D/PauseMenu/VBoxContainer/ResumeHolder/ResumeButton" to="." method="onResumePressed"]
-[connection signal="pressed" from="Camera2D/PauseMenu/VBoxContainer/SettingsHolder/SettingsButton" to="." method="onSettingsPressed"]
-[connection signal="pressed" from="Camera2D/PauseMenu/VBoxContainer/ConcedeHolder/ConcedeButton" to="." method="onConcedePressed"]
-[connection signal="pressed" from="Camera2D/PauseMenu/VBoxContainer/MainMenuHolder/MainMenuButton" to="." method="onMainMenuPressed"]
-
-[editable path="Camera2D/PauseMenu/VBoxContainer/ResumeHolder/ResumeButton"]
-[editable path="Camera2D/PauseMenu/VBoxContainer/SettingsHolder/SettingsButton"]
-[editable path="Camera2D/PauseMenu/VBoxContainer/ConcedeHolder/ConcedeButton"]
-[editable path="Camera2D/PauseMenu/VBoxContainer/MainMenuHolder/MainMenuButton"]
+[connection signal="pressed" from="Camera2D/PauseMenu/VBoxContainer/ResumeHolder/NPRButton" to="." method="onResumePressed"]
+[connection signal="pressed" from="Camera2D/PauseMenu/VBoxContainer/SettingsHolder/NPRButton" to="." method="onSettingsPressed"]
+[connection signal="pressed" from="Camera2D/PauseMenu/VBoxContainer/ConcedeHolder/NPRButton" to="." method="onConcedePressed"]

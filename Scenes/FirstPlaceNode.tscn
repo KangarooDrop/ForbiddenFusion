@@ -1,10 +1,11 @@
-[gd_scene load_steps=6 format=3 uid="uid://cgjka4vyojcnd"]
+[gd_scene load_steps=7 format=3 uid="uid://cgjka4vyojcnd"]
 
 [ext_resource type="Script" uid="uid://dj75up33wr0e4" path="res://Scripts/FirstPlaceNode.gd" id="1_2ivwj"]
 [ext_resource type="Texture2D" uid="uid://2wrmnwm7q8jj" path="res://Art/player_parts/numbah_one.png" id="2_7ur35"]
 [ext_resource type="FontFile" uid="uid://cq55vl12vholm" path="res://fonts/3x5 pixel font.ttf" id="2_f4lms"]
 [ext_resource type="PackedScene" uid="uid://dwc0cutqm2vpa" path="res://Scenes/PlayerPortrait.tscn" id="3_7ur35"]
 [ext_resource type="Texture2D" uid="uid://bow0d2qimqvaf" path="res://Art/types/type_icons.png" id="5_7ur35"]
+[ext_resource type="PackedScene" uid="uid://c4ahlhdrrtdcb" path="res://Scenes/NPRButton.tscn" id="5_j62uc"]
 
 [node name="FirstPlaceNode" type="Control"]
 clip_contents = true
@@ -124,6 +125,7 @@ grow_horizontal = 2
 grow_vertical = 2
 
 [node name="HBoxContainer" type="HBoxContainer" parent="."]
+custom_minimum_size = Vector2(0, 20)
 layout_mode = 1
 anchors_preset = 5
 anchor_left = 0.5
@@ -132,17 +134,15 @@ offset_top = 148.0
 offset_bottom = 148.0
 grow_horizontal = 2
 
-[node name="FightButton" type="Button" parent="HBoxContainer"]
+[node name="EditButton" parent="HBoxContainer" instance=ExtResource("5_j62uc")]
 layout_mode = 2
-theme_override_fonts/font = ExtResource("2_f4lms")
-theme_override_font_sizes/font_size = 12
-text = "Fight"
-
-[node name="EditButton" type="Button" parent="HBoxContainer"]
-layout_mode = 2
-theme_override_fonts/font = ExtResource("2_f4lms")
 theme_override_font_sizes/font_size = 12
 text = "Edit"
+
+[node name="FightButton" parent="HBoxContainer" instance=ExtResource("5_j62uc")]
+layout_mode = 2
+theme_override_font_sizes/font_size = 12
+text = "Fight"
 
 [node name="Type0Holder" type="Control" parent="."]
 layout_mode = 1
@@ -182,5 +182,5 @@ region_rect = Rect2(8, 0, 8, 8)
 
 [connection signal="mouse_entered" from="." to="." method="onMouseEnter"]
 [connection signal="mouse_exited" from="." to="." method="onMouseExit"]
-[connection signal="pressed" from="HBoxContainer/FightButton" to="." method="onFightPressed"]
 [connection signal="pressed" from="HBoxContainer/EditButton" to="." method="onEditPressed"]
+[connection signal="pressed" from="HBoxContainer/FightButton" to="." method="onFightPressed"]

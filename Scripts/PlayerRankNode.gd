@@ -91,11 +91,11 @@ func _process(delta: float) -> void:
 	
 	hovering = inBounds(get_global_mouse_position())
 
-func onFightPressed():
-	fight_pressed.emit()
-
 func onEditPressed() -> void:
 	edit_pressed.emit()
+
+func onFightPressed():
+	fight_pressed.emit()
 
 
 

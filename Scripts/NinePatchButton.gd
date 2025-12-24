@@ -10,8 +10,8 @@ class_name NinePatchButton
 			return
 		if newText == "Press Me_":
 			return
-		label.text = text
-		labelShadow.text = text
+		for lab in labels:
+			lab.text = text
 		updateButtonSize()
 
 @export var fontSize : int = 6:
@@ -19,8 +19,8 @@ class_name NinePatchButton
 		fontSize = newFontSize
 		if not is_instance_valid(label):
 			return
-		label.add_theme_font_size_override("font_size", newFontSize)
-		labelShadow.add_theme_font_size_override("font_size", newFontSize)
+		for lab in labels:
+			lab.add_theme_font_size_override("font_size", newFontSize)
 		updateButtonSize()
 
 @export var textBuffer : Vector2i = Vector2i(4, 2):
@@ -32,9 +32,12 @@ class_name NinePatchButton
 
 func updateButtonSize():
 	label.size = Vector2.ZERO
-	self.size.x = textBuffer.x*2 + label.size.x
-	self.size.y = textBuffer.y*2 + label.size.y
+	self.custom_minimum_size.x = textBuffer.x*2 + label.size.x
+	self.custom_minimum_size.y = textBuffer.y*2 + label.size.y
+	self.size = Vector2.ZERO
 	label.position = textBuffer
+	if get_parent() is VBoxContainer:
+		label.position.x = (get_parent().size.x - label.size.x)/2.0
 
 @export var textureNormal : Texture
 @export var textureHover : Texture
@@ -54,19 +57,32 @@ var hovering : bool = false
 
 @onready var button : Button = $Button
 @onready var label : Label = $Label
-@onready var labelShadow : Label = $Label/Label2
+@onready var labelRight : Label = $Label/Label2
+@onready var labelDown : Label = $Label/Label3
+@onready var labels : Array = [label, labelRight, labelDown]
 
 signal button_down()
 signal button_up()
 signal pressed()
 
+func _ready() -> void:
+	if is_instance_valid(label) and Engine.is_editor_hint():
+		for lab in labels:
+			if lab != label:
+				if lab.text != label.text:
+					lab.text = label.text
+				if lab.get_theme_font_size("font_size") != label.get_theme_font_size("font_size"):
+					lab.add_theme_font_size_override("font_size", label.get_theme_font_size("font_size"))
+
 func onButtonDown() -> void:
 	pressing = true
+	label.position.y += 1
 	setTexture()
 	emit_signal("button_down")
 
 func onButtonUp() -> void:
 	pressing = false
+	label.position.y -= 1
 	setTexture()
 	emit_signal("button_up")
 

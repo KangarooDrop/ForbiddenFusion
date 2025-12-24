@@ -1,0 +1,48 @@
+[gd_resource type="Theme" load_steps=10 format=3 uid="uid://befm0sj7il3cb"]
+
+[ext_resource type="Texture2D" uid="uid://dii2j70bfnqmg" path="res://Art/button_normal.png" id="1_bm4qb"]
+[ext_resource type="Texture2D" uid="uid://bt72ptnxnvrn8" path="res://Art/button_hover.png" id="2_bdjgs"]
+[ext_resource type="Texture2D" uid="uid://bhbw7cgo23ous" path="res://Art/scroll_bar_background.png" id="3_duxll"]
+
+[sub_resource type="ImageTexture" id="ImageTexture_7cuqb"]
+
+[sub_resource type="ImageTexture" id="ImageTexture_t72c8"]
+
+[sub_resource type="ImageTexture" id="ImageTexture_dq2id"]
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_8ja5p"]
+texture = ExtResource("1_bm4qb")
+texture_margin_left = 3.0
+texture_margin_top = 3.0
+texture_margin_right = 3.0
+texture_margin_bottom = 3.0
+expand_margin_right = 2.0
+axis_stretch_horizontal = 1
+axis_stretch_vertical = 1
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_7cuqb"]
+texture = ExtResource("2_bdjgs")
+texture_margin_left = 3.0
+texture_margin_top = 3.0
+texture_margin_right = 3.0
+texture_margin_bottom = 3.0
+expand_margin_right = 2.0
+axis_stretch_horizontal = 1
+axis_stretch_vertical = 1
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_t72c8"]
+texture = ExtResource("3_duxll")
+texture_margin_left = 3.0
+texture_margin_top = 4.0
+texture_margin_right = 3.0
+texture_margin_bottom = 4.0
+axis_stretch_horizontal = 1
+axis_stretch_vertical = 1
+
+[resource]
+HSlider/icons/grabber = SubResource("ImageTexture_7cuqb")
+HSlider/icons/grabber_disabled = SubResource("ImageTexture_t72c8")
+HSlider/icons/grabber_highlight = SubResource("ImageTexture_dq2id")
+HSlider/styles/grabber_area = SubResource("StyleBoxTexture_8ja5p")
+HSlider/styles/grabber_area_highlight = SubResource("StyleBoxTexture_7cuqb")
+HSlider/styles/slider = SubResource("StyleBoxTexture_t72c8")

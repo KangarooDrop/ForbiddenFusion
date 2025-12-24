@@ -3,9 +3,8 @@ extends Node
 class_name DeckEditor
 
 @onready var cardNodeHolder : Node2D = $CardNodeHolder
-@onready var deckLabel : Label = $DeckHolder/VBoxContainer/Label
-@onready var deckVBox : VBoxContainer = $DeckHolder/VBoxContainer/ScrollContainer/VBoxContainer
-@onready var deckCardButtonBase : Button = $DeckHolder/VBoxContainer/ScrollContainer/VBoxContainer/DeckCardButton
+@onready var deckLabel : Label = $DeckHolder/VBoxContainer/TitleHolder/Label
+@onready var deckVBox : VBoxContainer = $DeckHolder/VBoxContainer/ScrollContainer/MarginContainer/VBoxContainer
 @onready var tfbHolder : Control = $FilterHolder/VBoxContainer/HBoxContainer/TFBHolder
 @onready var nfbHolder1 : Control = $FilterHolder/VBoxContainer/HBoxContainer2/NFBHolder1
 @onready var nfbHolder2 : Control = $FilterHolder/VBoxContainer/HBoxContainer2/NFBHolder2
@@ -13,9 +12,8 @@ class_name DeckEditor
 @onready var ctCounterDeck : Node = $CTCounterDeck
 @onready var ctCounterCollection : Node = $CTCounterCollection
 
-@onready var noticeDialog : AcceptDialog = $Control/NoticeDialog
-@onready var confirmDialog : ConfirmationDialog = $Control/ConfirmDialog
-@onready var fileDialog : FileDialog = $Control/FileDialog
+@onready var noticeNode : Control = $DialogHolder/NoticeNode
+@onready var confirmNode : Control = $DialogHolder/ConfirmNode
 
 const WIDTH : int = 4
 const HEIGHT : int = 2
@@ -32,7 +30,7 @@ var collectionData : Dictionary = {}
 var deckData : Dictionary = {}
 var cidToButton : Dictionary = {}
 var cidToCardNode : Dictionary = {}
-var hasSaved : bool = false
+var hasSaved : bool = true
 
 func _ready() -> void:
 	ctCounterDeck.setText("Deck:")
@@ -125,7 +123,7 @@ func onTypeFilterButtonPressed(tfb : TextureButton, creatureType : int) -> void:
 	else:
 		filters[FILTER_TYPE][creatureType] = newFilterVal
 	
-	var newColor : Color = Color.GRAY
+	var newColor : Color = Util.GRAY
 	if filters[FILTER_TYPE][creatureType] == FILTER_VAL_INCLUDE:
 		newColor = Color.WHITE
 	elif filters[FILTER_TYPE][creatureType] == FILTER_VAL_EXCLUDE:
@@ -142,7 +140,7 @@ func onNumFilterButtonPressed(nfb : Button, numTypes : int) -> void:
 	else:
 		filters[FILTER_NUM][numTypes] = newFilterVal
 	
-	var newColor : Color = Color.GRAY
+	var newColor : Color = Util.GRAY
 	if filters[FILTER_NUM][numTypes] == FILTER_VAL_INCLUDE:
 		newColor = Color.WHITE
 	elif filters[FILTER_NUM][numTypes] == FILTER_VAL_EXCLUDE:
@@ -189,7 +187,8 @@ func addCardToDeck(cid : int):
 		return
 	
 	if not deckData.has(cid):
-		var deckCardButton = deckCardButtonBase.duplicate()
+		var deckCardButton : Button = Preloader.nprButton.instantiate()
+		deckCardButton.button_mask |= MOUSE_BUTTON_RIGHT
 		deckCardButton.show()
 		deckCardButton.connect("pressed", self.onDeckCardPressed.bind(cid))
 		deckVBox.add_child(deckCardButton)
@@ -258,6 +257,7 @@ func setDeckData(newDeckData : Dictionary) -> void:
 	for cardID in newDeckData.keys():
 		for i in range(newDeckData[cardID]):
 			addCardToDeck(cardID)
+	hasSaved = true
 
 func setCollectionData(newCollectionData : Dictionary) -> void:
 	self.collectionData = newCollectionData
@@ -305,28 +305,36 @@ func onSaveButtonPressed() -> void:
 	var saveData : Dictionary = FileIO.getSaveData()
 	saveData[playerUUID]["deck_data"] = deckData
 	FileIO.saveGame(saveData)
-	noticeDialog.dialog_text = "\n       Deck Saved!"
-	noticeDialog.popup()
+	noticeNode.get_node("Title/Label").text = "Saved"
+	noticeNode.get_node("Label").text = "Deck saved successfully!"
+	noticeNode.show()
 	hasSaved = true
 
 enum CONFIRM_TYPE {CLEAR, EXIT_NO_SAVE}
 var clearOrMenu : CONFIRM_TYPE = CONFIRM_TYPE.CLEAR
 func onClearButtonPressed() -> void:
 	clearOrMenu = CONFIRM_TYPE.CLEAR
-	confirmDialog.title = "Clear"
-	confirmDialog.dialog_text = "\n Clear your current deck?"
-	confirmDialog.show()
+	confirmNode.get_node("Title/Label").text = "Clear"
+	confirmNode.get_node("Label").text = "Clear your current deck?"
+	confirmNode.show()
 
 func onMainMenuButtonPressed() -> void:
 	clearOrMenu = CONFIRM_TYPE.EXIT_NO_SAVE
 	if not hasSaved:
-		confirmDialog.title = "Exit"
-		confirmDialog.dialog_text = "\n     Exit without Saving?"
-		confirmDialog.show()
+		confirmNode.get_node("Title/Label").text = "Exit"
+		confirmNode.get_node("Label").text = "Exit without Saving?"
+		confirmNode.show()
 	else:
-		onDialogConfirmed()
+		onConfirmOK()
 
-func onDialogConfirmed() -> void:
+func onNoticeClose() -> void:
+	noticeNode.hide()
+
+func onConfirmBack() -> void:
+	confirmNode.hide()
+
+func onConfirmOK() -> void:
+	onConfirmBack()
 	if clearOrMenu == CONFIRM_TYPE.CLEAR:
 		clearDeck()
 	elif clearOrMenu == CONFIRM_TYPE.EXIT_NO_SAVE:

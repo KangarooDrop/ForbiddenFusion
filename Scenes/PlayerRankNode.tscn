@@ -1,9 +1,111 @@
-[gd_scene load_steps=5 format=3 uid="uid://c8spon5johb7o"]
+[gd_scene load_steps=20 format=3 uid="uid://c8spon5johb7o"]
 
 [ext_resource type="Script" uid="uid://bg2gavlky7ol5" path="res://Scripts/PlayerRankNode.gd" id="1_tpsbe"]
+[ext_resource type="Texture2D" uid="uid://dpqdmu3exh4i7" path="res://Art/window.png" id="2_he8uw"]
 [ext_resource type="FontFile" uid="uid://cq55vl12vholm" path="res://fonts/3x5 pixel font.ttf" id="2_tu1a2"]
 [ext_resource type="Texture2D" uid="uid://bow0d2qimqvaf" path="res://Art/types/type_icons.png" id="3_s785d"]
 [ext_resource type="PackedScene" uid="uid://dwc0cutqm2vpa" path="res://Scenes/PlayerPortrait.tscn" id="4_103yc"]
+[ext_resource type="PackedScene" uid="uid://c4ahlhdrrtdcb" path="res://Scenes/NPRButton.tscn" id="6_he8uw"]
+[ext_resource type="Texture2D" uid="uid://kvtb1kbu3dmy" path="res://Art/button_disabled.png" id="7_ramkb"]
+[ext_resource type="Texture2D" uid="uid://bt72ptnxnvrn8" path="res://Art/button_hover.png" id="8_ve1uc"]
+[ext_resource type="Texture2D" uid="uid://btk2cwuke8hgv" path="res://Art/button_pressed.png" id="9_ou7hs"]
+[ext_resource type="Texture2D" uid="uid://dii2j70bfnqmg" path="res://Art/button_normal.png" id="10_ohc2i"]
+
+[sub_resource type="FontVariation" id="FontVariation_hyntt"]
+resource_local_to_scene = true
+base_font = ExtResource("2_tu1a2")
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_8y25g"]
+texture = ExtResource("7_ramkb")
+texture_margin_left = 3.0
+texture_margin_top = 3.0
+texture_margin_right = 3.0
+texture_margin_bottom = 3.0
+expand_margin_left = 1.0
+expand_margin_top = 1.0
+expand_margin_right = 1.0
+axis_stretch_horizontal = 1
+axis_stretch_vertical = 1
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_xodmh"]
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_jqngr"]
+texture = ExtResource("8_ve1uc")
+texture_margin_left = 3.0
+texture_margin_top = 3.0
+texture_margin_right = 3.0
+texture_margin_bottom = 3.0
+expand_margin_left = 1.0
+expand_margin_top = 1.0
+expand_margin_right = 1.0
+axis_stretch_horizontal = 1
+axis_stretch_vertical = 1
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_0ptwo"]
+texture = ExtResource("9_ou7hs")
+texture_margin_left = 3.0
+texture_margin_top = 3.0
+texture_margin_right = 3.0
+texture_margin_bottom = 3.0
+expand_margin_left = 1.0
+expand_margin_top = 1.0
+expand_margin_right = 1.0
+axis_stretch_horizontal = 1
+axis_stretch_vertical = 1
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_toaqm"]
+texture = ExtResource("10_ohc2i")
+texture_margin_left = 3.0
+texture_margin_top = 3.0
+texture_margin_right = 3.0
+texture_margin_bottom = 3.0
+expand_margin_left = 1.0
+expand_margin_top = 1.0
+expand_margin_right = 1.0
+axis_stretch_horizontal = 1
+axis_stretch_vertical = 1
+
+[sub_resource type="Theme" id="Theme_wjyki"]
+resource_local_to_scene = true
+Button/colors/font_color = Color(0, 0, 0, 1)
+Button/colors/font_disabled_color = Color(0.8, 0.8, 0.8, 1)
+Button/colors/font_focus_color = Color(0, 0, 0, 1)
+Button/colors/font_hover_color = Color(0, 0, 0, 1)
+Button/colors/font_hover_pressed_color = Color(0, 0, 0, 1)
+Button/colors/font_outline_color = Color(1, 1, 1, 1)
+Button/colors/font_pressed_color = Color(0, 0, 0, 1)
+Button/constants/outline_size = 1
+Button/font_sizes/font_size = 6
+Button/fonts/font = SubResource("FontVariation_hyntt")
+Button/styles/disabled = SubResource("StyleBoxTexture_8y25g")
+Button/styles/focus = SubResource("StyleBoxEmpty_xodmh")
+Button/styles/hover = SubResource("StyleBoxTexture_jqngr")
+Button/styles/hover_pressed = SubResource("StyleBoxTexture_0ptwo")
+Button/styles/normal = SubResource("StyleBoxTexture_toaqm")
+Button/styles/pressed = SubResource("StyleBoxTexture_0ptwo")
+
+[sub_resource type="FontVariation" id="FontVariation_cpdwm"]
+resource_local_to_scene = true
+base_font = ExtResource("2_tu1a2")
+
+[sub_resource type="Theme" id="Theme_k1qvm"]
+resource_local_to_scene = true
+Button/colors/font_color = Color(0, 0, 0, 1)
+Button/colors/font_disabled_color = Color(0.8, 0.8, 0.8, 1)
+Button/colors/font_focus_color = Color(0, 0, 0, 1)
+Button/colors/font_hover_color = Color(0, 0, 0, 1)
+Button/colors/font_hover_pressed_color = Color(0, 0, 0, 1)
+Button/colors/font_outline_color = Color(1, 1, 1, 1)
+Button/colors/font_pressed_color = Color(0, 0, 0, 1)
+Button/constants/outline_size = 1
+Button/font_sizes/font_size = 6
+Button/fonts/font = SubResource("FontVariation_cpdwm")
+Button/styles/disabled = SubResource("StyleBoxTexture_8y25g")
+Button/styles/focus = SubResource("StyleBoxEmpty_xodmh")
+Button/styles/hover = SubResource("StyleBoxTexture_jqngr")
+Button/styles/hover_pressed = SubResource("StyleBoxTexture_0ptwo")
+Button/styles/normal = SubResource("StyleBoxTexture_toaqm")
+Button/styles/pressed = SubResource("StyleBoxTexture_0ptwo")
 
 [node name="PlayerRankNode" type="Control"]
 clip_contents = true
@@ -18,7 +120,21 @@ grow_horizontal = 2
 mouse_default_cursor_shape = 2
 script = ExtResource("1_tpsbe")
 
+[node name="NinePatchRect" type="NinePatchRect" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("2_he8uw")
+patch_margin_left = 4
+patch_margin_top = 4
+patch_margin_right = 4
+patch_margin_bottom = 4
+
 [node name="BackgroundOutline" type="ColorRect" parent="."]
+visible = false
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -29,6 +145,7 @@ mouse_filter = 2
 color = Color(0, 0, 0, 1)
 
 [node name="BackgroundFill" type="ColorRect" parent="."]
+visible = false
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -45,6 +162,7 @@ mouse_filter = 2
 layout_mode = 1
 anchors_preset = 10
 anchor_right = 1.0
+offset_left = 3.0
 offset_top = 1.0
 offset_bottom = 17.0
 grow_horizontal = 2
@@ -56,7 +174,7 @@ layout_mode = 2
 theme_override_colors/font_color = Color(0, 0, 0, 1)
 theme_override_fonts/font = ExtResource("2_tu1a2")
 theme_override_font_sizes/font_size = 12
-text = "#2"
+text = "#100"
 horizontal_alignment = 1
 vertical_alignment = 2
 
@@ -121,6 +239,7 @@ mouse_filter = 2
 position = Vector2(25, 28)
 
 [node name="HBoxContainer" type="HBoxContainer" parent="ExtendedPage"]
+custom_minimum_size = Vector2(0, 20)
 layout_mode = 0
 offset_left = 50.0
 offset_top = 6.0
@@ -128,19 +247,19 @@ offset_right = 150.0
 offset_bottom = 26.0
 alignment = 1
 
-[node name="FightButton" type="Button" parent="ExtendedPage/HBoxContainer"]
+[node name="EditButton" parent="ExtendedPage/HBoxContainer" instance=ExtResource("6_he8uw")]
 layout_mode = 2
-theme_override_fonts/font = ExtResource("2_tu1a2")
+theme = SubResource("Theme_wjyki")
 theme_override_font_sizes/font_size = 12
-text = "FIGHT!"
+text = "Edit"
 
-[node name="EditButton" type="Button" parent="ExtendedPage/HBoxContainer"]
+[node name="FightButton" parent="ExtendedPage/HBoxContainer" instance=ExtResource("6_he8uw")]
 layout_mode = 2
-theme_override_fonts/font = ExtResource("2_tu1a2")
+theme = SubResource("Theme_k1qvm")
 theme_override_font_sizes/font_size = 12
-text = "EDIT"
+text = "Fight"
 
 [connection signal="mouse_entered" from="." to="." method="onMouseEnter"]
 [connection signal="mouse_exited" from="." to="." method="onMouseExit"]
-[connection signal="pressed" from="ExtendedPage/HBoxContainer/FightButton" to="." method="onFightPressed"]
 [connection signal="pressed" from="ExtendedPage/HBoxContainer/EditButton" to="." method="onEditPressed"]
+[connection signal="pressed" from="ExtendedPage/HBoxContainer/FightButton" to="." method="onFightPressed"]

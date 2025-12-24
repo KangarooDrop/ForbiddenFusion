@@ -4,6 +4,7 @@ signal scene_changed(path : String, scene : Node)
 
 const INT_MAX : int = 9223372036854775807
 const INT_MIN : int = -9223372036854775808
+const GRAY : Color = Color(0.8, 0.8, 0.8, 1.0)
 
 func getRandomName() -> String:
 	var cons : String = "bcdfghjklmnpqrstvwxz"

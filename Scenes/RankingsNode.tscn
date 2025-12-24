@@ -1,8 +1,132 @@
-[gd_scene load_steps=4 format=3 uid="uid://ceu2jvjgrxywm"]
+[gd_scene load_steps=20 format=3 uid="uid://ceu2jvjgrxywm"]
 
 [ext_resource type="Script" uid="uid://cx16xj4wntcpe" path="res://Scripts/RankingsNode.gd" id="1_ghp4y"]
 [ext_resource type="PackedScene" uid="uid://cgjka4vyojcnd" path="res://Scenes/FirstPlaceNode.tscn" id="2_qisbf"]
-[ext_resource type="PackedScene" uid="uid://by000qucbvst5" path="res://Scenes/NinePatchButton.tscn" id="3_qisbf"]
+[ext_resource type="PackedScene" uid="uid://c4ahlhdrrtdcb" path="res://Scenes/NPRButton.tscn" id="3_xwul3"]
+[ext_resource type="FontFile" uid="uid://cq55vl12vholm" path="res://fonts/3x5 pixel font.ttf" id="4_223kh"]
+[ext_resource type="Texture2D" uid="uid://kvtb1kbu3dmy" path="res://Art/button_disabled.png" id="5_jj8k4"]
+[ext_resource type="Texture2D" uid="uid://bt72ptnxnvrn8" path="res://Art/button_hover.png" id="6_5mcne"]
+[ext_resource type="Texture2D" uid="uid://btk2cwuke8hgv" path="res://Art/button_pressed.png" id="7_28kg8"]
+[ext_resource type="Texture2D" uid="uid://dii2j70bfnqmg" path="res://Art/button_normal.png" id="8_cqwy5"]
+
+[sub_resource type="FontVariation" id="FontVariation_xwul3"]
+resource_local_to_scene = true
+base_font = ExtResource("4_223kh")
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_8y25g"]
+texture = ExtResource("5_jj8k4")
+texture_margin_left = 3.0
+texture_margin_top = 3.0
+texture_margin_right = 3.0
+texture_margin_bottom = 3.0
+expand_margin_left = 1.0
+expand_margin_top = 1.0
+expand_margin_right = 1.0
+axis_stretch_horizontal = 1
+axis_stretch_vertical = 1
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_xodmh"]
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_jqngr"]
+texture = ExtResource("6_5mcne")
+texture_margin_left = 3.0
+texture_margin_top = 3.0
+texture_margin_right = 3.0
+texture_margin_bottom = 3.0
+expand_margin_left = 1.0
+expand_margin_top = 1.0
+expand_margin_right = 1.0
+axis_stretch_horizontal = 1
+axis_stretch_vertical = 1
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_0ptwo"]
+texture = ExtResource("7_28kg8")
+texture_margin_left = 3.0
+texture_margin_top = 3.0
+texture_margin_right = 3.0
+texture_margin_bottom = 3.0
+expand_margin_left = 1.0
+expand_margin_top = 1.0
+expand_margin_right = 1.0
+axis_stretch_horizontal = 1
+axis_stretch_vertical = 1
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_toaqm"]
+texture = ExtResource("8_cqwy5")
+texture_margin_left = 3.0
+texture_margin_top = 3.0
+texture_margin_right = 3.0
+texture_margin_bottom = 3.0
+expand_margin_left = 1.0
+expand_margin_top = 1.0
+expand_margin_right = 1.0
+axis_stretch_horizontal = 1
+axis_stretch_vertical = 1
+
+[sub_resource type="Theme" id="Theme_223kh"]
+resource_local_to_scene = true
+Button/colors/font_color = Color(0, 0, 0, 1)
+Button/colors/font_disabled_color = Color(0.8, 0.8, 0.8, 1)
+Button/colors/font_focus_color = Color(0, 0, 0, 1)
+Button/colors/font_hover_color = Color(0, 0, 0, 1)
+Button/colors/font_hover_pressed_color = Color(0, 0, 0, 1)
+Button/colors/font_outline_color = Color(1, 1, 1, 1)
+Button/colors/font_pressed_color = Color(0, 0, 0, 1)
+Button/constants/outline_size = 1
+Button/font_sizes/font_size = 6
+Button/fonts/font = SubResource("FontVariation_xwul3")
+Button/styles/disabled = SubResource("StyleBoxTexture_8y25g")
+Button/styles/focus = SubResource("StyleBoxEmpty_xodmh")
+Button/styles/hover = SubResource("StyleBoxTexture_jqngr")
+Button/styles/hover_pressed = SubResource("StyleBoxTexture_0ptwo")
+Button/styles/normal = SubResource("StyleBoxTexture_toaqm")
+Button/styles/pressed = SubResource("StyleBoxTexture_0ptwo")
+
+[sub_resource type="FontVariation" id="FontVariation_jj8k4"]
+resource_local_to_scene = true
+base_font = ExtResource("4_223kh")
+
+[sub_resource type="Theme" id="Theme_5mcne"]
+resource_local_to_scene = true
+Button/colors/font_color = Color(0, 0, 0, 1)
+Button/colors/font_disabled_color = Color(0.8, 0.8, 0.8, 1)
+Button/colors/font_focus_color = Color(0, 0, 0, 1)
+Button/colors/font_hover_color = Color(0, 0, 0, 1)
+Button/colors/font_hover_pressed_color = Color(0, 0, 0, 1)
+Button/colors/font_outline_color = Color(1, 1, 1, 1)
+Button/colors/font_pressed_color = Color(0, 0, 0, 1)
+Button/constants/outline_size = 1
+Button/font_sizes/font_size = 6
+Button/fonts/font = SubResource("FontVariation_jj8k4")
+Button/styles/disabled = SubResource("StyleBoxTexture_8y25g")
+Button/styles/focus = SubResource("StyleBoxEmpty_xodmh")
+Button/styles/hover = SubResource("StyleBoxTexture_jqngr")
+Button/styles/hover_pressed = SubResource("StyleBoxTexture_0ptwo")
+Button/styles/normal = SubResource("StyleBoxTexture_toaqm")
+Button/styles/pressed = SubResource("StyleBoxTexture_0ptwo")
+
+[sub_resource type="FontVariation" id="FontVariation_28kg8"]
+resource_local_to_scene = true
+base_font = ExtResource("4_223kh")
+
+[sub_resource type="Theme" id="Theme_cqwy5"]
+resource_local_to_scene = true
+Button/colors/font_color = Color(0, 0, 0, 1)
+Button/colors/font_disabled_color = Color(0.8, 0.8, 0.8, 1)
+Button/colors/font_focus_color = Color(0, 0, 0, 1)
+Button/colors/font_hover_color = Color(0, 0, 0, 1)
+Button/colors/font_hover_pressed_color = Color(0, 0, 0, 1)
+Button/colors/font_outline_color = Color(1, 1, 1, 1)
+Button/colors/font_pressed_color = Color(0, 0, 0, 1)
+Button/constants/outline_size = 1
+Button/font_sizes/font_size = 6
+Button/fonts/font = SubResource("FontVariation_28kg8")
+Button/styles/disabled = SubResource("StyleBoxTexture_8y25g")
+Button/styles/focus = SubResource("StyleBoxEmpty_xodmh")
+Button/styles/hover = SubResource("StyleBoxTexture_jqngr")
+Button/styles/hover_pressed = SubResource("StyleBoxTexture_0ptwo")
+Button/styles/normal = SubResource("StyleBoxTexture_toaqm")
+Button/styles/pressed = SubResource("StyleBoxTexture_0ptwo")
 
 [node name="RankingsNode" type="Node2D"]
 script = ExtResource("1_ghp4y")
@@ -52,155 +176,42 @@ offset_right = 30.4375
 offset_bottom = 26.0
 grow_horizontal = 2
 grow_vertical = 2
-theme_override_constants/separation = 2
+theme_override_constants/separation = 5
 alignment = 1
 
 [node name="ResumeHolder" type="Control" parent="Camera2D/PauseMenu/VBoxContainer"]
 custom_minimum_size = Vector2(0, 10)
 layout_mode = 2
 
-[node name="ResumeButton" parent="Camera2D/PauseMenu/VBoxContainer/ResumeHolder" instance=ExtResource("3_qisbf")]
+[node name="NPRButton" parent="Camera2D/PauseMenu/VBoxContainer/ResumeHolder" instance=ExtResource("3_xwul3")]
 layout_mode = 1
-anchors_preset = 8
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-offset_left = -16.0
-offset_top = -5.0
-offset_right = 16.0
-offset_bottom = 5.0
-grow_horizontal = 2
-grow_vertical = 2
-text = "Resume"
-
-[node name="Label" parent="Camera2D/PauseMenu/VBoxContainer/ResumeHolder/ResumeButton" index="0"]
-offset_right = 28.0
-text = "Resume"
-
-[node name="Label2" parent="Camera2D/PauseMenu/VBoxContainer/ResumeHolder/ResumeButton/Label" index="0"]
+offset_left = -15.0
+offset_right = 15.0
+theme = SubResource("Theme_223kh")
 text = "Resume"
 
 [node name="SettingsHolder" type="Control" parent="Camera2D/PauseMenu/VBoxContainer"]
 custom_minimum_size = Vector2(0, 10)
 layout_mode = 2
 
-[node name="SettingsButton" parent="Camera2D/PauseMenu/VBoxContainer/SettingsHolder" instance=ExtResource("3_qisbf")]
+[node name="NPRButton" parent="Camera2D/PauseMenu/VBoxContainer/SettingsHolder" instance=ExtResource("3_xwul3")]
 layout_mode = 1
-anchors_preset = 8
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-offset_left = -20.0
-offset_top = -5.0
-offset_right = 20.0
-offset_bottom = 5.0
-grow_horizontal = 2
-grow_vertical = 2
-text = "Settings"
-
-[node name="Label" parent="Camera2D/PauseMenu/VBoxContainer/SettingsHolder/SettingsButton" index="0"]
-text = "Settings"
-
-[node name="Label2" parent="Camera2D/PauseMenu/VBoxContainer/SettingsHolder/SettingsButton/Label" index="0"]
+offset_left = -19.0
+offset_right = 19.0
+theme = SubResource("Theme_5mcne")
 text = "Settings"
 
 [node name="MainMenuHolder" type="Control" parent="Camera2D/PauseMenu/VBoxContainer"]
 custom_minimum_size = Vector2(0, 10)
 layout_mode = 2
 
-[node name="MainMenuButton" parent="Camera2D/PauseMenu/VBoxContainer/MainMenuHolder" instance=ExtResource("3_qisbf")]
+[node name="NPRButton" parent="Camera2D/PauseMenu/VBoxContainer/MainMenuHolder" instance=ExtResource("3_xwul3")]
 layout_mode = 1
-anchors_preset = 8
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-offset_left = -22.0
-offset_top = -5.0
-offset_right = 22.0
-offset_bottom = 5.0
-grow_horizontal = 2
-grow_vertical = 2
+offset_left = -21.0
+offset_right = 21.0
+theme = SubResource("Theme_cqwy5")
 text = "Main Menu"
 
-[node name="Label" parent="Camera2D/PauseMenu/VBoxContainer/MainMenuHolder/MainMenuButton" index="0"]
-offset_right = 40.0
-text = "Main Menu"
-
-[node name="Label2" parent="Camera2D/PauseMenu/VBoxContainer/MainMenuHolder/MainMenuButton/Label" index="0"]
-text = "Main Menu"
-
-[node name="Button2" type="Button" parent="."]
-visible = false
-anchors_preset = 1
-anchor_left = 1.0
-anchor_right = 1.0
-offset_left = -216.0
-offset_top = -134.0
-offset_right = -172.0
-offset_bottom = -103.0
-grow_horizontal = 0
-text = "SAV"
-
-[node name="Button3" type="Button" parent="."]
-visible = false
-anchors_preset = 1
-anchor_left = 1.0
-anchor_right = 1.0
-offset_left = -216.0
-offset_top = -94.0
-offset_right = -172.0
-offset_bottom = -63.0
-grow_horizontal = 0
-text = "DEL"
-
-[node name="Button4" type="Button" parent="."]
-visible = false
-anchors_preset = 1
-anchor_left = 1.0
-anchor_right = 1.0
-offset_left = -216.0
-offset_top = -54.0
-offset_right = -172.0
-offset_bottom = -23.0
-grow_horizontal = 0
-text = "LFE"
-
-[node name="Button5" type="Button" parent="."]
-visible = false
-anchors_preset = 1
-anchor_left = 1.0
-anchor_right = 1.0
-offset_left = -216.0
-offset_top = -14.0
-offset_right = -172.0
-offset_bottom = 17.0
-grow_horizontal = 0
-text = "LFG"
-
-[node name="Button6" type="Button" parent="."]
-visible = false
-anchors_preset = 1
-anchor_left = 1.0
-anchor_right = 1.0
-offset_left = -216.0
-offset_top = 26.0
-offset_right = -172.0
-offset_bottom = 57.0
-grow_horizontal = 0
-text = "NEW"
-
-[connection signal="pressed" from="Camera2D/PauseMenu/VBoxContainer/ResumeHolder/ResumeButton" to="." method="onResumePressed"]
-[connection signal="pressed" from="Camera2D/PauseMenu/VBoxContainer/SettingsHolder/SettingsButton" to="." method="onSettingsPressed"]
-[connection signal="pressed" from="Camera2D/PauseMenu/VBoxContainer/MainMenuHolder/MainMenuButton" to="." method="onMainMenuPressed"]
-[connection signal="pressed" from="Button2" to="." method="onSavePressed"]
-[connection signal="pressed" from="Button3" to="." method="onDeletePressed"]
-[connection signal="pressed" from="Button4" to="." method="onLoadFromEmptyPressed"]
-[connection signal="pressed" from="Button5" to="." method="onLoadFromGamePressed"]
-[connection signal="pressed" from="Button6" to="." method="onNewPressed"]
-
-[editable path="Camera2D/PauseMenu/VBoxContainer/ResumeHolder/ResumeButton"]
-[editable path="Camera2D/PauseMenu/VBoxContainer/SettingsHolder/SettingsButton"]
-[editable path="Camera2D/PauseMenu/VBoxContainer/MainMenuHolder/MainMenuButton"]
+[connection signal="pressed" from="Camera2D/PauseMenu/VBoxContainer/ResumeHolder/NPRButton" to="." method="onResumePressed"]
+[connection signal="pressed" from="Camera2D/PauseMenu/VBoxContainer/SettingsHolder/NPRButton" to="." method="onSettingsPressed"]
+[connection signal="pressed" from="Camera2D/PauseMenu/VBoxContainer/MainMenuHolder/NPRButton" to="." method="onMainMenuPressed"]

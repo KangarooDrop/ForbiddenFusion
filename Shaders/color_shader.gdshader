@@ -1,5 +1,6 @@
 shader_type canvas_item;
 
+uniform bool showError = false;
 uniform vec4 cWhite : source_color = vec4(1.0, 1.0, 1.0, 1.0);
 uniform vec4 cGray : source_color = vec4(0.8, 0.8, 0.8, 1.0);
 uniform vec4 cBlack : source_color = vec4(0.0, 0.0, 0.0, 1.0);
@@ -12,7 +13,9 @@ void fragment() {
 		c = cWhite;
 	else if(c.r == 0.0 && c.g == 0.0 && c.b == 0.0)
 		c = cBlack;
-	else if(c.r == c.g && c.r == c.b)
+	else if(c.r == 0.8 && c.g == 0.8 && c.b == 0.8)
 		c = cGray;
+	else if(showError)
+		c = vec4(1.0, 0.0, 0.0, 1.0);
 	COLOR = c;
 }

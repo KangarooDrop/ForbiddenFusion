@@ -157,7 +157,10 @@ static func evalScore(fusionLine : Array) -> int:
 		var endCard : Card = fusionLine[fusionLine.size()-1]
 		var endBST : int = endCard.attack + endCard.health
 		if startCard == null:
-			return -endBST * 10
+			if endCard.health <= 0:
+				return 0
+			else:
+				return -endBST * 10
 		else:
 			var startBST : int = startCard.attack + startCard.health
 			var numCards : int = fusionLine.size()-3

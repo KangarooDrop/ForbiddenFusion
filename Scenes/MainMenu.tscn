@@ -1,8 +1,132 @@
-[gd_scene load_steps=4 format=3 uid="uid://bkk400kb67v3l"]
+[gd_scene load_steps=20 format=3 uid="uid://bkk400kb67v3l"]
 
 [ext_resource type="Script" uid="uid://fppphk7ro8iy" path="res://Scripts/MainMenu.gd" id="1_tt5f1"]
-[ext_resource type="PackedScene" uid="uid://by000qucbvst5" path="res://Scenes/NinePatchButton.tscn" id="2_853f1"]
 [ext_resource type="PackedScene" uid="uid://c0c52v6k2ha14" path="res://Scenes/SavePreview.tscn" id="3_8saeu"]
+[ext_resource type="PackedScene" uid="uid://c4ahlhdrrtdcb" path="res://Scenes/NPRButton.tscn" id="3_ghw46"]
+[ext_resource type="FontFile" uid="uid://cq55vl12vholm" path="res://fonts/3x5 pixel font.ttf" id="3_koqhg"]
+[ext_resource type="Texture2D" uid="uid://kvtb1kbu3dmy" path="res://Art/button_disabled.png" id="4_cmrfp"]
+[ext_resource type="Texture2D" uid="uid://bt72ptnxnvrn8" path="res://Art/button_hover.png" id="5_loo7a"]
+[ext_resource type="Texture2D" uid="uid://btk2cwuke8hgv" path="res://Art/button_pressed.png" id="6_if7li"]
+[ext_resource type="Texture2D" uid="uid://dii2j70bfnqmg" path="res://Art/button_normal.png" id="7_rrcx7"]
+
+[sub_resource type="FontVariation" id="FontVariation_8e205"]
+resource_local_to_scene = true
+base_font = ExtResource("3_koqhg")
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_7467j"]
+texture = ExtResource("4_cmrfp")
+texture_margin_left = 3.0
+texture_margin_top = 3.0
+texture_margin_right = 3.0
+texture_margin_bottom = 3.0
+expand_margin_left = 1.0
+expand_margin_top = 1.0
+expand_margin_right = 1.0
+axis_stretch_horizontal = 1
+axis_stretch_vertical = 1
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_2x1g0"]
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_riqfo"]
+texture = ExtResource("5_loo7a")
+texture_margin_left = 3.0
+texture_margin_top = 3.0
+texture_margin_right = 3.0
+texture_margin_bottom = 3.0
+expand_margin_left = 1.0
+expand_margin_top = 1.0
+expand_margin_right = 1.0
+axis_stretch_horizontal = 1
+axis_stretch_vertical = 1
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_yxkem"]
+texture = ExtResource("6_if7li")
+texture_margin_left = 3.0
+texture_margin_top = 3.0
+texture_margin_right = 3.0
+texture_margin_bottom = 3.0
+expand_margin_left = 1.0
+expand_margin_top = 1.0
+expand_margin_right = 1.0
+axis_stretch_horizontal = 1
+axis_stretch_vertical = 1
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_7v4os"]
+texture = ExtResource("7_rrcx7")
+texture_margin_left = 3.0
+texture_margin_top = 3.0
+texture_margin_right = 3.0
+texture_margin_bottom = 3.0
+expand_margin_left = 1.0
+expand_margin_top = 1.0
+expand_margin_right = 1.0
+axis_stretch_horizontal = 1
+axis_stretch_vertical = 1
+
+[sub_resource type="Theme" id="Theme_pjscj"]
+resource_local_to_scene = true
+Button/colors/font_color = Color(0, 0, 0, 1)
+Button/colors/font_disabled_color = Color(0.8, 0.8, 0.8, 1)
+Button/colors/font_focus_color = Color(0, 0, 0, 1)
+Button/colors/font_hover_color = Color(0, 0, 0, 1)
+Button/colors/font_hover_pressed_color = Color(0, 0, 0, 1)
+Button/colors/font_outline_color = Color(1, 1, 1, 1)
+Button/colors/font_pressed_color = Color(0, 0, 0, 1)
+Button/constants/outline_size = 1
+Button/font_sizes/font_size = 6
+Button/fonts/font = SubResource("FontVariation_8e205")
+Button/styles/disabled = SubResource("StyleBoxTexture_7467j")
+Button/styles/focus = SubResource("StyleBoxEmpty_2x1g0")
+Button/styles/hover = SubResource("StyleBoxTexture_riqfo")
+Button/styles/hover_pressed = SubResource("StyleBoxTexture_yxkem")
+Button/styles/normal = SubResource("StyleBoxTexture_7v4os")
+Button/styles/pressed = SubResource("StyleBoxTexture_yxkem")
+
+[sub_resource type="FontVariation" id="FontVariation_pjscj"]
+resource_local_to_scene = true
+base_font = ExtResource("3_koqhg")
+
+[sub_resource type="Theme" id="Theme_65hh5"]
+resource_local_to_scene = true
+Button/colors/font_color = Color(0, 0, 0, 1)
+Button/colors/font_disabled_color = Color(0.8, 0.8, 0.8, 1)
+Button/colors/font_focus_color = Color(0, 0, 0, 1)
+Button/colors/font_hover_color = Color(0, 0, 0, 1)
+Button/colors/font_hover_pressed_color = Color(0, 0, 0, 1)
+Button/colors/font_outline_color = Color(1, 1, 1, 1)
+Button/colors/font_pressed_color = Color(0, 0, 0, 1)
+Button/constants/outline_size = 1
+Button/font_sizes/font_size = 6
+Button/fonts/font = SubResource("FontVariation_pjscj")
+Button/styles/disabled = SubResource("StyleBoxTexture_7467j")
+Button/styles/focus = SubResource("StyleBoxEmpty_2x1g0")
+Button/styles/hover = SubResource("StyleBoxTexture_riqfo")
+Button/styles/hover_pressed = SubResource("StyleBoxTexture_yxkem")
+Button/styles/normal = SubResource("StyleBoxTexture_7v4os")
+Button/styles/pressed = SubResource("StyleBoxTexture_yxkem")
+
+[sub_resource type="FontVariation" id="FontVariation_m7n2d"]
+resource_local_to_scene = true
+base_font = ExtResource("3_koqhg")
+
+[sub_resource type="Theme" id="Theme_leunp"]
+resource_local_to_scene = true
+Button/colors/font_color = Color(0, 0, 0, 1)
+Button/colors/font_disabled_color = Color(0.8, 0.8, 0.8, 1)
+Button/colors/font_focus_color = Color(0, 0, 0, 1)
+Button/colors/font_hover_color = Color(0, 0, 0, 1)
+Button/colors/font_hover_pressed_color = Color(0, 0, 0, 1)
+Button/colors/font_outline_color = Color(1, 1, 1, 1)
+Button/colors/font_pressed_color = Color(0, 0, 0, 1)
+Button/constants/outline_size = 1
+Button/font_sizes/font_size = 6
+Button/fonts/font = SubResource("FontVariation_m7n2d")
+Button/styles/disabled = SubResource("StyleBoxTexture_7467j")
+Button/styles/focus = SubResource("StyleBoxEmpty_2x1g0")
+Button/styles/hover = SubResource("StyleBoxTexture_riqfo")
+Button/styles/hover_pressed = SubResource("StyleBoxTexture_yxkem")
+Button/styles/normal = SubResource("StyleBoxTexture_7v4os")
+Button/styles/pressed = SubResource("StyleBoxTexture_yxkem")
 
 [node name="MainMenu" type="Node2D"]
 script = ExtResource("1_tt5f1")
@@ -45,132 +169,33 @@ offset_right = 20.0
 offset_bottom = 12.0
 grow_horizontal = 2
 grow_vertical = 2
-theme_override_constants/separation = 12
+theme_override_constants/separation = 15
 
 [node name="PlayHolder" type="Control" parent="Center/MenuHolder/VBoxContainer"]
 layout_mode = 2
 
-[node name="PlayButton" parent="Center/MenuHolder/VBoxContainer/PlayHolder" instance=ExtResource("2_853f1")]
+[node name="NPRButton" parent="Center/MenuHolder/VBoxContainer/PlayHolder" instance=ExtResource("3_ghw46")]
 layout_mode = 1
-anchors_preset = 8
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-offset_left = -12.0
-offset_top = -5.0
-offset_right = 12.0
-offset_bottom = 5.0
-grow_horizontal = 2
-grow_vertical = 2
+offset_left = -11.0
+offset_right = 11.0
 text = "Play"
-
-[node name="Label" parent="Center/MenuHolder/VBoxContainer/PlayHolder/PlayButton" index="0"]
-offset_right = 20.0
-text = "Play"
-
-[node name="Label2" parent="Center/MenuHolder/VBoxContainer/PlayHolder/PlayButton/Label" index="0"]
-text = "Play"
-
-[node name="MultiplayerHolder" type="Control" parent="Center/MenuHolder/VBoxContainer"]
-visible = false
-layout_mode = 2
-
-[node name="MultiplayerButton" parent="Center/MenuHolder/VBoxContainer/MultiplayerHolder" instance=ExtResource("2_853f1")]
-layout_mode = 1
-anchors_preset = 8
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-offset_left = -26.0
-offset_top = -5.0
-offset_right = 26.0
-offset_bottom = 5.0
-grow_horizontal = 2
-grow_vertical = 2
-text = "Multiplayer"
-
-[node name="Label" parent="Center/MenuHolder/VBoxContainer/MultiplayerHolder/MultiplayerButton" index="0"]
-offset_right = 48.0
-text = "Multiplayer"
-
-[node name="Label2" parent="Center/MenuHolder/VBoxContainer/MultiplayerHolder/MultiplayerButton/Label" index="0"]
-text = "Multiplayer"
-
-[node name="CollectionHolder" type="Control" parent="Center/MenuHolder/VBoxContainer"]
-visible = false
-layout_mode = 2
-
-[node name="CollectionButton" parent="Center/MenuHolder/VBoxContainer/CollectionHolder" instance=ExtResource("2_853f1")]
-layout_mode = 1
-anchors_preset = 8
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-offset_left = -26.0
-offset_top = -5.0
-offset_right = 26.0
-offset_bottom = 5.0
-grow_horizontal = 2
-grow_vertical = 2
-text = "Deck Editor"
-
-[node name="Label" parent="Center/MenuHolder/VBoxContainer/CollectionHolder/CollectionButton" index="0"]
-offset_right = 48.0
-text = "Deck Editor"
-
-[node name="Label2" parent="Center/MenuHolder/VBoxContainer/CollectionHolder/CollectionButton/Label" index="0"]
-text = "Deck Editor"
 
 [node name="SettingsHolder" type="Control" parent="Center/MenuHolder/VBoxContainer"]
 layout_mode = 2
 
-[node name="SettingsButton" parent="Center/MenuHolder/VBoxContainer/SettingsHolder" instance=ExtResource("2_853f1")]
+[node name="NPRButton" parent="Center/MenuHolder/VBoxContainer/SettingsHolder" instance=ExtResource("3_ghw46")]
 layout_mode = 1
-anchors_preset = 8
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-offset_left = -20.0
-offset_top = -5.0
-offset_right = 20.0
-offset_bottom = 5.0
-grow_horizontal = 2
-grow_vertical = 2
-text = "Settings"
-
-[node name="Label" parent="Center/MenuHolder/VBoxContainer/SettingsHolder/SettingsButton" index="0"]
-text = "Settings"
-
-[node name="Label2" parent="Center/MenuHolder/VBoxContainer/SettingsHolder/SettingsButton/Label" index="0"]
+offset_left = -19.0
+offset_right = 19.0
 text = "Settings"
 
 [node name="ExitHolder" type="Control" parent="Center/MenuHolder/VBoxContainer"]
 layout_mode = 2
 
-[node name="ExitButton" parent="Center/MenuHolder/VBoxContainer/ExitHolder" instance=ExtResource("2_853f1")]
+[node name="NPRButton" parent="Center/MenuHolder/VBoxContainer/ExitHolder" instance=ExtResource("3_ghw46")]
 layout_mode = 1
-anchors_preset = 8
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-offset_left = -12.0
-offset_top = -5.0
-offset_right = 12.0
-offset_bottom = 5.0
-grow_horizontal = 2
-grow_vertical = 2
-text = "Exit"
-
-[node name="Label" parent="Center/MenuHolder/VBoxContainer/ExitHolder/ExitButton" index="0"]
-offset_right = 20.0
-text = "Exit"
-
-[node name="Label2" parent="Center/MenuHolder/VBoxContainer/ExitHolder/ExitButton/Label" index="0"]
+offset_left = -11.0
+offset_right = 11.0
 text = "Exit"
 
 [node name="PlayHolder" type="Control" parent="Center"]
@@ -197,7 +222,7 @@ offset_right = 20.0
 offset_bottom = 12.0
 grow_horizontal = 2
 grow_vertical = 2
-theme_override_constants/separation = 12
+theme_override_constants/separation = 15
 
 [node name="LoadHolder" type="Control" parent="Center/PlayHolder/VBoxContainer"]
 custom_minimum_size = Vector2(0, 16)
@@ -219,92 +244,36 @@ grow_vertical = 2
 position = Vector2(0, -32)
 scale = Vector2(2, 2)
 
-[node name="LoadButton" parent="Center/PlayHolder/VBoxContainer/LoadHolder" instance=ExtResource("2_853f1")]
+[node name="NPRButton" parent="Center/PlayHolder/VBoxContainer/LoadHolder" instance=ExtResource("3_ghw46")]
 layout_mode = 1
-anchors_preset = 8
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-offset_left = -12.0
-offset_top = -5.0
-offset_right = 12.0
-offset_bottom = 5.0
-grow_horizontal = 2
-grow_vertical = 2
-text = "Load"
-
-[node name="Label" parent="Center/PlayHolder/VBoxContainer/LoadHolder/LoadButton" index="0"]
-offset_right = 20.0
-text = "Load"
-
-[node name="Label2" parent="Center/PlayHolder/VBoxContainer/LoadHolder/LoadButton/Label" index="0"]
+offset_left = -11.0
+offset_right = 11.0
+theme = SubResource("Theme_pjscj")
 text = "Load"
 
 [node name="NewHolder" type="Control" parent="Center/PlayHolder/VBoxContainer"]
 layout_mode = 2
 
-[node name="NewButon" parent="Center/PlayHolder/VBoxContainer/NewHolder" instance=ExtResource("2_853f1")]
+[node name="NPRButton" parent="Center/PlayHolder/VBoxContainer/NewHolder" instance=ExtResource("3_ghw46")]
 layout_mode = 1
-anchors_preset = 8
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-offset_left = -10.0
-offset_top = -5.0
-offset_right = 10.0
-offset_bottom = 5.0
-grow_horizontal = 2
-grow_vertical = 2
-text = "New"
-
-[node name="Label" parent="Center/PlayHolder/VBoxContainer/NewHolder/NewButon" index="0"]
-offset_right = 16.0
-text = "New"
-
-[node name="Label2" parent="Center/PlayHolder/VBoxContainer/NewHolder/NewButon/Label" index="0"]
+offset_left = -9.0
+offset_right = 9.0
+theme = SubResource("Theme_65hh5")
 text = "New"
 
 [node name="BackHolder" type="Control" parent="Center/PlayHolder/VBoxContainer"]
 layout_mode = 2
 
-[node name="BackButton" parent="Center/PlayHolder/VBoxContainer/BackHolder" instance=ExtResource("2_853f1")]
+[node name="NPRButton" parent="Center/PlayHolder/VBoxContainer/BackHolder" instance=ExtResource("3_ghw46")]
 layout_mode = 1
-anchors_preset = 8
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-offset_left = -12.0
-offset_top = -5.0
-offset_right = 12.0
-offset_bottom = 5.0
-grow_horizontal = 2
-grow_vertical = 2
+offset_left = -11.0
+offset_right = 11.0
+theme = SubResource("Theme_leunp")
 text = "Back"
 
-[node name="Label" parent="Center/PlayHolder/VBoxContainer/BackHolder/BackButton" index="0"]
-offset_right = 20.0
-text = "Back"
-
-[node name="Label2" parent="Center/PlayHolder/VBoxContainer/BackHolder/BackButton/Label" index="0"]
-text = "Back"
-
-[connection signal="pressed" from="Center/MenuHolder/VBoxContainer/PlayHolder/PlayButton" to="." method="onPlayPressed"]
-[connection signal="pressed" from="Center/MenuHolder/VBoxContainer/MultiplayerHolder/MultiplayerButton" to="." method="onMultiplayerPressed"]
-[connection signal="pressed" from="Center/MenuHolder/VBoxContainer/CollectionHolder/CollectionButton" to="." method="onCollectionPressed"]
-[connection signal="pressed" from="Center/MenuHolder/VBoxContainer/SettingsHolder/SettingsButton" to="." method="onSettingsPressed"]
-[connection signal="pressed" from="Center/MenuHolder/VBoxContainer/ExitHolder/ExitButton" to="." method="onExitPressed"]
-[connection signal="pressed" from="Center/PlayHolder/VBoxContainer/LoadHolder/LoadButton" to="." method="onLoadPressed"]
-[connection signal="pressed" from="Center/PlayHolder/VBoxContainer/NewHolder/NewButon" to="." method="onNewPressed"]
-[connection signal="pressed" from="Center/PlayHolder/VBoxContainer/BackHolder/BackButton" to="." method="onBackPressed"]
-
-[editable path="Center/MenuHolder/VBoxContainer/PlayHolder/PlayButton"]
-[editable path="Center/MenuHolder/VBoxContainer/MultiplayerHolder/MultiplayerButton"]
-[editable path="Center/MenuHolder/VBoxContainer/CollectionHolder/CollectionButton"]
-[editable path="Center/MenuHolder/VBoxContainer/SettingsHolder/SettingsButton"]
-[editable path="Center/MenuHolder/VBoxContainer/ExitHolder/ExitButton"]
-[editable path="Center/PlayHolder/VBoxContainer/LoadHolder/LoadButton"]
-[editable path="Center/PlayHolder/VBoxContainer/NewHolder/NewButon"]
-[editable path="Center/PlayHolder/VBoxContainer/BackHolder/BackButton"]
+[connection signal="pressed" from="Center/MenuHolder/VBoxContainer/PlayHolder/NPRButton" to="." method="onPlayPressed"]
+[connection signal="pressed" from="Center/MenuHolder/VBoxContainer/SettingsHolder/NPRButton" to="." method="onSettingsPressed"]
+[connection signal="pressed" from="Center/MenuHolder/VBoxContainer/ExitHolder/NPRButton" to="." method="onExitPressed"]
+[connection signal="pressed" from="Center/PlayHolder/VBoxContainer/LoadHolder/NPRButton" to="." method="onLoadPressed"]
+[connection signal="pressed" from="Center/PlayHolder/VBoxContainer/NewHolder/NPRButton" to="." method="onNewPressed"]
+[connection signal="pressed" from="Center/PlayHolder/VBoxContainer/BackHolder/NPRButton" to="." method="onBackPressed"]

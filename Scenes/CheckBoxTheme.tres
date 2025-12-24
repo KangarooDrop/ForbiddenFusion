@@ -1,0 +1,90 @@
+[gd_resource type="Theme" load_steps=26 format=3 uid="uid://dilvay5a3uxov"]
+
+[ext_resource type="Texture2D" uid="uid://bewl6xigdpq4k" path="res://Art/UI/check.png" id="1_njkap"]
+[ext_resource type="Texture2D" uid="uid://bt72ptnxnvrn8" path="res://Art/button_hover.png" id="1_sr86x"]
+[ext_resource type="Texture2D" uid="uid://dii2j70bfnqmg" path="res://Art/button_normal.png" id="2_1jdho"]
+[ext_resource type="Texture2D" uid="uid://payg2lpkor8p" path="res://Art/UI/un_check.png" id="2_sr86x"]
+[ext_resource type="Texture2D" uid="uid://btk2cwuke8hgv" path="res://Art/button_pressed.png" id="3_20bpn"]
+[ext_resource type="Texture2D" uid="uid://cd6veauwjflbk" path="res://Art/button_pressed_hover.png" id="4_uyn54"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_7cuqb"]
+
+[sub_resource type="ImageTexture" id="ImageTexture_uyn54"]
+
+[sub_resource type="ImageTexture" id="ImageTexture_trj7p"]
+
+[sub_resource type="ImageTexture" id="ImageTexture_bnlu6"]
+
+[sub_resource type="ImageTexture" id="ImageTexture_dmde3"]
+
+[sub_resource type="ImageTexture" id="ImageTexture_upshh"]
+
+[sub_resource type="ImageTexture" id="ImageTexture_8m6xt"]
+
+[sub_resource type="ImageTexture" id="ImageTexture_nn8rn"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_uyn54"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_trj7p"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_bnlu6"]
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_uyn54"]
+texture = ExtResource("1_sr86x")
+texture_margin_left = 3.0
+texture_margin_top = 3.0
+texture_margin_right = 3.0
+texture_margin_bottom = 3.0
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_dmde3"]
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_trj7p"]
+texture = ExtResource("4_uyn54")
+texture_margin_left = 3.0
+texture_margin_top = 3.0
+texture_margin_right = 3.0
+texture_margin_bottom = 3.0
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_upshh"]
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_bnlu6"]
+texture = ExtResource("2_1jdho")
+texture_margin_left = 3.0
+texture_margin_top = 3.0
+texture_margin_right = 3.0
+texture_margin_bottom = 3.0
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_8m6xt"]
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_dmde3"]
+texture = ExtResource("3_20bpn")
+texture_margin_left = 3.0
+texture_margin_top = 3.0
+texture_margin_right = 3.0
+texture_margin_bottom = 3.0
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_nn8rn"]
+
+[resource]
+Button/styles/focus = SubResource("StyleBoxEmpty_7cuqb")
+CheckBox/constants/align_to_largest_stylebox = 0
+CheckBox/icons/checked = ExtResource("1_njkap")
+CheckBox/icons/checked_disabled = SubResource("ImageTexture_uyn54")
+CheckBox/icons/icon = SubResource("ImageTexture_trj7p")
+CheckBox/icons/radio_checked = SubResource("ImageTexture_bnlu6")
+CheckBox/icons/radio_checked_disabled = SubResource("ImageTexture_dmde3")
+CheckBox/icons/radio_unchecked = SubResource("ImageTexture_upshh")
+CheckBox/icons/radio_unchecked_disabled = SubResource("ImageTexture_8m6xt")
+CheckBox/icons/unchecked = ExtResource("2_sr86x")
+CheckBox/icons/unchecked_disabled = SubResource("ImageTexture_nn8rn")
+CheckBox/styles/disabled = SubResource("StyleBoxEmpty_uyn54")
+CheckBox/styles/disabled_mirrored = SubResource("StyleBoxEmpty_trj7p")
+CheckBox/styles/focus = SubResource("StyleBoxEmpty_bnlu6")
+CheckBox/styles/hover = SubResource("StyleBoxTexture_uyn54")
+CheckBox/styles/hover_mirrored = SubResource("StyleBoxEmpty_dmde3")
+CheckBox/styles/hover_pressed = SubResource("StyleBoxTexture_trj7p")
+CheckBox/styles/hover_pressed_mirrored = SubResource("StyleBoxEmpty_upshh")
+CheckBox/styles/normal = SubResource("StyleBoxTexture_bnlu6")
+CheckBox/styles/normal_mirrored = SubResource("StyleBoxEmpty_8m6xt")
+CheckBox/styles/pressed = SubResource("StyleBoxTexture_dmde3")
+CheckBox/styles/pressed_mirrored = SubResource("StyleBoxEmpty_nn8rn")
